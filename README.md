@@ -9,6 +9,7 @@ Soy un apasionado por la tecnología con enfoque en soluciones para el cliente. 
 - **Diseño UI/UX Móvil**: Interfaces intuitivas y modernas enfocadas en la experiencia del usuario con Flutter.
 - **Análisis de Datos**: Extracción de valor y patrones significativos a partir de datos complejos.
 - **Soporte de Hardware**: 3 años de experiencia en ensamble, reparación y mantenimiento de computadores (PC y Laptops).
+- **Soporte de Sistemas & Redes**: Experiencia en instalación de software, configuración de redes y herramientas ofimáticas (2018-2020).
 
 ## ℹ️ Información Personal
 - **Cédula**: 1042467485 (Expedida en Barranquilla)
@@ -17,6 +18,8 @@ Soy un apasionado por la tecnología con enfoque en soluciones para el cliente. 
 - **Ubicación**: Medellín, Antioquia
 - **Email**: christianjoroce@gmail.com
 - **Teléfono**: 3183517802
+- **Idiomas**: Español (Nativo), Inglés (B1)
+- **Intereses**: Música (Guitarra), Cine, Gaming (XCOM), Cocina
 
 ## 🌟 Características Principales
 
