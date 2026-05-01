@@ -1,4 +1,4 @@
-# Christian Romero - Portfolio Profesional 🚀
+# Christian Romero - Portafolio Profesional 🚀
 
 ¡Bienvenido a mi portafolio personal! Este proyecto es una vitrina interactiva de mi trayectoria como **Analista de Datos** y **Desarrollador de Software Junior**. Está diseñado para ser rápido, moderno y completamente bilingüe.
 
