@@ -2,6 +2,19 @@
 
 ¡Bienvenido a mi portafolio personal! Este proyecto es una vitrina interactiva de mi trayectoria como **Analista de Datos** y **Desarrollador de Software Junior**. Está diseñado para ser rápido, moderno y completamente bilingüe.
 
+## 👤 Perfil Profesional
+
+Soy un apasionado por la tecnología con enfoque en soluciones para el cliente. Mi especialidad incluye:
+- **Desarrollo de Software**: Creación de aplicaciones robustas y escalables con .NET, Node.js y Python.
+- **Diseño UI/UX Móvil**: Interfaces intuitivas y modernas enfocadas en la experiencia del usuario con Flutter.
+- **Análisis de Datos**: Extracción de valor y patrones significativos a partir de datos complejos.
+
+## ℹ️ Información Personal
+- **Cédula**: 1042467485 (Expedida en Barranquilla)
+- **Ubicación**: Medellín, Antioquia
+- **Email**: christianjoroce@gmail.com
+- **Teléfono**: 3183517802
+
 ## 🌟 Características Principales
 
 - **Diseño Premium & Responsivo**: Optimizado para dispositivos móviles, tablets y escritorio.
