@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Christian Romero</title>
+    <link rel="stylesheet" href="assets/vendors/themify-icons/css/themify-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary: #F85C70;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            background: #f4f7f6;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 10mm auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header-info h1 {
+            margin: 0;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header-info h2 {
+            margin: 5px 0 0;
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 400;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
+        section {
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 20px;
+            border-left: 4px solid var(--primary);
+            padding-left: 15px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            color: var(--dark);
+        }
+
+        .exp-item, .edu-item {
+            margin-bottom: 15px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .item-sub {
+            color: var(--primary);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .no-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .btn-print {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; margin: 0; }
+            .page { margin: 0; box-shadow: none; width: 100%; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <button class="btn-print" onclick="window.print()">
+            <i class="ti-printer"></i> Imprimir / Guardar como PDF
+        </button>
+        <a href="index.html" style="display: block; text-align: center; margin-top: 10px; color: var(--gray); text-decoration: none;">Volver al sitio</a>
+    </div>
+
+    <div class="page">
+        <header>
+            <div class="header-info">
+                <h1>Christian Romero</h1>
+                <h2>Analista de Datos | Desarrollador Junior</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-item"><i class="ti-mobile"></i> 3183517802</div>
+                <div class="contact-item"><i class="ti-location-pin"></i> Medellín, Antioquia</div>
+                <div class="contact-item"><i class="ti-email"></i> christianjoroce@gmail.com</div>
+                <div class="contact-item"><i class="ti-linkedin"></i> linkedin.com/in/christian-romero</div>
+            </div>
+        </header>
+
+        <section>
+            <h3>Perfil Profesional</h3>
+            <p>Desde joven me apasioné por la tecnología, el hardware y software. Como profesional, me enfoco en crear soluciones eficientes y escalables que generen satisfacción en el cliente. Cuento con habilidades sólidas en análisis de datos y desarrollo de software moderno.</p>
+        </section>
+
+        <section>
+            <h3>Experiencia Laboral</h3>
+            <div class="exp-item">
+                <div class="item-header">
+                    <span>Desarrollador Independiente</span>
+                    <span>2023 - Presente</span>
+                </div>
+                <div class="item-sub">Freelance</div>
+                <p>Desarrollo de proyectos personalizados, incluyendo sistemas de gestión de parqueaderos (Uparqueo) y aplicaciones móviles de finanzas (iRemApp).</p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Formación Académica</h3>
+            <div class="edu-item">
+                <div class="item-header">
+                    <span>Tecnología en Análisis y Desarrollo de Software</span>
+                    <span>En curso</span>
+                </div>
+                <div class="item-sub">SENA (CESGE)</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>Habilidades Técnicas</h3>
+            <div class="skills-grid">
+                <div class="skill-tag">Python</div>
+                <div class="skill-tag">Flutter / Dart</div>
+                <div class="skill-tag">JavaScript / React</div>
+                <div class="skill-tag">.NET / C#</div>
+                <div class="skill-tag">Node.js</div>
+                <div class="skill-tag">SQL / PostgreSQL</div>
+                <div class="skill-tag">MongoDB</div>
+                <div class="skill-tag">Análisis de Datos</div>
+                <div class="skill-tag">Bases de Datos</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>Proyectos Destacados</h3>
+            <ul>
+                <li><strong>Uparqueo:</strong> Sistema web para gestión de parqueaderos con JS.</li>
+                <li><strong>iRemApp:</strong> Aplicación móvil de recordatorios y finanzas con Flutter.</li>
+                <li><strong>DeepFace AI:</strong> Implementación de detección de emociones con Python.</li>
+                <li><strong>PrimeDesk:</strong> Gestión operativa para talleres con Flutter.</li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>

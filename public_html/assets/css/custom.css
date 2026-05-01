@@ -1,0 +1,133 @@
+/* Custom Styles and Dark Mode */
+
+.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.dark-mode .navbar {
+    background-color: #222 !important;
+}
+
+.dark-mode .navbar-nav .nav-link {
+    color: #ccc !important;
+}
+
+.dark-mode .navbar-nav .nav-link:hover {
+    color: #F85C70 !important;
+}
+
+.dark-mode .card, 
+.dark-mode .contact-form-card, 
+.dark-mode .contact-info-card,
+.dark-mode .price-card,
+.dark-mode .blog-card,
+.dark-mode .modal-content {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-mode .text-dark {
+    color: #fff !important;
+}
+
+.dark-mode .bg-custom-gray {
+    background-color: #121212 !important;
+}
+
+.dark-mode .card-header, 
+.dark-mode .card-footer {
+    background-color: #333;
+    border-color: #444;
+}
+
+.dark-mode .brand-txt .brand-title {
+    color: #fff;
+}
+
+.dark-mode .line {
+    background-color: #444;
+}
+
+.dark-mode .about-section {
+    background-color: #222;
+}
+
+.dark-mode input.form-control, 
+.dark-mode textarea.form-control {
+    background-color: #333;
+    border-color: #444;
+    color: #fff;
+}
+
+.dark-mode input.form-control::placeholder, 
+.dark-mode textarea.form-control::placeholder {
+    color: #888;
+}
+
+/* Floating WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    background-color: #128c7e;
+    color: #fff;
+    transform: scale(1.1);
+    text-decoration: none;
+}
+
+/* Language Toggle Styling */
+#lang-toggle {
+    font-weight: bold;
+    min-width: 45px;
+}
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: #f5b301;
+}
+
+.dark-mode .modal-header {
+    border-bottom: 1px solid #444;
+}
+
+.dark-mode .close {
+    color: #fff;
+    text-shadow: none;
+}
