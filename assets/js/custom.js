@@ -284,17 +284,11 @@ if (typeof gsap !== 'undefined') {
     window.addEventListener('DOMContentLoaded', () => {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
         
-        tl.from('.profile-img-header', {
-            scale: 0.3,
-            opacity: 0,
-            duration: 1.2,
-            ease: 'back.out(1.7)'
-        })
-        .from('.header-subtitle', {
+        tl.from('.header-subtitle', {
             y: 30,
             opacity: 0,
             duration: 0.8
-        }, '-=0.8')
+        })
         .from('.header-title', {
             y: 40,
             opacity: 0,
