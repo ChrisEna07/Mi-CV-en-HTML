@@ -99,7 +99,7 @@
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
@@ -130,6 +130,16 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
+        .profile-img-resume {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin-right: 15px;
+        }
+
         @media print {
             .no-print { display: none; }
             body { background: white; margin: 0; }
@@ -148,11 +158,20 @@
 
     <div class="page">
         <header>
-            <div class="header-info">
-                <h1>Christian Romero</h1>
-                <h2>Analista de Datos | Desarrollador Junior</h2>
+            <div style="display: flex; align-items: center;">
+                <img src="assets/imgs/CVpicture.jpg" alt="Christian Romero" class="profile-img-resume">
+                <div class="header-info">
+                    <h1>Christian Romero</h1>
+                    <h2>Analista de Datos | Desarrollador Junior</h2>
+                    <div style="margin-top: 5px; font-size: 13px;">
+                        <a href="https://my-app-s-portafolio-digital.vercel.app/" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                            <i class="ti-link"></i> Portafolio de Apps: my-app-s-portafolio-digital.vercel.app
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="contact-grid">
+                <div class="contact-item"><i class="ti-id-badge"></i> CC: 1042467485</div>
                 <div class="contact-item"><i class="ti-mobile"></i> 3183517802</div>
                 <div class="contact-item"><i class="ti-location-pin"></i> Medellín, Antioquia</div>
                 <div class="contact-item"><i class="ti-email"></i> christianjoroce@gmail.com</div>
@@ -162,7 +181,7 @@
 
         <section>
             <h3>Perfil Profesional</h3>
-            <p>Desde joven me apasioné por la tecnología, el hardware y software. Como profesional, me enfoco en crear soluciones eficientes y escalables que generen satisfacción en el cliente. Cuento con habilidades sólidas en análisis de datos y desarrollo de software moderno.</p>
+            <p>Analista de Datos y Desarrollador de Software Junior apasionado por la tecnología, la arquitectura de hardware y el desarrollo de software moderno. Mi enfoque profesional se centra en diseñar soluciones eficientes, escalables y orientadas a satisfacer las necesidades reales del usuario final. Me caracterizo por mi mentalidad de aprendizaje continuo, adaptabilidad ante nuevos desafíos tecnológicos y un fuerte compromiso con los valores éticos en el entorno laboral. Busco aportar valor en proyectos dinámicos de análisis de datos y desarrollo de aplicaciones web o móviles.</p>
         </section>
 
         <section>
@@ -191,15 +210,10 @@
         <section>
             <h3>Habilidades Técnicas</h3>
             <div class="skills-grid">
-                <div class="skill-tag">Python</div>
-                <div class="skill-tag">Flutter / Dart</div>
-                <div class="skill-tag">JavaScript / React</div>
-                <div class="skill-tag">.NET / C#</div>
-                <div class="skill-tag">Node.js</div>
-                <div class="skill-tag">SQL / PostgreSQL</div>
-                <div class="skill-tag">MongoDB</div>
-                <div class="skill-tag">Análisis de Datos</div>
-                <div class="skill-tag">Bases de Datos</div>
+                <div class="skill-tag">Python & Análisis de Datos</div>
+                <div class="skill-tag">Flutter & Dart (Móvil)</div>
+                <div class="skill-tag">JavaScript & React (Web)</div>
+                <div class="skill-tag">SQL & Bases de Datos (Postgres, Mongo)</div>
             </div>
         </section>
 

@@ -131,3 +131,57 @@
     color: #fff;
     text-shadow: none;
 }
+
+/* Header profile image and link improvements */
+.profile-img-header {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.profile-img-header:hover {
+    transform: scale(1.08) rotate(3deg);
+    border-color: #F85C70;
+    box-shadow: 0 15px 35px rgba(248, 92, 112, 0.4);
+}
+
+.portfolio-header-link {
+    font-weight: 600;
+    font-size: 1rem;
+    background: rgba(248, 92, 112, 0.15);
+    border: 2px solid rgba(248, 92, 112, 0.4);
+    color: #fff !important;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-top: 15px;
+    backdrop-filter: blur(5px);
+}
+.portfolio-header-link:hover {
+    background: #F85C70;
+    border-color: #F85C70;
+    color: #fff !important;
+    box-shadow: 0 5px 15px rgba(248, 92, 112, 0.4);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.portfolio-header-link i {
+    font-size: 1.1rem;
+}
+
+/* Resume/PDF specific styles */
+.profile-img-resume {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
