@@ -27,7 +27,7 @@ const translations = {
         'header-title': 'Analista de Datos y Desarrollador de Software Junior',
         'about-who': '¿Quién soy?',
         'about-tagline': 'Un apasionado por la tecnología con enfoque en soluciones para el cliente',
-        'about-description': 'Desde joven me apasioné por la tecnología, el hardware y software, pero fue después de adulto que me incliné por esta actividad como profesión y carrera. Aprendo cada día de los proyectos y trabajos que realizo, pero al final mi satisfacción está en ver un cliente satisfecho. Soy humano, reconozco que requiero aprender más y que no me cierro al aprendizaje constante, ante cualquier situación los valores y principios están por encima de cualquier conocimiento y agradezco de antemano por su confianza y tomarme en cuenta para futuros proyectos o trabajo.',
+        'about-description': 'Analista de Datos y Desarrollador de Software Junior apasionado por la tecnología, la arquitectura de hardware y el desarrollo de software moderno. Mi enfoque profesional se centra en diseñar soluciones eficientes, escalables y orientadas a satisfacer las necesidades reales del usuario final. Me caracterizo por mi mentalidad de aprendizaje continuo, adaptabilidad ante nuevos desafíos tecnológicos y un fuerte compromiso con los valores éticos. Busco aportar valor en proyectos dinámicos de análisis de datos y desarrollo de aplicaciones.',
         'about-personal': 'Información Personal',
         'exp-title': 'Mi Especialidad',
         'exp-sw': 'Desarrollo de Software',
@@ -91,7 +91,7 @@ const translations = {
         'header-title': 'Data Analyst and Junior Software Developer',
         'about-who': 'Who am I?',
         'about-tagline': 'A technology enthusiast focused on client-driven solutions',
-        'about-description': 'Since I was young, I have been passionate about technology, hardware, and software, but it was as an adult that I decided to pursue this activity as a profession and career. I learn every day from the projects and work I do, but ultimately my satisfaction lies in seeing a satisfied client. I am human, I recognize that I need to learn more and I am not closed to constant learning; in any situation, values and principles are above any knowledge, and I thank you in advance for your trust and for considering me for future projects or work.',
+        'about-description': 'Junior Data Analyst and Software Developer passionate about technology, hardware architecture, and modern software development. My professional focus is on designing efficient, scalable, and user-centric solutions. I am characterized by my continuous learning mindset, adaptability to new technological challenges, and a strong commitment to ethical values. I seek to add value to dynamic projects in data analysis and application development.',
         'about-personal': 'Personal Information',
         'exp-title': 'My Expertise',
         'exp-sw': 'Software Development',
@@ -275,3 +275,164 @@ if (surveyForm) {
         });
     });
 }
+
+/* GSAP Animations & ScrollTrigger */
+if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Header Load Animations
+    window.addEventListener('DOMContentLoaded', () => {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
+        
+        tl.from('.profile-img-header', {
+            scale: 0.3,
+            opacity: 0,
+            duration: 1.2,
+            ease: 'back.out(1.7)'
+        })
+        .from('.header-subtitle', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8
+        }, '-=0.8')
+        .from('.header-title', {
+            y: 40,
+            opacity: 0,
+            duration: 0.8
+        }, '-=0.6')
+        .from('.header-mono', {
+            y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, '-=0.6')
+        .from('.portfolio-header-link', {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'back.out(2)'
+        }, '-=0.4')
+        .from('.header .btn-primary', {
+            y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, '-=0.6')
+        .from('.header .social-icons .social-item', {
+            y: -20,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 0.6
+        }, '-=0.8');
+    });
+
+    // About Section Scroll Animation
+    gsap.from('#about .about-card', {
+        scrollTrigger: {
+            trigger: '#about',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power2.out'
+    });
+
+    // Resume Section Cards Animation
+    gsap.from('#resume .card', {
+        scrollTrigger: {
+            trigger: '#resume',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power2.out'
+    });
+
+    // Dynamic Progress Bars Animation
+    gsap.utils.toArray('.progress-bar').forEach(bar => {
+        const targetWidth = bar.style.width || bar.getAttribute('aria-valuenow') + '%';
+        bar.style.width = '0%'; // Reset width to 0 for animation
+        
+        gsap.to(bar, {
+            scrollTrigger: {
+                trigger: bar,
+                start: 'top 90%',
+                toggleActions: 'play none none none'
+            },
+            width: targetWidth,
+            duration: 1.5,
+            ease: 'power3.out'
+        });
+    });
+
+    // Counter/Stats Count Up Animation
+    gsap.utils.toArray('.font40').forEach(stat => {
+        const rawText = stat.innerText;
+        const numMatch = rawText.match(/\d+/);
+        if (numMatch) {
+            const finalVal = parseInt(numMatch[0]);
+            const obj = { val: 0 };
+            
+            gsap.to(obj, {
+                scrollTrigger: {
+                    trigger: stat,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                },
+                val: finalVal,
+                duration: 2,
+                ease: 'power2.out',
+                onUpdate: () => {
+                    stat.innerText = rawText.replace(/\d+/, Math.floor(obj.val));
+                }
+            });
+        }
+    });
+
+    // Services Cards Scroll Animation
+    gsap.from('#service .card', {
+        scrollTrigger: {
+            trigger: '#service',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+        },
+        scale: 0.95,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out'
+    });
+
+    // Portfolio Section Animation
+    gsap.from('#portfolio .card', {
+        scrollTrigger: {
+            trigger: '#portfolio',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power2.out'
+    });
+
+    // Contact Cards Animation
+    gsap.from('.contact-form-card, .contact-info-card', {
+        scrollTrigger: {
+            trigger: '#contact',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power2.out'
+    });
+}
+
