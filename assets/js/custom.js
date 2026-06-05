@@ -428,5 +428,10 @@ if (typeof gsap !== 'undefined') {
         stagger: 0.15,
         ease: 'power2.out'
     });
+
+    // Refresh ScrollTrigger after all assets and images have loaded to prevent layout shift miscalculations
+    window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+    });
 }
 

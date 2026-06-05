@@ -185,3 +185,35 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+/* Header title spacing fixes (resolves overlap on large resolutions) */
+.header .header-content .header-title {
+    line-height: 1.15 !important;
+}
+
+/* Mobile responsive typography adjustments */
+@media (max-width: 576px) {
+    .header .header-content .header-title {
+        font-size: 2.2rem !important;
+        line-height: 1.2 !important;
+    }
+    .header .header-content .header-subtitle {
+        font-size: 1.2rem !important;
+    }
+    .header .header-content .header-mono {
+        font-size: 0.95rem !important;
+    }
+}
+
+/* Dark mode card readability & aesthetic improvements */
+.dark-mode .card .card-body {
+    color: #ccc !important;
+}
+.dark-mode .card-body .subtitle {
+    color: #bbb !important;
+}
+.dark-mode .card .card-header.has-icon i {
+    background: #2d2d2d !important;
+    border-color: #2d2d2d !important;
+    color: #F85C70 !important;
+}
+
