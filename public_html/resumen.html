@@ -101,6 +101,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
+            margin-bottom: 20px;
         }
 
         .skill-tag {
@@ -110,6 +111,37 @@
             border-radius: 4px;
             font-size: 13px;
             text-align: center;
+        }
+
+        .skills-grid-categorized {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .category {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 12px 15px;
+            border-radius: 5px;
+        }
+
+        .category h3 {
+            font-size: 15px !important;
+            border-left: none !important;
+            padding-left: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 5px !important;
+            text-transform: uppercase !important;
+            color: var(--primary) !important;
+            font-weight: 600;
+        }
+
+        .category p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--dark);
         }
 
         .no-print {
@@ -172,7 +204,7 @@
                 margin-top: 15px;
                 width: 100%;
             }
-            .skills-grid {
+            .skills-grid, .skills-grid-categorized {
                 grid-template-columns: 1fr;
             }
             .portfolio-link-item {
@@ -214,8 +246,8 @@
             <div style="display: flex; align-items: center;">
                 <img src="assets/imgs/CVpicture.jpg" alt="Christian Romero" class="profile-img-resume">
                 <div class="header-info">
-                    <h1>Christian Romero</h1>
-                    <h2>Analista de Datos | Desarrollador Junior</h2>
+                    <h1>Christian Romero (ChrizDev)</h1>
+                    <h2>Junior Software Developer | IA & Automatización</h2>
                 </div>
             </div>
             <div class="contact-grid">
@@ -233,7 +265,14 @@
 
         <section>
             <h3>Perfil Profesional</h3>
-            <p>Analista de Datos y Desarrollador de Software Junior apasionado por la tecnología, la arquitectura de hardware y el desarrollo de software moderno. Mi enfoque profesional se centra en diseñar soluciones eficientes, escalables y orientadas a satisfacer las necesidades reales del usuario final. Me caracterizo por mi mentalidad de aprendizaje continuo, adaptabilidad ante nuevos desafíos tecnológicos y un fuerte compromiso con los valores éticos en el entorno laboral. Busco aportar valor en proyectos dinámicos de análisis de datos y desarrollo de aplicaciones web o móviles.</p>
+            <p style="margin-bottom: 10px;">Desarrollador Software enfocado en la automatización de procesos mediante Inteligencia Artificial aplicada. Cuento con experiencia en el diseño de sistemas de gestión documental inteligente, logrando extraer datos estructurados de fuentes no estructuradas de manera eficiente.</p>
+            <p style="margin-bottom: 5px; font-weight: 600;">Mi diferencial es mi capacidad técnica integral:</p>
+            <ul style="padding-left: 20px; margin: 0; font-size: 14px; line-height: 1.5; color: var(--dark);">
+                <li style="margin-bottom: 4px;"><strong>Ingeniería de IA:</strong> Orquestación de LLMs (Groq, Gemini), OCR Multimodal y Prompt Engineering para entornos de alta exigencia.</li>
+                <li style="margin-bottom: 4px;"><strong>Arquitectura Full Stack:</strong> Diseño y despliegue de aplicaciones nativas y web, priorizando la mantenibilidad, escalabilidad y una experiencia de usuario fluida.</li>
+                <li style="margin-bottom: 4px;"><strong>Persistencia & Trazabilidad:</strong> Implementación de bases de datos seguras con Supabase, anonimización de datos sensibles y sistemas de auditoría inmutables.</li>
+                <li style="margin-bottom: 4px;"><strong>Resiliencia:</strong> Aplicación de patrones de diseño (Circuit Breaker) para asegurar la continuidad operativa frente a fallos externos de API.</li>
+            </ul>
         </section>
 
         <section>
@@ -295,13 +334,39 @@
             </div>
         </section>
 
+        <section id="habilidades">
+            <h3>Skills & Expertise</h3>
+            <div class="skills-grid-categorized">
+                <div class="category">
+                    <h3>AI & Automation</h3>
+                    <p>AI Orchestration (Groq/Gemini), OCR Multimodal, Prompt Engineering, Resiliencia de Sistemas.</p>
+                </div>
+
+                <div class="category">
+                    <h3>Full Stack Development</h3>
+                    <p>JavaScript (React), Node.js, Python, HTML5/CSS3, Flutter (Flame Engine), REST APIs, UI Nativa (CustomTkinter).</p>
+                </div>
+
+                <div class="category">
+                    <h3>Database & Architecture</h3>
+                    <p>Supabase (PostgreSQL), SQL, Diseño de Esquemas, Trazabilidad de Datos, Auditoría de Sistemas.</p>
+                </div>
+
+                <div class="category">
+                    <h3>Tecnologías Adaptativas</h3>
+                    <p>Experiencia comprobable en múltiples lenguajes de programación, permitiendo una rápida adaptación a cualquier stack tecnológico necesario para el negocio.</p>
+                </div>
+            </div>
+        </section>
+
         <section>
             <h3>Proyectos Destacados</h3>
             <ul>
-                <li><strong>Uparqueo:</strong> Sistema web para gestión de parqueaderos con JS.</li>
-                <li><strong>iRemApp:</strong> Aplicación móvil de recordatorios y finanzas con Flutter.</li>
-                <li><strong>DeepFace AI:</strong> Implementación de detección de emociones con Python.</li>
-                <li><strong>PrimeDesk:</strong> Gestión operativa para talleres con Flutter.</li>
+                <li style="margin-bottom: 6px;"><strong>DataExPY:</strong> Extractor de datos estructurados a partir de documentos no estructurados (PDFs, imágenes) con IA y procesamiento asíncrono. <a href="https://github.com/ChrisEna07/DataExPY" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">Ver proyecto en GitHub</a>. El desarrollo de este sistema me permitió dominar la resiliencia ante errores de producción (429 Rate Limiting) y la arquitectura de sistemas asíncronos.</li>
+                <li style="margin-bottom: 6px;"><strong>Uparqueo:</strong> Sistema web para gestión de parqueaderos con JS.</li>
+                <li style="margin-bottom: 6px;"><strong>iRemApp:</strong> Aplicación móvil de recordatorios y finanzas con Flutter.</li>
+                <li style="margin-bottom: 6px;"><strong>DeepFace AI:</strong> Implementación de detección de emociones con Python.</li>
+                <li style="margin-bottom: 6px;"><strong>PrimeDesk:</strong> Gestión operativa para talleres con Flutter.</li>
             </ul>
         </section>
     </div>
