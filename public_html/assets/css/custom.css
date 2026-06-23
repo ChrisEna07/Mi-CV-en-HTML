@@ -185,9 +185,14 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Header title spacing fixes (resolves overlap on large resolutions) */
+/* Header title font size and line height adjustments (fixes overlap and improves layout flow) */
 .header .header-content .header-title {
+    font-size: calc(32px + (64 - 32) * ((100vw - 300px) / (1600 - 300))) !important;
     line-height: 1.15 !important;
+    margin-bottom: 15px !important;
+}
+.header .header-content .header-mono {
+    margin-bottom: 25px !important;
 }
 
 /* Mobile responsive typography adjustments */
