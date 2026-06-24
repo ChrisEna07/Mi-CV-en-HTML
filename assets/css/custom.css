@@ -222,3 +222,24 @@
     color: #F85C70 !important;
 }
 
+/* Pulsing conversion CTA button style and keyframes */
+@keyframes contact-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(248, 92, 112, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(248, 92, 112, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(248, 92, 112, 0);
+    }
+}
+
+.btn-pulse {
+    animation: contact-pulse 2s infinite;
+}
+.btn-pulse:hover {
+    animation: none;
+    box-shadow: 0 5px 15px rgba(248, 92, 112, 0.4);
+}
+
