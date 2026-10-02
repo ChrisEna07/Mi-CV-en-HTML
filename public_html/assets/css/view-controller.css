@@ -584,3 +584,88 @@ body.mode-public .portfolio-col-apps {
     font-size: 0.76rem;
     text-align: center;
 }
+
+/* --------------------------------------------------------------------------
+   8. Estilos del Panel Modal de Gestión Integral (ChrizDev)
+   -------------------------------------------------------------------------- */
+.admin-nav-pills {
+    border-bottom: 1px solid #334155;
+    padding-bottom: 10px;
+    gap: 8px;
+}
+.admin-nav-pills .nav-link {
+    color: #94a3b8;
+    background: #111418;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    transition: all 0.2s ease;
+}
+.admin-nav-pills .nav-link:hover {
+    color: #ffffff;
+    border-color: #F85C70;
+}
+.admin-nav-pills .nav-link.active {
+    background: #F85C70 !important;
+    color: #ffffff !important;
+    border-color: #F85C70 !important;
+    box-shadow: 0 4px 12px rgba(248, 92, 112, 0.35);
+}
+
+.admin-crud-item {
+    background: #111418;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, transform 0.15s;
+}
+.admin-crud-item:hover {
+    border-color: rgba(248, 92, 112, 0.5);
+    transform: translateY(-1px);
+}
+.admin-crud-item .exp-company {
+    color: #F85C70;
+    font-weight: 700;
+    font-size: 0.92rem;
+}
+.admin-crud-item .exp-role {
+    color: #f1f5f9;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.admin-crud-item .exp-period {
+    color: #94a3b8;
+    font-size: 0.78rem;
+}
+.admin-crud-item .exp-desc {
+    color: #cbd5e1;
+    font-size: 0.82rem;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+.admin-btn-manage-cv {
+    background: #F85C70;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-btn-manage-cv:hover {
+    background: #e04b5f;
+    box-shadow: 0 4px 15px rgba(248, 92, 112, 0.45);
+    transform: translateY(-1px);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

@@ -164,6 +164,11 @@ function setLanguage(lang) {
     });
     document.getElementById('lang-toggle').innerText = lang === 'es' ? 'EN' : 'ES';
     localStorage.setItem('lang', lang);
+
+    // Re-aplicar datos personalizados del CV para no sobreescribir ediciones
+    if (window.ViewController && typeof window.ViewController.applyCvDataToDOM === 'function') {
+        window.ViewController.applyCvDataToDOM();
+    }
 }
 
 document.getElementById('lang-toggle').addEventListener('click', function() {

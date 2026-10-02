@@ -246,28 +246,28 @@
     <div class="page">
         <header>
             <div style="display: flex; align-items: center;">
-                <img src="assets/imgs/CVpicture.jpg" alt="Christian Romero" class="profile-img-resume">
+                <img src="assets/imgs/CVpicture.jpg" alt="Christian Romero" class="profile-img-resume" id="display-resume-avatar">
                 <div class="header-info">
-                    <h1>Christian Romero (ChrizDev)</h1>
-                    <h2>Junior Software Developer | IA & Automatización</h2>
+                    <h1 id="display-resume-name">Christian Romero (ChrizDev)</h1>
+                    <h2 id="display-resume-title">Junior Software Developer | IA & Automatización</h2>
                 </div>
             </div>
             <div class="contact-grid">
                 <div class="contact-item"><i class="ti-id-badge"></i> C.C. 1042467485 (Barranquilla)</div>
                 <div class="contact-item"><i class="ti-car"></i> Licencia de Conducción: A2, B1, B2</div>
                 <div class="contact-item"><i class="ti-world"></i> Pasaporte / Disponibilidad de viajar</div>
-                <div class="contact-item"><i class="ti-mobile"></i> 3183517802</div>
-                <div class="contact-item"><i class="ti-location-pin"></i> Medellín, Antioquia</div>
-                <div class="contact-item"><i class="ti-email"></i> christianjoroce@gmail.com</div>
-                <div class="contact-item"><i class="ti-linkedin"></i> <a href="https://linkedin.com/in/christian-romero-5a9577145/" style="color: inherit; text-decoration: none;">linkedin.com/in/christian-romero</a></div>
-                <div class="contact-item"><i class="ti-github"></i> <a href="https://github.com/ChrisEna07" style="color: inherit; text-decoration: none;">github.com/ChrisEna07</a></div>
-                <div class="contact-item portfolio-link-item"><i class="ti-link"></i> <a href="https://my-app-s-portafolio-digital.vercel.app/" style="color: inherit; text-decoration: none; font-weight: 600;">Portafolio de Apps: my-app-s-portafolio-digital.vercel.app</a></div>
+                <div class="contact-item"><i class="ti-mobile"></i> <span id="display-resume-phone">3183517802</span></div>
+                <div class="contact-item"><i class="ti-location-pin"></i> <span id="display-resume-location">Medellín, Antioquia</span></div>
+                <div class="contact-item"><i class="ti-email"></i> <span id="display-resume-email">christianjoroce@gmail.com</span></div>
+                <div class="contact-item"><i class="ti-linkedin"></i> <a id="display-resume-linkedin" href="https://linkedin.com/in/christian-romero-5a9577145/" style="color: inherit; text-decoration: none;">linkedin.com/in/christian-romero</a></div>
+                <div class="contact-item"><i class="ti-github"></i> <a id="display-resume-github" href="https://github.com/ChrisEna07" style="color: inherit; text-decoration: none;">github.com/ChrisEna07</a></div>
+                <div class="contact-item portfolio-link-item"><i class="ti-link"></i> <a id="display-resume-portfolio" href="https://my-app-s-portafolio-digital.vercel.app/" style="color: inherit; text-decoration: none; font-weight: 600;">Portafolio de Apps: my-app-s-portafolio-digital.vercel.app</a></div>
             </div>
         </header>
 
         <section>
             <h3>Perfil Profesional</h3>
-            <p style="margin-bottom: 10px;">Desarrollador Software enfocado en la automatización de procesos mediante Inteligencia Artificial aplicada. Cuento con experiencia en el diseño de sistemas de gestión documental inteligente, logrando extraer datos estructurados de fuentes no estructuradas de manera eficiente.</p>
+            <p style="margin-bottom: 10px;" id="display-resume-bio">Desarrollador Software enfocado en la automatización de procesos mediante Inteligencia Artificial aplicada. Cuento con experiencia en el diseño de sistemas de gestión documental inteligente, logrando extraer datos estructurados de fuentes no estructuradas de manera eficiente.</p>
             <p style="margin-bottom: 5px; font-weight: 600;">Mi diferencial es mi capacidad técnica integral:</p>
             <ul style="padding-left: 20px; margin: 0; font-size: 14px; line-height: 1.5; color: var(--dark);">
                 <li style="margin-bottom: 4px;"><strong>Ingeniería de IA:</strong> Orquestación de LLMs (Groq, Gemini), OCR Multimodal y Prompt Engineering para entornos de alta exigencia.</li>
@@ -277,31 +277,33 @@
             </ul>
         </section>
 
-        <section>
+                <section>
             <h3>Experiencia Laboral</h3>
-            <div class="exp-item">
-                <div class="item-header">
-                    <span id="cv-resume-job-role">Desarrollador de Software (Contrato de Aprendizaje)</span>
-                    <span id="cv-resume-job-period">2024 - Presente</span>
+            <div id="resume-experience-container">
+                <div class="exp-item">
+                    <div class="item-header">
+                        <span id="cv-resume-job-role">Desarrollador de Software</span>
+                        <span id="cv-resume-job-period">2024 - Presente</span>
+                    </div>
+                    <div class="item-sub" id="cv-resume-job-company">Celerix SAS (Contrato de Aprendizaje)</div>
+                    <p id="cv-resume-job-desc">Desarrollo y soporte en soluciones tecnológicas empresariales, automatización de procesos, desarrollo de módulos con Claris FileMaker e integración de datos y APIs.</p>
                 </div>
-                <div class="item-sub" id="cv-resume-job-company">Celerix SAS</div>
-                <p id="cv-resume-job-desc">Desarrollo y soporte en soluciones tecnológicas empresariales, automatización de procesos, desarrollo de módulos con Claris FileMaker e integración de datos y APIs.</p>
-            </div>
-            <div class="exp-item">
-                <div class="item-header">
-                    <span>Técnico de Hardware</span>
-                    <span>2020 - 2023</span>
+                <div class="exp-item">
+                    <div class="item-header">
+                        <span>Técnico de Hardware</span>
+                        <span>2020 - 2023</span>
+                    </div>
+                    <div class="item-sub">Soporte Técnico (Independiente)</div>
+                    <p>Ensamble, reparación y mantenimiento preventivo y correctivo de computadores de escritorio y portátiles de diversas marcas.</p>
                 </div>
-                <div class="item-sub">Soporte Técnico</div>
-                <p>Ensamble, reparación y mantenimiento preventivo y correctivo de computadores de escritorio y portátiles de diversas marcas.</p>
-            </div>
-            <div class="exp-item">
-                <div class="item-header">
-                    <span>Técnico de Sistemas</span>
-                    <span>2018 - 2020</span>
+                <div class="exp-item">
+                    <div class="item-header">
+                        <span>Técnico de Sistemas</span>
+                        <span>2018 - 2020</span>
+                    </div>
+                    <div class="item-sub">Soporte de Software y Redes (Presencial)</div>
+                    <p>Instalación y actualización de software, implementación de redes y aprovisionamiento de herramientas ofimáticas y digitales.</p>
                 </div>
-                <div class="item-sub">Soporte de Software y Redes</div>
-                <p>Instalación y actualización de software, implementación de redes y aprovisionamiento de herramientas ofimáticas y digitales.</p>
             </div>
         </section>
 
