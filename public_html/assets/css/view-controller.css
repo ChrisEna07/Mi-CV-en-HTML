@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    VIEW CONTROLLER STYLES (Control de Audiencia & Administración)
    Christian Romero Portfolio/CV
    ========================================================================== */
@@ -6,7 +6,8 @@
 /* --------------------------------------------------------------------------
    1. Control de Visibilidad por Modo de Audiencia
    -------------------------------------------------------------------------- */
-body.mode-public .view-recruiter {
+body.mode-public .view-recruiter,
+body.mode-public .view-enterprise {
     display: none !important;
 }
 

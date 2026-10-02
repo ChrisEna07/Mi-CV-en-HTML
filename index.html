@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -254,7 +254,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
-                    <div class="card">
+                                        <div class="card">
                         <div class="card-header">
                             <div class="pull-left">
                                 <h4 class="mt-2">Habilidades Técnicas</h4>
@@ -262,27 +262,52 @@
                             </div>
                         </div>
                         <div class="card-body pb-2">
-                            <h6>Python & Análisis de Datos</h6>
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">Claris FileMaker (Scripting & Arquitectura)</h6>
+                                <span class="text-danger font-weight-bold small">85%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 85%"
+                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">SQL & Modelado Relacional (PostgreSQL, SQLite)</h6>
+                                <span class="text-danger font-weight-bold small">75%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">Python & Análisis / Automatización de Datos</h6>
+                                <span class="text-danger font-weight-bold small">70%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 70%"
+                                    aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">JavaScript & REST APIs (Webhooks / JSON)</h6>
+                                <span class="text-danger font-weight-bold small">65%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 65%"
+                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">Flutter & Dart (UI Móvil)</h6>
+                                <span class="text-danger font-weight-bold small">55%</span>
+                            </div>
                             <div class="progress mb-3">
                                 <div class="progress-bar bg-danger" role="progressbar" style="width: 55%"
                                     aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                            <h6>Flutter & Dart (Móvil)</h6>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 50%"
-                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h6>JavaScript & React (Web)</h6>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 40%"
-                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h6>SQL & Databases (Postgres, Mongo)</h6>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 45%"
-                                    aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
                         </div>
+                    </div>
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -412,82 +437,184 @@
         </div>
     </section>
 
+        <!-- Services Section -->
     <section class="section" id="service">
         <div class="container">
             <h2 class="mb-5 pb-4"><span class="text-danger" data-i18n="services-my">Mis</span> <span
                     data-i18n="services-title">Servicios</span></h2>
-            <div class="row">
-                <div class="col-md-4 col-sm-6">
-                    <div class="card mb-5">
+
+            <!-- ============================================================
+                 VISTA PÚBLICA (General / Clientes / Negocio de Alto Nivel)
+                 ============================================================ -->
+            <div class="row view-public">
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-header has-icon">
-                            <i class="ti-bar-chart text-danger" aria-hidden="true"></i>
+                            <i class="ti-bolt text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-data">Análisis de Datos</h5>
-                            <P class="subtitle" data-i18n="serv-data-desc">Extracción, limpieza y visualización de datos
-                                para la toma de decisiones estratégicas, utilizando herramientas modernas para encontrar
-                                patrones y tendencias.</P>
+                            <h5 class="mb-3 card-title text-dark">Automatización & Low-Code</h5>
+                            <p class="subtitle">Optimización de procesos operativos mediante plataformas de desarrollo ágil, digitalización de flujos de trabajo y reducción de fricción manual en la gestión empresarial.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="card mb-5">
+
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-header has-icon">
                             <i class="ti-desktop text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-sw">Desarrollo de Software</h5>
-                            <P class="subtitle" data-i18n="serv-sw-desc">Creación de aplicaciones robustas y escalables,
-                                tanto para escritorio como para web, enfocadas en la eficiencia y la experiencia del
-                                usuario.</P>
+                            <h5 class="mb-3 card-title text-dark">Desarrollo de Soluciones de Software</h5>
+                            <p class="subtitle">Creación de aplicaciones web y de escritorio robustas, escalables y orientadas a la eficiencia operativa, diseñadas a la medida de los requerimientos del negocio.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="card mb-5">
+
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-header has-icon">
                             <i class="ti-mobile text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Apps Móviles</h5>
-                            <P class="subtitle">Desarrollo de aplicaciones móviles multiplataforma con Flutter y Dart,
-                                garantizando un alto rendimiento y diseños atractivos.</P>
+                            <h5 class="mb-3 card-title text-dark">Aplicaciones Móviles</h5>
+                            <p class="subtitle">Desarrollo de herramientas móviles multiplataforma ágiles y funcionales con Flutter, facilitando la captura de datos en campo y la movilidad corporativa.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="card mb-5">
-                        <div class="card-header has-icon">
-                            <i class="ti-settings text-danger" aria-hidden="true"></i>
-                        </div>
-                        <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Mantenimiento</h5>
-                            <P class="subtitle">Optimización y actualización de sistemas existentes, asegurando que el
-                                software siga siendo seguro, rápido y funcional en el tiempo.</P>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="card mb-5">
+
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-header has-icon">
                             <i class="ti-server text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Bases de Datos</h5>
-                            <P class="subtitle">Diseño y administración de bases de datos relacionales y NoSQL,
-                                garantizando la integridad y disponibilidad de la información.</P>
+                            <h5 class="mb-3 card-title text-dark">Arquitectura & Gestión de Datos</h5>
+                            <p class="subtitle">Estructuración, almacenamiento seguro y disponibilidad de información empresarial mediante esquemas confiables, trazabilidad auditada y control de accesos.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="card mb-5">
+
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-header has-icon">
-                            <i class="ti-headphone-alt text-danger" aria-hidden="true"></i>
+                            <i class="ti-bar-chart text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Soporte Técnico</h5>
-                            <P class="subtitle">Asesoría y resolución de problemas técnicos relacionados con hardware y
-                                software, apoyado en mi pasión natural por la tecnología.</P>
+                            <h5 class="mb-3 card-title text-dark">Business Intelligence & Análisis</h5>
+                            <p class="subtitle">Extracción, consolidación y visualización de métricas para la toma de decisiones estratégicas, detectando patrones clave y oportunidades de mejora.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header has-icon">
+                            <i class="ti-settings text-danger" aria-hidden="true"></i>
+                        </div>
+                        <div class="card-body px-4 py-3">
+                            <h5 class="mb-3 card-title text-dark">Mantenimiento & Continuidad</h5>
+                            <p class="subtitle">Actualización evolutiva, diagnóstico preventivo y soporte técnico continuo sobre sistemas existentes para garantizar su estabilidad, rapidez y seguridad a largo plazo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 VISTA EXCLUSIVA PARA EMPRESAS (Reclutadores / Claris FileMaker)
+                 ============================================================ -->
+            <div class="view-recruiter view-enterprise">
+                <div class="d-flex align-items-center mb-4 flex-wrap">
+                    <span class="badge badge-danger px-3 py-2 mr-2" style="font-size: 0.85rem; border-radius: 20px;">
+                        <i class="ti-layers mr-1"></i> ARQUITECTURA EMPRESARIAL
+                    </span>
+                    <h5 class="mb-0 text-muted font-weight-normal" style="font-size: 1rem;">
+                        Especialización Técnica en <strong>Claris FileMaker</strong> & Soluciones de Misión Crítica
+                    </h5>
+                </div>
+
+                <div class="row">
+                    <!-- 1. Desarrollo Low-Code en Claris FileMaker -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100" style="border-top: 3px solid #F85C70;">
+                            <div class="card-header has-icon">
+                                <i class="ti-layout-grid2 text-danger" aria-hidden="true"></i>
+                            </div>
+                            <div class="card-body px-4 py-3">
+                                <h5 class="mb-2 card-title text-dark font-weight-bold">Desarrollo Low-Code en Claris FileMaker</h5>
+                                <span class="badge badge-light text-muted mb-3">Enterprise Core</span>
+                                <p class="subtitle">Creación de soluciones empresariales modulares y altamente escalables orientadas a flujos de trabajo críticos de negocio. Implementación de arquitecturas desacopladas (Data Separation Model) preparadas para despliegues locales, híbridos y FileMaker Cloud/Server.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Diseño de Layouts (UI/UX Corporativo) -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100" style="border-top: 3px solid #F85C70;">
+                            <div class="card-header has-icon">
+                                <i class="ti-panel text-danger" aria-hidden="true"></i>
+                            </div>
+                            <div class="card-body px-4 py-3">
+                                <h5 class="mb-2 card-title text-dark font-weight-bold">Diseño de Layouts (UI/UX Corporativo)</h5>
+                                <span class="badge badge-light text-muted mb-3">Ergonomía Operativa</span>
+                                <p class="subtitle">Construcción de interfaces ergonómicas y optimizadas para la operativa diaria y velocidad del usuario final. Diseño de portales interactivos, estados dinámicos, navegación unificada tipo panel y estricto respeto a las guías de diseño corporativo.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Scripting Avanzado y Automatización -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100" style="border-top: 3px solid #F85C70;">
+                            <div class="card-header has-icon">
+                                <i class="ti-control-play text-danger" aria-hidden="true"></i>
+                            </div>
+                            <div class="card-body px-4 py-3">
+                                <h5 class="mb-2 card-title text-dark font-weight-bold">Scripting Avanzado & Automatización</h5>
+                                <span class="badge badge-light text-muted mb-3">Business Logic</span>
+                                <p class="subtitle">Implementación de scripts complejos para reglas de negocio estrictas, validaciones transaccionales y procesos desatendidos (PSOS - Perform Script on Server). Gestión integral de errores mediante capturas controladas (Set Error Capture) y rollbacks lógicos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Bases de Datos y Arquitectura Relacional -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100" style="border-top: 3px solid #F85C70;">
+                            <div class="card-header has-icon">
+                                <i class="ti-server text-danger" aria-hidden="true"></i>
+                            </div>
+                            <div class="card-body px-4 py-3">
+                                <h5 class="mb-2 card-title text-dark font-weight-bold">Bases de Datos & Arquitectura Relacional</h5>
+                                <span class="badge badge-light text-muted mb-3">Data Integrity</span>
+                                <p class="subtitle">Modelado relacional robusto (Relationships Graph / Anchor-Buoy), normalización estricta de tablas, control contextual de dependencias y aseguramiento de integridad referencial. Seguridad a nivel de registros y políticas de privilegios de acceso.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Optimización y Rendimiento Multi-Usuario -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100" style="border-top: 3px solid #F85C70;">
+                            <div class="card-header has-icon">
+                                <i class="ti-dashboard text-danger" aria-hidden="true"></i>
+                            </div>
+                            <div class="card-body px-4 py-3">
+                                <h5 class="mb-2 card-title text-dark font-weight-bold">Optimización y Rendimiento</h5>
+                                <span class="badge badge-light text-muted mb-3">Performance & Concurrency</span>
+                                <p class="subtitle">Diagnóstico y aceleración de consultas mediante ExecuteSQL nativo, optimización de indexación y erradicación de cuellos de botella por campos calculados no almacenados. Gestión eficiente de concurrencia y transacciones en entornos multiusuario concurrentes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Integración API & Interoperabilidad -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100" style="border-top: 3px solid #F85C70;">
+                            <div class="card-header has-icon">
+                                <i class="ti-exchange-vertical text-danger" aria-hidden="true"></i>
+                            </div>
+                            <div class="card-body px-4 py-3">
+                                <h5 class="mb-2 card-title text-dark font-weight-bold">Integración REST API & Webhooks</h5>
+                                <span class="badge badge-light text-muted mb-3">Interoperabilidad</span>
+                                <p class="subtitle">Conexión e intercambio de datos entre Claris FileMaker y ecosistemas externos mediante FileMaker Data API, OData y solicitudes cURL automatizadas. Procesamiento de payloads JSON anidados y sincronización asíncrona con bases de datos SQL.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
