@@ -12,10 +12,26 @@
     <!-- Bootstrap + JohnDoe main styles -->
     <link rel="stylesheet" href="assets/css/johndoe.css">
     <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/view-controller.css">
     <link rel="icon" type="image/png" href="assets/imgs/favicon.png">
 </head>
 
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+
+    <!-- Recruiter Mode Sticky Banner -->
+    <div id="recruiter-mode-banner" class="recruiter-mode-banner view-recruiter" style="display: none;">
+        <div class="container d-flex justify-content-between align-items-center py-1 flex-wrap">
+            <div class="d-flex align-items-center">
+                <span class="badge-recruiter"><i class="ti-briefcase mr-1"></i>Modo Empresa</span>
+                <span class="banner-text">Visualizando experiencia laboral completa, enlaces a repositorios y descarga de CV.</span>
+            </div>
+            <div class="d-flex align-items-center mt-2 mt-md-0">
+                <button id="btn-exit-recruiter" class="btn btn-exit-recruiter" title="Cambiar a Vista Pública">
+                    <i class="ti-world mr-1"></i> Vista Pública
+                </button>
+            </div>
+        </div>
+    </div>
 
     <header class="header">
         <div class="container">
@@ -25,14 +41,14 @@
                 <li class="social-item"><a class="social-link text-light"
                         href="https://www.linkedin.com/in/christian-romero-5a9577145/"><i class="ti-linkedin"
                             aria-hidden="true"></i></a></li>
-                <li class="social-item"><a class="social-link text-light" href="https://github.com/ChrisEna07"><i
+                <li class="social-item view-recruiter"><a class="social-link text-light" href="https://github.com/ChrisEna07" target="_blank"><i
                             class="ti-github" aria-hidden="true"></i></a></li>
             </ul>
             <div class="header-content">
                 <h4 class="header-subtitle" data-i18n="header-hello">Hola, soy</h4>
                 <h1 class="header-title">Christian Romero (ChrizDev)</h1>
                 <h6 class="header-mono" data-i18n="header-title">Junior Software Developer especializado en IA y Automatización.</h6>
-                <a href="resumen.html" class="btn btn-outline-light btn-rounded"><i class="ti-printer pr-2"></i>Imprimir CV</a>
+                <a href="resumen.html" class="btn btn-outline-light btn-rounded view-recruiter"><i class="ti-printer pr-2"></i>Imprimir CV</a>
                 <a href="#contact" class="btn btn-primary btn-rounded btn-pulse ml-md-2 mt-2 mt-md-0"><i class="ti-envelope pr-2"></i>Contrátame</a>
             </div>
         </div>
@@ -52,7 +68,7 @@
                     <li class="nav-item">
                         <a href="#about" class="nav-link" data-i18n="nav-about">Perfil</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item view-recruiter">
                         <a href="#resume" class="nav-link" data-i18n="nav-resume">Currículum</a>
                     </li>
                 </ul>
@@ -89,15 +105,15 @@
                 <h5 class="mb-3" data-i18n="about-tagline">Un apasionado por la tecnología con enfoque en soluciones
                     para el cliente</h5>
                 <p class="mt-20" data-i18n="about-description">Transformo procesos complejos en soluciones digitales eficientes. Mi enfoque combina el desarrollo Full Stack con la implementación estratégica de IA (LLMs) y arquitecturas de datos robustas. Apasionado por la resiliencia del software y la ingeniería detrás de los datos legales.</p>
-                <a href="resumen.html" class="btn btn-outline-danger"><i class="ti-download pr-2"></i>Descargar CV</a>
+                <a href="resumen.html" class="btn btn-outline-danger view-recruiter"><i class="ti-download pr-2"></i>Descargar CV</a>
             </div>
             <div class="col-lg-4 about-card">
                 <h3 class="font-weight-light" data-i18n="about-personal">Información Personal</h3>
                 <span class="line mb-5"></span>
                 <ul class="mt40 info list-unstyled">
-                    <li><span>Cédula</span> : 1042467485 (Barranquilla)</li>
-                    <li><span>Licencia de Conducción</span> : A2, B1, B2</li>
-                    <li><span>Pasaporte</span> : Sí (Disponible para viajar)</li>
+                    <li class="view-recruiter"><span>Cédula</span> : 1042467485 (Barranquilla)</li>
+                    <li class="view-recruiter"><span>Licencia de Conducción</span> : A2, B1, B2</li>
+                    <li class="view-recruiter"><span>Pasaporte</span> : Sí (Disponible para viajar)</li>
                     <li><span>Email</span> : christianjoroce@gmail.com</li>
                     <li><span>Teléfono</span> : 3183517802</li>
                     <li><span>Ubicación</span> : Medellín, Antioquia</li>
@@ -109,7 +125,7 @@
                     <li class="social-item"><a class="social-link"
                             href="https://www.linkedin.com/in/christian-romero-5a9577145/"><i class="ti-linkedin"
                                 aria-hidden="true"></i></a></li>
-                    <li class="social-item"><a class="social-link" href="https://github.com/ChrisEna07"><i
+                    <li class="social-item view-recruiter"><a class="social-link" href="https://github.com/ChrisEna07" target="_blank"><i
                                 class="ti-github" aria-hidden="true"></i></a></li>
                 </ul>
             </div>
@@ -148,7 +164,7 @@
     </div>
 
     <!--Resume Section-->
-    <section class="section" id="resume">
+    <section class="section view-recruiter" id="resume">
         <div class="container">
             <h2 class="mb-5"><span class="text-danger" data-i18n="resume-my">Mi</span> <span
                     data-i18n="resume-title">Currículum</span></h2>
@@ -493,7 +509,7 @@
         <div class="container">
             <h1 class="mb-5"><span class="text-danger">Mi</span> Portafolio</h1>
             <div class="row">
-                <div class="col-md-6 mb-4 mb-md-0">
+                <div class="col-md-6 mb-4 mb-md-0 view-recruiter">
                     <div class="card dark-mode-card shadow-lg p-5 h-100 text-center">
                         <i class="ti-github icon-xl text-danger mb-4"></i>
                         <h3 class="mb-3" data-i18n="port-git-title">Explora mis proyectos</h3>
@@ -505,7 +521,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 portfolio-col-apps">
                     <div class="card dark-mode-card shadow-lg p-5 h-100 text-center" style="border: 1px solid rgba(248, 92, 112, 0.25);">
                         <i class="ti-mobile icon-xl text-danger mb-4"></i>
                         <h3 class="mb-3">Portafolio de Apps</h3>
@@ -590,8 +606,8 @@
                             <li class="social-item"><a class="social-link text-dark"
                                     href="https://www.linkedin.com/in/christian-romero-5a9577145/"><i
                                         class="ti-linkedin" aria-hidden="true"></i></a></li>
-                            <li class="social-item"><a class="social-link text-dark"
-                                    href="https://github.com/ChrisEna07"><i class="ti-github"
+                            <li class="social-item view-recruiter"><a class="social-link text-dark"
+                                    href="https://github.com/ChrisEna07" target="_blank"><i class="ti-github"
                                         aria-hidden="true"></i></a></li>
                         </ul>
                     </div>
@@ -601,12 +617,16 @@
         </div>
     </div>
     <footer class="footer py-3">
-        <div class="container">
-            <p class="small mb-0 text-light">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-left">
+            <p class="small mb-2 mb-md-0 text-light">
                 &copy;
                 <script>document.write(new Date().getFullYear())</script> Creado con <i
                     class="ti-heart text-danger"></i> por <span class="text-danger">Christian Romero</span>
             </p>
+            <div class="footer-links small text-muted">
+                <a href="#" id="recruiter-access-trigger" class="text-muted mr-3" title="Acceso para Reclutadores"><i class="ti-briefcase mr-1"></i>Acceso Empresa</a>
+                <a href="#" id="admin-login-trigger" class="text-muted" title="Administración" aria-label="Administración"><i class="ti-lock" style="opacity: 0.35;"></i></a>
+            </div>
         </div>
     </footer>
 
@@ -687,6 +707,73 @@
 
     <!-- Custom JS -->
     <script src="assets/js/custom.js"></script>
+
+    <!-- Admin Login Modal -->
+    <div class="modal fade admin-modal" id="admin-login-modal" tabindex="-1" role="dialog" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminLoginModalLabel">
+                        <i class="ti-shield text-danger"></i> Panel de Administración
+                    </h5>
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="admin-login-form">
+                    <div class="modal-body">
+                        <p class="text-muted small mb-3">Introduce las credenciales de gestión para alternar vistas y generar enlaces de selección.</p>
+                        <div class="form-group">
+                            <label class="form-label" for="admin-user-input">Usuario</label>
+                            <input type="text" id="admin-user-input" class="form-control" placeholder="ChrizDev07" required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="admin-pass-input">Contraseña</label>
+                            <input type="password" id="admin-pass-input" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                        </div>
+                        <div id="admin-login-error" class="alert alert-danger py-2 small" style="display: none;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recruiter Token Modal -->
+    <div class="modal fade admin-modal" id="recruiter-token-modal" tabindex="-1" role="dialog" aria-labelledby="recruiterModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recruiterModalLabel">
+                        <i class="ti-briefcase text-danger"></i> Acceso Profesional para Empresas
+                    </h5>
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="recruiter-token-form">
+                    <div class="modal-body">
+                        <p class="text-muted small mb-3">Si eres reclutador o representas a una empresa, introduce tu clave de invitación para desbloquear la experiencia detallada y CV descargable.</p>
+                        <div class="form-group">
+                            <label class="form-label" for="recruiter-token-input">Token de Invitación</label>
+                            <input type="password" id="recruiter-token-input" class="form-control" placeholder="Ingresa tu clave de acceso..." required>
+                        </div>
+                        <div id="recruiter-token-error" class="alert alert-danger py-2 small" style="display: none;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4">Desbloquear Vista</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Controller JS -->
+    <script src="assets/js/view-controller.js"></script>
 </body>
 
 </html>
