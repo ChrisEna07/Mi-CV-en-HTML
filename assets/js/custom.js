@@ -16,19 +16,43 @@ if (localStorage.getItem('theme') === 'dark') {
     document.getElementById('dark-mode-toggle').querySelector('i').classList.replace('ti-light-bulb', 'ti-shine');
 }
 
-// Multi-language Logic
+// Multi-language Logic - Diccionario Estructurado Completo
 const translations = {
     'es': {
+        // Navegación
         'nav-home': 'Inicio',
         'nav-about': 'Perfil',
         'nav-resume': 'Currículum',
+        'nav-portfolio': 'Portafolio',
         'nav-contact': 'Contacto',
+
+        // Hero & Cabecera
         'header-hello': 'Hola, soy',
         'header-title': 'Junior Software Developer especializado en IA y Automatización',
+        'btn-print-cv': 'Imprimir CV',
+        'btn-download-cv': 'Descargar CV',
+
+        // Banner Reclutador / Empresa
+        'recruiter-banner-badge': 'Modo Empresa',
+        'recruiter-banner-text': 'Visualizando experiencia laboral completa, enlaces a repositorios y descarga de CV.',
+        'recruiter-btn-public': 'Vista Pública',
+
+        // Sobre mí & Información Personal
         'about-who': '¿Quién soy?',
         'about-tagline': 'Un apasionado por la tecnología con enfoque en soluciones para el cliente',
         'about-description': 'Transformo procesos complejos en soluciones digitales eficientes. Mi enfoque combina el desarrollo Full Stack con la implementación estratégica de IA (LLMs) y arquitecturas de datos robustas. Apasionado por la resiliencia del software y la ingeniería detrás de los datos legales.',
         'about-personal': 'Información Personal',
+        'personal-id': 'Cédula',
+        'personal-license': 'Licencia de Conducción',
+        'personal-passport': 'Pasaporte',
+        'personal-travel': 'Sí (Disponible para viajar)',
+        'personal-email': 'Email',
+        'personal-phone': 'Teléfono',
+        'personal-location': 'Ubicación',
+        'personal-apps': 'Portafolio Apps',
+        'personal-apps-link': 'Ver Portafolio de Apps',
+
+        // Especialidades
         'exp-title': 'Mi Especialidad',
         'exp-sw': 'Desarrollo de Software',
         'exp-sw-desc': 'Creación de aplicaciones robustas y escalables con .NET, Node.js y Python.',
@@ -36,6 +60,10 @@ const translations = {
         'exp-ui-desc': 'Interfaces intuitivas y modernas enfocadas en la experiencia del usuario con Flutter.',
         'exp-data': 'Análisis de Datos',
         'exp-data-desc': 'Extracción de valor y patrones significativos a partir de datos complejos.',
+        'exp-hw': 'Arquitectura de Hardware',
+        'exp-hw-desc': 'Ensambles de alto rendimiento, optimización térmica y diagnóstico a nivel de componentes.',
+
+        // Currículum & Educación
         'resume-my': 'Mi',
         'resume-title': 'Currículum',
         'resume-exp': 'Experiencia',
@@ -45,6 +73,8 @@ const translations = {
         'resume-edu': 'Educación',
         'resume-inprogress': 'En formación / Estudiante',
         'resume-degree': 'Tecnología en Análisis y Desarrollo de Software',
+
+        // Habilidades Blandas
         'skill-adaptation': 'Adaptación',
         'skill-learning': 'Aprendizaje Rápido',
         'skill-belonging': 'Sentido de pertenencia',
@@ -52,28 +82,43 @@ const translations = {
         'skill-punctuality': 'Puntualidad',
         'skill-communication': 'Comunicación',
         'skill-teamwork': 'Trabajo en equipo',
+
+        // Servicios
         'services-my': 'Mis',
         'services-title': 'Servicios',
-        'serv-data': 'Análisis de Datos',
-        'serv-data-desc': 'Extracción, limpieza y visualización de datos para la toma de decisiones estratégicas, utilizando herramientas modernas para encontrar patrones y tendencias.',
-        'serv-sw': 'Desarrollo de Software',
-        'serv-sw-desc': 'Creación de aplicaciones robustas y escalables, tanto para escritorio como para web, enfocadas en la eficiencia y la experiencia del usuario.',
+        'serv-auto': 'Automatización & Low-Code',
+        'serv-auto-desc': 'Optimización de procesos operativos mediante plataformas de desarrollo ágil, digitalización de flujos de trabajo y reducción de fricción manual en la gestión empresarial.',
+        'serv-sw': 'Desarrollo de Soluciones de Software',
+        'serv-sw-desc': 'Creación de aplicaciones web y de escritorio robustas, escalables y orientadas a la eficiencia operativa (.NET, Node.js, Python), diseñadas a la medida del negocio.',
+        'serv-mobile': 'Aplicaciones Móviles',
+        'serv-mobile-desc': 'Desarrollo de herramientas móviles multiplataforma nativas y fluidas con Flutter y Dart, facilitando la movilidad corporativa y la captura de datos en campo.',
+        'serv-data': 'Arquitectura & Gestión de Datos',
+        'serv-data-desc': 'Estructuración, almacenamiento seguro y disponibilidad de información empresarial mediante esquemas relacionales (SQL) y no relacionales (NoSQL), trazabilidad y auditoría.',
+        'serv-bi': 'Business Intelligence & Análisis',
+        'serv-bi-desc': 'Extracción, consolidación y visualización de métricas para la toma de decisiones estratégicas, detectando patrones clave y optimizaciones mediante Python y analítica.',
+        'serv-maint': 'Mantenimiento & Continuidad',
+        'serv-maint-desc': 'Actualización evolutiva, diagnóstico preventivo y soporte técnico continuo sobre sistemas existentes para garantizar su estabilidad, rapidez y seguridad a largo plazo.',
+        'serv-hw-title': 'Consultoría & Arquitectura de Hardware | Ensambles de Alto Rendimiento',
+        'serv-hw-badge': 'Infraestructura Física & Hardware Especializado',
+        'serv-hw-desc': 'Especialista en infraestructura física de cómputo y soluciones avanzadas de ingeniería de hardware para maximizar la eficiencia térmica, benchmarking y continuidad operativa:',
+
+        // Portafolio & Proyectos
         'port-all': 'Todos',
         'port-web': 'Web',
         'port-mobile': 'Móvil',
         'port-ai': 'IA',
         'port-git-title': 'Explora mis proyectos',
         'port-git-desc': 'Mantengo todos mis desarrollos, experimentos y soluciones de código abierto actualizados en mi perfil de GitHub.',
+
+        // Métricas / Stats
         'stat-hours': 'Horas Académicas',
         'stat-projects': 'Repositorios en GitHub',
         'stat-prompts': 'Prompts Ejecutados',
         'stat-vibecoding': 'Con conciencia y profesionalismo',
         'stat-clients': 'Satisfacción',
         'stat-coffee': 'Cafés Tomados',
-        'hire-title': 'Disponible para proyectos freelance o contrato laboral',
-        'hire-working-title': '¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y sistemas de gestión administrativa personalizados para tiendas, firmas legales, cadenas comerciales o empresas de cualquier sector. Hablemos de tu proyecto.',
-        'hire-working-btn': 'Iniciar Proyecto',
-        'hire-btn': 'Contrátame',
+
+        // Formularios & Contacto
         'contact-form-title': 'Envía un mensaje',
         'contact-info-title': 'Ponte en contacto',
         'form-success': '¡Mensaje enviado con éxito!',
@@ -87,16 +132,40 @@ const translations = {
         'survey-submit': 'Enviar Calificación'
     },
     'en': {
+        // Navigation
         'nav-home': 'Home',
         'nav-about': 'Profile',
         'nav-resume': 'Resume',
+        'nav-portfolio': 'Portfolio',
         'nav-contact': 'Contact',
+
+        // Hero & Header
         'header-hello': 'Hello, I am',
         'header-title': 'Junior Software Developer specializing in AI and Automation',
+        'btn-print-cv': 'Print CV',
+        'btn-download-cv': 'Download CV',
+
+        // Recruiter Banner
+        'recruiter-banner-badge': 'Company Mode',
+        'recruiter-banner-text': 'Viewing complete work experience, repository links, and downloadable CV.',
+        'recruiter-btn-public': 'Public View',
+
+        // About & Personal Information
         'about-who': 'Who am I?',
         'about-tagline': 'A technology enthusiast focused on client-driven solutions',
-        'about-description': 'I transform complex processes into efficient digital solutions. My approach combines Full Stack development with the strategic implementation of AI (LLMs) and robust data architectures. Passionate about software resilience and the engineering behind legal data.',
+        'about-description': 'I transform complex processes into efficient digital solutions. My approach combines Full Stack development with strategic AI implementation (LLMs) and robust data architectures. Passionate about software resilience and the engineering behind legal data.',
         'about-personal': 'Personal Information',
+        'personal-id': 'National ID',
+        'personal-license': "Driver's License",
+        'personal-passport': 'Passport',
+        'personal-travel': 'Yes (Available to travel)',
+        'personal-email': 'Email',
+        'personal-phone': 'Phone',
+        'personal-location': 'Location',
+        'personal-apps': 'Apps Portfolio',
+        'personal-apps-link': 'View Apps Portfolio',
+
+        // Expertise
         'exp-title': 'My Expertise',
         'exp-sw': 'Software Development',
         'exp-sw-desc': 'Creating robust and scalable applications with .NET, Node.js, and Python.',
@@ -104,42 +173,65 @@ const translations = {
         'exp-ui-desc': 'Intuitive and modern interfaces focused on user experience with Flutter.',
         'exp-data': 'Data Analysis',
         'exp-data-desc': 'Extracting value and significant patterns from complex data.',
+        'exp-hw': 'Hardware Architecture',
+        'exp-hw-desc': 'High-performance PC builds, thermal optimization, and component-level diagnosis.',
+
+        // Resume & Education
         'resume-my': 'My',
         'resume-title': 'Resume',
         'resume-exp': 'Experience',
         'resume-current': '2024 - Present',
         'resume-role1': 'Software Developer (Apprenticeship Contract)',
-        'resume-desc1': 'Enterprise software development and support at Celerix SAS, process automation, Claris FileMaker modules and API integration.',
+        'resume-desc1': 'Enterprise software development and support at Celerix SAS, process automation, Claris FileMaker modules, and API integration.',
         'resume-edu': 'Education',
         'resume-inprogress': 'In Training / Student',
-        'resume-degree': 'Analysis and Software Development Technology',
-        'skill-adaptation': 'Adaptation',
+        'resume-degree': 'Software Analysis and Development Technology',
+
+        // Soft Skills
+        'skill-adaptation': 'Adaptability',
         'skill-learning': 'Quick Learning',
         'skill-belonging': 'Sense of Belonging',
         'skill-responsibility': 'Responsibility',
-        'skill-punctuality': 'Puntualidad',
+        'skill-punctuality': 'Punctuality',
         'skill-communication': 'Communication',
         'skill-teamwork': 'Teamwork',
+
+        // Services
         'services-my': 'My',
         'services-title': 'Services',
-        'serv-data': 'Data Analysis',
-        'serv-data-desc': 'Extraction, cleaning, and visualization of data for strategic decision-making, using modern tools to find patterns and trends.',
-        'serv-sw': 'Software Development',
-        'serv-sw-desc': 'Creation of robust and scalable applications, for both desktop and web, focused on efficiency and user experience.',
+        'serv-auto': 'Automation & Low-Code',
+        'serv-auto-desc': 'Operational process optimization through agile platforms, workflow digitization, and manual friction reduction in business management.',
+        'serv-sw': 'Software Solutions Development',
+        'serv-sw-desc': 'Building robust, scalable web and desktop applications focused on operational efficiency (.NET, Node.js, Python), tailored to your business.',
+        'serv-mobile': 'Mobile Applications',
+        'serv-mobile-desc': 'Native and fluid cross-platform mobile development with Flutter and Dart, facilitating corporate mobility and field data capture.',
+        'serv-data': 'Architecture & Data Management',
+        'serv-data-desc': 'Structuring, safe storage, and availability of enterprise information with relational (SQL) and non-relational (NoSQL) schemas, traceability, and auditability.',
+        'serv-bi': 'Business Intelligence & Analytics',
+        'serv-bi-desc': 'Extraction, consolidation, and visualization of strategic metrics, finding key patterns and process optimizations with Python and data analytics.',
+        'serv-maint': 'Maintenance & Continuity',
+        'serv-maint-desc': 'Evolutionary maintenance, preventive diagnosis, and ongoing technical support on existing systems to ensure stability, speed, and long-term security.',
+        'serv-hw-title': 'Hardware Consulting & Architecture | High-Performance Builds',
+        'serv-hw-badge': 'Physical Infrastructure & Specialized Hardware',
+        'serv-hw-desc': 'Specialist in physical computing infrastructure and advanced hardware engineering to maximize thermal efficiency, benchmarking, and business continuity:',
+
+        // Portfolio & Projects
         'port-all': 'All',
         'port-web': 'Web',
         'port-mobile': 'Mobile',
         'port-ai': 'AI',
         'port-git-title': 'Explore my projects',
         'port-git-desc': 'I keep all my developments, experiments, and open-source solutions updated on my GitHub profile.',
+
+        // Metrics / Stats
         'stat-hours': 'Academic Hours',
         'stat-projects': 'GitHub Repositories',
         'stat-prompts': 'Executed Prompts',
         'stat-vibecoding': 'With awareness & professionalism',
         'stat-clients': 'Satisfaction',
-        'stat-coffee': 'Coffee Drunk',
-        'hire-title': 'Available for freelance projects or full-time employment',
-        'hire-btn': 'Hire me',
+        'stat-coffee': 'Coffee Cups Drunk',
+
+        // Forms & Contact
         'contact-form-title': 'Send a message',
         'contact-info-title': 'Get in touch',
         'form-success': 'Message sent successfully!',
@@ -147,7 +239,7 @@ const translations = {
         'form-sending': 'Sending...',
         'survey-title': 'Satisfaction Survey',
         'survey-name': 'Name',
-        'survey-project': 'Project handled',
+        'survey-project': 'Completed project',
         'survey-rating': 'Rating',
         'survey-comment': 'Comment',
         'survey-submit': 'Submit Rating'
@@ -158,16 +250,24 @@ let currentLang = localStorage.getItem('lang') || 'es';
 
 function setLanguage(lang) {
     currentLang = lang;
+    localStorage.setItem('lang', lang);
+
+    // 1. Actualizar textos estáticos según data-i18n
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
+        if (translations[lang] && translations[lang][key] !== undefined) {
             element.innerText = translations[lang][key];
         }
     });
-    document.getElementById('lang-toggle').innerText = lang === 'es' ? 'EN' : 'ES';
-    localStorage.setItem('lang', lang);
 
-    // Re-aplicar datos personalizados del CV para no sobreescribir ediciones
+    // 2. Actualizar botón de idioma
+    const langToggleBtn = document.getElementById('lang-toggle');
+    if (langToggleBtn) {
+        langToggleBtn.innerText = lang === 'es' ? 'EN' : 'ES';
+        langToggleBtn.title = lang === 'es' ? 'Cambiar a Inglés' : 'Switch to Spanish';
+    }
+
+    // 3. Re-aplicar datos dinámicos bilingües y banner de disponibilidad desde ViewController
     if (window.ViewController && typeof window.ViewController.applyCvDataToDOM === 'function') {
         window.ViewController.applyCvDataToDOM();
     }
@@ -177,7 +277,11 @@ document.getElementById('lang-toggle').addEventListener('click', function() {
     setLanguage(currentLang === 'es' ? 'en' : 'es');
 });
 
-// Load saved language
+// Exponer globalmente
+window.setLanguage = setLanguage;
+window.AppTranslations = translations;
+
+// Inicialización de idioma guardado
 setLanguage(currentLang);
 
 // Contact Form Handling

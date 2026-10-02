@@ -35,17 +35,26 @@
         LEGACY_PROFILE_DATA: 'cv_profile_data'
     };
 
-    // Estructura completa de datos por defecto con las 3 imágenes y switch
+    // Estructura completa de datos por defecto con las 3 imágenes, switch y bilingüismo nativo
     const DEFAULT_CV_DATA = {
         personal: {
             fullname: 'Christian Romero (ChrizDev)',
             displayName: 'Christian Romero',
-            jobTitle: 'Junior Software Developer especializado en IA y Automatización',
-            brandSubtitle: 'Analista de Datos | Desarrollador Junior',
-            bio: 'Transformo procesos complejos en soluciones digitales eficientes. Mi enfoque combina el desarrollo Full Stack con la implementación estratégica de IA (LLMs) y arquitecturas de datos robustas. Apasionado por la resiliencia del software y la ingeniería detrás de los datos legales.',
+            // Campos bilingües nativos
+            jobTitle_es: 'Junior Software Developer especializado en IA y Automatización',
+            jobTitle_en: 'Junior Software Developer specializing in AI and Automation',
+            jobTitle: 'Junior Software Developer especializado en IA y Automatización', // Retrocompatibilidad
+            brandSubtitle_es: 'Analista de Datos | Desarrollador Junior',
+            brandSubtitle_en: 'Data Analyst | Junior Developer',
+            brandSubtitle: 'Analista de Datos | Desarrollador Junior', // Retrocompatibilidad
+            bio_es: 'Transformo procesos complejos en soluciones digitales eficientes. Mi enfoque combina el desarrollo Full Stack con la implementación estratégica de IA (LLMs) y arquitecturas de datos robustas. Apasionado por la resiliencia del software y la ingeniería detrás de los datos legales.',
+            bio_en: 'I transform complex processes into efficient digital solutions. My approach combines Full Stack development with the strategic implementation of AI (LLMs) and robust data architectures. Passionate about software resilience and the engineering behind legal data.',
+            bio: 'Transformo procesos complejos en soluciones digitales eficientes. Mi enfoque combina el desarrollo Full Stack con la implementación estratégica de IA (LLMs) y arquitecturas de datos robustas. Apasionado por la resiliencia del software y la ingeniería detrás de los datos legales.', // Retrocompatibilidad
+            location_es: 'Medellín, Antioquia',
+            location_en: 'Medellín, Colombia',
+            location: 'Medellín, Antioquia', // Retrocompatibilidad
             email: 'christianjoroce@gmail.com',
             phone: '3183517802',
-            location: 'Medellín, Antioquia',
             portfolioUrl: 'https://my-app-s-portafolio-digital.vercel.app/',
             linkedinUrl: 'https://www.linkedin.com/in/christian-romero-5a9577145/',
             githubUrl: 'https://github.com/ChrisEna07',
@@ -58,7 +67,16 @@
         },
         availability: {
             isCurrentlyWorking: false, // false = Búsqueda activa / Freelance o laboral, true = Trabajando actualmente / Soluciones a medida
-            workingBannerText: '¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y sistemas de gestión administrativa personalizados para tiendas, firmas legales, cadenas comerciales o empresas de cualquier sector. Hablemos de tu proyecto.',
+            workingBannerText_es: '¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y herramientas de gestión empresarial para cualquier sector. Hablemos de tu proyecto.',
+            workingBannerText_en: 'Looking to digitalize your business or need a custom solution? I develop web applications, mobile platforms, and business management tools for any sector. Let\'s talk about your project.',
+            standardBannerText_es: 'Disponible para proyectos freelance o contrato laboral',
+            standardBannerText_en: 'Available for freelance projects or employment contract',
+            workingBtnText_es: 'Iniciar Proyecto',
+            workingBtnText_en: 'Start Project',
+            standardBtnText_es: 'Contrátame',
+            standardBtnText_en: 'Hire Me',
+            // Retrocompatibilidad
+            workingBannerText: '¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y herramientas de gestión empresarial para cualquier sector. Hablemos de tu proyecto.',
             standardBannerText: 'Disponible para proyectos freelance o contrato laboral',
             workingBtnText: 'Iniciar Proyecto',
             standardBtnText: 'Contrátame'
@@ -151,10 +169,38 @@
                 if (!personal.avatarWebUrl) personal.avatarWebUrl = personal.avatarUrl || DEFAULT_CV_DATA.personal.avatarWebUrl;
                 if (!personal.avatarResumeUrl) personal.avatarResumeUrl = DEFAULT_CV_DATA.personal.avatarResumeUrl;
 
+                // Normalización de campos bilingües nativos
+                if (!personal.jobTitle_es) personal.jobTitle_es = personal.jobTitle || DEFAULT_CV_DATA.personal.jobTitle_es;
+                if (!personal.jobTitle_en) personal.jobTitle_en = DEFAULT_CV_DATA.personal.jobTitle_en;
+                personal.jobTitle = personal.jobTitle_es;
+
+                if (!personal.brandSubtitle_es) personal.brandSubtitle_es = personal.brandSubtitle || DEFAULT_CV_DATA.personal.brandSubtitle_es;
+                if (!personal.brandSubtitle_en) personal.brandSubtitle_en = DEFAULT_CV_DATA.personal.brandSubtitle_en;
+                personal.brandSubtitle = personal.brandSubtitle_es;
+
+                if (!personal.bio_es) personal.bio_es = personal.bio || DEFAULT_CV_DATA.personal.bio_es;
+                if (!personal.bio_en) personal.bio_en = DEFAULT_CV_DATA.personal.bio_en;
+                personal.bio = personal.bio_es;
+
+                if (!personal.location_es) personal.location_es = personal.location || DEFAULT_CV_DATA.personal.location_es;
+                if (!personal.location_en) personal.location_en = DEFAULT_CV_DATA.personal.location_en;
+                personal.location = personal.location_es;
+
                 const availability = Object.assign({}, DEFAULT_CV_DATA.availability, parsed.availability || {});
                 if (parsed.personal && typeof parsed.personal.isCurrentlyWorking === 'boolean') {
                     availability.isCurrentlyWorking = parsed.personal.isCurrentlyWorking;
                 }
+
+                // Normalización bilingüe de textos de disponibilidad
+                if (!availability.workingBannerText_es) availability.workingBannerText_es = availability.workingBannerText || DEFAULT_CV_DATA.availability.workingBannerText_es;
+                if (!availability.workingBannerText_en) availability.workingBannerText_en = DEFAULT_CV_DATA.availability.workingBannerText_en;
+                if (!availability.standardBannerText_es) availability.standardBannerText_es = availability.standardBannerText || DEFAULT_CV_DATA.availability.standardBannerText_es;
+                if (!availability.standardBannerText_en) availability.standardBannerText_en = DEFAULT_CV_DATA.availability.standardBannerText_en;
+
+                if (!availability.workingBtnText_es) availability.workingBtnText_es = availability.workingBtnText || DEFAULT_CV_DATA.availability.workingBtnText_es;
+                if (!availability.workingBtnText_en) availability.workingBtnText_en = DEFAULT_CV_DATA.availability.workingBtnText_en;
+                if (!availability.standardBtnText_es) availability.standardBtnText_es = availability.standardBtnText || DEFAULT_CV_DATA.availability.standardBtnText_es;
+                if (!availability.standardBtnText_en) availability.standardBtnText_en = DEFAULT_CV_DATA.availability.standardBtnText_en;
 
                 return {
                     personal: personal,
@@ -227,22 +273,126 @@
     // -------------------------------------------------------------------------
     // 4. Sincronización Total con el DOM (Web & CV Imprimible)
     // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // 4. Sincronización Total con el DOM (Web & CV Imprimible)
+    // -------------------------------------------------------------------------
+    function applyHeroCoverImage(url) {
+        const headerBg = document.getElementById('display-header-bg') || document.querySelector('header.header');
+        if (!headerBg) return;
+
+        const defaultUrl = DEFAULT_CV_DATA.personal.bannerUrl || 'assets/imgs/header.jpg';
+        let cleanUrl = (url && typeof url === 'string') ? url.trim().replace(/\\/g, '/') : '';
+        if (!cleanUrl) cleanUrl = defaultUrl;
+
+        const imgTester = new Image();
+        imgTester.onload = function () {
+            headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${cleanUrl}")`;
+            headerBg.style.backgroundSize = 'cover';
+            headerBg.style.backgroundPosition = 'center';
+            headerBg.style.backgroundRepeat = 'no-repeat';
+        };
+        imgTester.onerror = function () {
+            console.warn('Imagen de portada no accesible:', cleanUrl, '. Usando imagen por defecto.');
+            headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${defaultUrl}")`;
+            headerBg.style.backgroundSize = 'cover';
+            headerBg.style.backgroundPosition = 'center';
+            headerBg.style.backgroundRepeat = 'no-repeat';
+        };
+        imgTester.src = cleanUrl;
+    }
+
+    function applyAvailabilityBannerToDOM(isWorking) {
+        const currentLang = localStorage.getItem('lang') || 'es';
+        const avail = (activeCvData && activeCvData.availability) ? activeCvData.availability : DEFAULT_CV_DATA.availability;
+        
+        const bannerTitleEl = document.getElementById('display-hire-title');
+        const bannerBtnEl = document.getElementById('display-hire-btn');
+        const heroBtnTextEl = document.getElementById('display-hero-hire-text');
+
+        const content = {
+            es: {
+                active: {
+                    banner: "Disponible para proyectos freelance o contrato laboral",
+                    btn: "Contrátame",
+                    heroBtn: "Contrátame",
+                    href: "#contact"
+                },
+                working: {
+                    banner: "¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y herramientas de gestión empresarial para cualquier sector. Hablemos de tu proyecto.",
+                    btn: "Iniciar Proyecto",
+                    heroBtn: "Iniciar Proyecto",
+                    href: "#contact"
+                }
+            },
+            en: {
+                active: {
+                    banner: "Available for freelance projects or employment contract",
+                    btn: "Hire Me",
+                    heroBtn: "Hire Me",
+                    href: "#contact"
+                },
+                working: {
+                    banner: "Looking to digitalize your business or need a custom solution? I develop web applications, mobile platforms, and business management tools for any sector. Let's talk about your project.",
+                    btn: "Start Project",
+                    heroBtn: "Start Project",
+                    href: "#contact"
+                }
+            }
+        };
+
+        const langData = content[currentLang] || content.es;
+        const item = isWorking ? langData.working : langData.active;
+
+        if (bannerTitleEl) {
+            bannerTitleEl.textContent = item.banner;
+        }
+        if (bannerBtnEl) {
+            bannerBtnEl.textContent = item.btn;
+            bannerBtnEl.setAttribute('href', item.href);
+        }
+        if (heroBtnTextEl) {
+            heroBtnTextEl.textContent = item.heroBtn;
+        }
+    }
+
+    function setAvailabilityState(isWorking, save = true) {
+        if (!activeCvData) activeCvData = getCvData();
+        activeCvData.availability.isCurrentlyWorking = isWorking;
+
+        const modalSwitch = document.getElementById('admin-switch-working-status');
+        if (modalSwitch) modalSwitch.checked = isWorking;
+
+        const quickSwitch = document.getElementById('admin-quick-switch-working');
+        if (quickSwitch) quickSwitch.checked = isWorking;
+
+        updateAvailabilityUI(isWorking);
+        applyAvailabilityBannerToDOM(isWorking);
+
+        if (save) {
+            saveCvData(activeCvData);
+            showToast(
+                isWorking 
+                    ? 'Disponibilidad: Soluciones de Negocio (ON)' 
+                    : 'Disponibilidad: Búsqueda Activa (OFF)', 
+                'info', 
+                3000
+            );
+        }
+    }
+
     function applyCvDataToDOM(data) {
         if (!data) data = getCvData();
         const p = data.personal || {};
         const avail = data.availability || DEFAULT_CV_DATA.availability;
         const edu = data.education || {};
         const exps = Array.isArray(data.experiences) ? data.experiences : [];
+        const currentLang = localStorage.getItem('lang') || 'es';
 
         // ---------------------------------------------------------------------
         // A. GESTIÓN INDEPENDIENTE DE IMÁGENES
         // ---------------------------------------------------------------------
-        // 1. Portada / Banner (Muro)
-        const bannerUrl = p.bannerUrl || 'assets/imgs/header.jpg';
-        const headerBg = document.getElementById('display-header-bg') || document.querySelector('header.header');
-        if (headerBg) {
-            headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("${bannerUrl}")`;
-        }
+        // 1. Portada / Banner (Muro) con verificación y fallback
+        applyHeroCoverImage(p.bannerUrl);
 
         // 2. Avatar de Presentación Web
         const avatarWebUrl = p.avatarWebUrl || p.avatarUrl || 'assets/imgs/avatar.jpg';
@@ -260,28 +410,10 @@
         // B. SWITCH DINÁMICO DE DISPONIBILIDAD LABORAL (BANNER CTA)
         // ---------------------------------------------------------------------
         const isWorking = avail.isCurrentlyWorking === true;
-        const hireTitleEl = document.getElementById('display-hire-title');
-        const hireBtnEl = document.getElementById('display-hire-btn');
-        const heroHireTextEl = document.getElementById('display-hero-hire-text');
-
-        if (hireTitleEl) {
-            hireTitleEl.textContent = isWorking 
-                ? (avail.workingBannerText || DEFAULT_CV_DATA.availability.workingBannerText)
-                : (avail.standardBannerText || DEFAULT_CV_DATA.availability.standardBannerText);
-        }
-
-        if (hireBtnEl) {
-            hireBtnEl.textContent = isWorking 
-                ? (avail.workingBtnText || DEFAULT_CV_DATA.availability.workingBtnText)
-                : (avail.standardBtnText || DEFAULT_CV_DATA.availability.standardBtnText);
-        }
-
-        if (heroHireTextEl) {
-            heroHireTextEl.textContent = isWorking ? 'Iniciar Proyecto' : 'Contrátame';
-        }
+        applyAvailabilityBannerToDOM(isWorking);
 
         // ---------------------------------------------------------------------
-        // C. DATOS PERSONALES & ENCABEZADOS
+        // C. DATOS PERSONALES & ENCABEZADOS (SOPORTE BILINGÜE ES / EN)
         // ---------------------------------------------------------------------
         const elHeaderName = document.getElementById('display-header-name');
         if (elHeaderName && p.fullname) elHeaderName.textContent = p.fullname;
@@ -295,20 +427,26 @@
         const elBrandName = document.getElementById('display-brand-name');
         if (elBrandName && (p.displayName || p.fullname)) elBrandName.textContent = p.displayName || p.fullname;
 
+        // Título Profesional Bilingüe
+        const activeTitle = (currentLang === 'en' ? p.jobTitle_en : p.jobTitle_es) || p.jobTitle || (currentLang === 'en' ? DEFAULT_CV_DATA.personal.jobTitle_en : DEFAULT_CV_DATA.personal.jobTitle_es);
         const elHeaderTitle = document.getElementById('display-header-title');
-        if (elHeaderTitle && p.jobTitle) elHeaderTitle.textContent = p.jobTitle;
+        if (elHeaderTitle) elHeaderTitle.textContent = activeTitle;
 
         const elResumeTitle = document.getElementById('display-resume-title');
-        if (elResumeTitle && p.jobTitle) elResumeTitle.textContent = p.jobTitle;
+        if (elResumeTitle) elResumeTitle.textContent = activeTitle;
 
+        // Especialidad / Subtítulo Navbar Bilingüe
+        const activeBrandSubtitle = (currentLang === 'en' ? p.brandSubtitle_en : p.brandSubtitle_es) || p.brandSubtitle || (currentLang === 'en' ? DEFAULT_CV_DATA.personal.brandSubtitle_en : DEFAULT_CV_DATA.personal.brandSubtitle_es);
         const elBrandTitle = document.getElementById('display-brand-title');
-        if (elBrandTitle && p.brandSubtitle) elBrandTitle.textContent = p.brandSubtitle;
+        if (elBrandTitle) elBrandTitle.textContent = activeBrandSubtitle;
 
+        // Biografía "¿Quién soy?" Bilingüe
+        const activeBio = (currentLang === 'en' ? p.bio_en : p.bio_es) || p.bio || (currentLang === 'en' ? DEFAULT_CV_DATA.personal.bio_en : DEFAULT_CV_DATA.personal.bio_es);
         const elAboutBio = document.getElementById('display-about-bio');
-        if (elAboutBio && p.bio) elAboutBio.textContent = p.bio;
+        if (elAboutBio) elAboutBio.textContent = activeBio;
 
         const elResumeBio = document.getElementById('display-resume-bio');
-        if (elResumeBio && p.bio) elResumeBio.textContent = p.bio;
+        if (elResumeBio) elResumeBio.textContent = activeBio;
 
         // Contacto
         const elPersonalEmail = document.getElementById('display-personal-email');
@@ -325,12 +463,14 @@
         const elResumePhone = document.getElementById('display-resume-phone');
         if (elResumePhone && p.phone) elResumePhone.textContent = p.phone;
 
+        // Ubicación Bilingüe
+        const activeLocation = (currentLang === 'en' ? p.location_en : p.location_es) || p.location || (currentLang === 'en' ? DEFAULT_CV_DATA.personal.location_en : DEFAULT_CV_DATA.personal.location_es);
         const elPersonalLoc = document.getElementById('display-personal-location');
-        if (elPersonalLoc && p.location) elPersonalLoc.textContent = p.location;
+        if (elPersonalLoc) elPersonalLoc.textContent = activeLocation;
         const elContactLoc = document.getElementById('display-contact-location');
-        if (elContactLoc && p.location) elContactLoc.textContent = p.location;
+        if (elContactLoc) elContactLoc.textContent = activeLocation;
         const elResumeLoc = document.getElementById('display-resume-location');
-        if (elResumeLoc && p.location) elResumeLoc.textContent = p.location;
+        if (elResumeLoc) elResumeLoc.textContent = activeLocation;
 
         // Enlaces
         if (p.portfolioUrl) {
@@ -593,18 +733,32 @@
             updateAvailabilityUI(switchWork.checked);
         }
 
-        // 3. Datos Personales
+        // 3. Datos Personales (Bilingües)
         setVal('admin-input-fullname', p.fullname);
         setVal('admin-input-displayname', p.displayName);
-        setVal('admin-input-jobtitle', p.jobTitle);
-        setVal('admin-input-brandtitle', p.brandSubtitle);
-        setVal('admin-input-bio', p.bio);
+
+        setVal('admin-input-jobtitle-es', p.jobTitle_es || p.jobTitle);
+        setVal('admin-input-jobtitle-en', p.jobTitle_en || DEFAULT_CV_DATA.personal.jobTitle_en);
+        setVal('admin-input-jobtitle', p.jobTitle_es || p.jobTitle);
+
+        setVal('admin-input-brandtitle-es', p.brandSubtitle_es || p.brandSubtitle);
+        setVal('admin-input-brandtitle-en', p.brandSubtitle_en || DEFAULT_CV_DATA.personal.brandSubtitle_en);
+        setVal('admin-input-brandtitle', p.brandSubtitle_es || p.brandSubtitle);
+
+        setVal('admin-input-bio-es', p.bio_es || p.bio);
+        setVal('admin-input-bio-en', p.bio_en || DEFAULT_CV_DATA.personal.bio_en);
+        setVal('admin-input-bio', p.bio_es || p.bio);
+
+        setVal('admin-input-location-es', p.location_es || p.location);
+        setVal('admin-input-location-en', p.location_en || DEFAULT_CV_DATA.personal.location_en);
+        setVal('admin-input-location', p.location_es || p.location);
+
         setVal('admin-input-email', p.email);
         setVal('admin-input-phone', p.phone);
-        setVal('admin-input-location', p.location);
         setVal('admin-input-portfolio', p.portfolioUrl);
         setVal('admin-input-linkedin', p.linkedinUrl);
         setVal('admin-input-github', p.githubUrl);
+        setVal('admin-input-whatsapp', p.whatsappUrl);
 
         // 4. Educación
         setVal('admin-input-edutitle', edu.title);
@@ -620,15 +774,21 @@
     function updateAvailabilityUI(isWorking) {
         const labelWork = document.getElementById('admin-label-working-status');
         const hintWork = document.getElementById('admin-availability-hint-text');
+        const statusDesc = document.getElementById('admin-availability-status-desc');
         if (labelWork) {
             labelWork.textContent = isWorking 
-                ? 'Trabajando Actualmente (Soluciones Corporativas)' 
+                ? 'Trabajando Actualmente (Soluciones de Negocio)' 
                 : 'Búsqueda Activa (Freelance o Laboral)';
+        }
+        if (statusDesc) {
+            statusDesc.textContent = isWorking
+                ? 'Modo corporativo: Enfocado en desarrollo de soluciones a medida para empresas y negocios.'
+                : 'Modo abierto: Abierto a proyectos freelance y ofertas de contratación laboral directa.';
         }
         if (hintWork) {
             hintWork.textContent = isWorking
-                ? 'Modo corporativo activo: El banner ofrecerá soluciones a medida para negocios ("¿Buscas digitalizar tu negocio...?") con botón "Iniciar Proyecto" (oculta contrato laboral).'
-                : 'Modo búsqueda activa: El banner ofrecerá proyectos freelance o contrato laboral con botón "Contrátame".';
+                ? 'Modo corporativo activo: El banner ofrecerá "¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y herramientas de gestión empresarial..." con botón "Iniciar Proyecto" (oculta contrato laboral).'
+                : 'Modo búsqueda activa: El banner ofrecerá "Disponible para proyectos freelance o contrato laboral" con botón "Contrátame".';
         }
     }
 
@@ -828,6 +988,9 @@
             const update = () => {
                 const url = inputEl.value.trim();
                 previewEl.src = url || defaultUrl;
+                if (inputId === 'admin-input-banner-url') {
+                    applyHeroCoverImage(url);
+                }
             };
 
             inputEl.addEventListener('input', update);
@@ -849,6 +1012,9 @@
                 btnReset.addEventListener('click', () => {
                     inputEl.value = defaultUrl;
                     previewEl.src = defaultUrl;
+                    if (inputId === 'admin-input-banner-url') {
+                        applyHeroCoverImage(defaultUrl);
+                    }
                     showToast('Imagen restaurada a la original por defecto.', 'info');
                 });
             }
@@ -878,11 +1044,11 @@
             DEFAULT_CV_DATA.personal.avatarResumeUrl
         );
 
-        // Switch de Disponibilidad Laboral Listener
+        // Switch de Disponibilidad Laboral Listener - Reactividad Bidireccional Inmediata
         const switchWork = document.getElementById('admin-switch-working-status');
         if (switchWork) {
             switchWork.addEventListener('change', function () {
-                updateAvailabilityUI(this.checked);
+                setAvailabilityState(this.checked, true);
             });
         }
 
@@ -900,20 +1066,37 @@
                 const swWorking = document.getElementById('admin-switch-working-status');
                 const isWorkingChecked = swWorking ? swWorking.checked : false;
 
-                // 1. Recoger Imágenes Desacopladas y Datos Personales
+                // 1. Recoger Imágenes Desacopladas y Datos Personales (Bilingües)
+                const jobTitleEs = getVal('admin-input-jobtitle-es') || getVal('admin-input-jobtitle') || DEFAULT_CV_DATA.personal.jobTitle_es;
+                const jobTitleEn = getVal('admin-input-jobtitle-en') || DEFAULT_CV_DATA.personal.jobTitle_en;
+                const brandSubtitleEs = getVal('admin-input-brandtitle-es') || getVal('admin-input-brandtitle') || DEFAULT_CV_DATA.personal.brandSubtitle_es;
+                const brandSubtitleEn = getVal('admin-input-brandtitle-en') || DEFAULT_CV_DATA.personal.brandSubtitle_en;
+                const bioEs = getVal('admin-input-bio-es') || getVal('admin-input-bio') || DEFAULT_CV_DATA.personal.bio_es;
+                const bioEn = getVal('admin-input-bio-en') || DEFAULT_CV_DATA.personal.bio_en;
+                const locationEs = getVal('admin-input-location-es') || getVal('admin-input-location') || DEFAULT_CV_DATA.personal.location_es;
+                const locationEn = getVal('admin-input-location-en') || DEFAULT_CV_DATA.personal.location_en;
+
                 activeCvData.personal = {
                     fullname: getVal('admin-input-fullname', DEFAULT_CV_DATA.personal.fullname),
                     displayName: getVal('admin-input-displayname', DEFAULT_CV_DATA.personal.displayName),
-                    jobTitle: getVal('admin-input-jobtitle', DEFAULT_CV_DATA.personal.jobTitle),
-                    brandSubtitle: getVal('admin-input-brandtitle', DEFAULT_CV_DATA.personal.brandSubtitle),
-                    bio: getVal('admin-input-bio', DEFAULT_CV_DATA.personal.bio),
+                    jobTitle_es: jobTitleEs,
+                    jobTitle_en: jobTitleEn,
+                    jobTitle: jobTitleEs,
+                    brandSubtitle_es: brandSubtitleEs,
+                    brandSubtitle_en: brandSubtitleEn,
+                    brandSubtitle: brandSubtitleEs,
+                    bio_es: bioEs,
+                    bio_en: bioEn,
+                    bio: bioEs,
+                    location_es: locationEs,
+                    location_en: locationEn,
+                    location: locationEs,
                     email: getVal('admin-input-email', DEFAULT_CV_DATA.personal.email),
                     phone: getVal('admin-input-phone', DEFAULT_CV_DATA.personal.phone),
-                    location: getVal('admin-input-location', DEFAULT_CV_DATA.personal.location),
                     portfolioUrl: getVal('admin-input-portfolio', DEFAULT_CV_DATA.personal.portfolioUrl),
                     linkedinUrl: getVal('admin-input-linkedin', DEFAULT_CV_DATA.personal.linkedinUrl),
                     githubUrl: getVal('admin-input-github', DEFAULT_CV_DATA.personal.githubUrl),
-                    whatsappUrl: activeCvData.personal.whatsappUrl || DEFAULT_CV_DATA.personal.whatsappUrl,
+                    whatsappUrl: getVal('admin-input-whatsapp', activeCvData.personal.whatsappUrl || DEFAULT_CV_DATA.personal.whatsappUrl),
                     bannerUrl: getVal('admin-input-banner-url', DEFAULT_CV_DATA.personal.bannerUrl),
                     avatarWebUrl: getVal('admin-input-avatar-web-url', DEFAULT_CV_DATA.personal.avatarWebUrl),
                     avatarResumeUrl: getVal('admin-input-avatar-resume-url', DEFAULT_CV_DATA.personal.avatarResumeUrl),
@@ -923,6 +1106,14 @@
                 // 2. Disponibilidad
                 activeCvData.availability = {
                     isCurrentlyWorking: isWorkingChecked,
+                    workingBannerText_es: DEFAULT_CV_DATA.availability.workingBannerText_es,
+                    workingBannerText_en: DEFAULT_CV_DATA.availability.workingBannerText_en,
+                    standardBannerText_es: DEFAULT_CV_DATA.availability.standardBannerText_es,
+                    standardBannerText_en: DEFAULT_CV_DATA.availability.standardBannerText_en,
+                    workingBtnText_es: DEFAULT_CV_DATA.availability.workingBtnText_es,
+                    workingBtnText_en: DEFAULT_CV_DATA.availability.workingBtnText_en,
+                    standardBtnText_es: DEFAULT_CV_DATA.availability.standardBtnText_es,
+                    standardBtnText_en: DEFAULT_CV_DATA.availability.standardBtnText_en,
                     workingBannerText: DEFAULT_CV_DATA.availability.workingBannerText,
                     standardBannerText: DEFAULT_CV_DATA.availability.standardBannerText,
                     workingBtnText: DEFAULT_CV_DATA.availability.workingBtnText,
@@ -1158,14 +1349,11 @@
             const btnOpenModalFromQuick = document.getElementById('admin-btn-open-modal-from-quick');
             if (btnOpenModalFromQuick) btnOpenModalFromQuick.addEventListener('click', openCvManagerModal);
 
-            // Quick Switch Trabajando Listener
+            // Quick Switch Trabajando Listener - Reactividad Bidireccional
             const quickSwitch = document.getElementById('admin-quick-switch-working');
             if (quickSwitch) {
                 quickSwitch.addEventListener('change', function () {
-                    const current = getCvData();
-                    current.availability.isCurrentlyWorking = this.checked;
-                    saveCvData(current);
-                    showToast(this.checked ? 'Disponibilidad: Trabajando (Enfoque Corporativo)' : 'Disponibilidad: Búsqueda Activa (Freelance o Laboral)', 'info');
+                    setAvailabilityState(this.checked, true);
                 });
             }
 
@@ -1553,7 +1741,10 @@
         getCvData: getCvData,
         saveCvData: saveCvData,
         resetCvData: resetCvData,
-        applyCvDataToDOM: applyCvDataToDOM
+        applyCvDataToDOM: applyCvDataToDOM,
+        applyHeroCoverImage: applyHeroCoverImage,
+        setAvailabilityState: setAvailabilityState,
+        applyAvailabilityBannerToDOM: applyAvailabilityBannerToDOM
     };
 
 })();

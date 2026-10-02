@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,12 +22,12 @@
     <div id="recruiter-mode-banner" class="recruiter-mode-banner view-recruiter" style="display: none;">
         <div class="container d-flex justify-content-between align-items-center py-1 flex-wrap">
             <div class="d-flex align-items-center">
-                <span class="badge-recruiter"><i class="ti-briefcase mr-1"></i>Modo Empresa</span>
-                <span class="banner-text">Visualizando experiencia laboral completa, enlaces a repositorios y descarga de CV.</span>
+                <span class="badge-recruiter"><i class="ti-briefcase mr-1"></i><span data-i18n="recruiter-banner-badge">Modo Empresa</span></span>
+                <span class="banner-text" data-i18n="recruiter-banner-text">Visualizando experiencia laboral completa, enlaces a repositorios y descarga de CV.</span>
             </div>
             <div class="d-flex align-items-center mt-2 mt-md-0">
                 <button id="btn-exit-recruiter" class="btn btn-exit-recruiter" title="Cambiar a Vista Pública">
-                    <i class="ti-world mr-1"></i> Vista Pública
+                    <i class="ti-world mr-1"></i> <span data-i18n="recruiter-btn-public">Vista Pública</span>
                 </button>
             </div>
         </div>
@@ -47,8 +47,8 @@
             <div class="header-content">
                 <h4 class="header-subtitle" data-i18n="header-hello">Hola, soy</h4>
                 <h1 class="header-title" id="display-header-name">Christian Romero (ChrizDev)</h1>
-                <h6 class="header-mono" id="display-header-title" data-i18n="header-title">Junior Software Developer especializado en IA y Automatización.</h6>
-                <a href="resumen.html" class="btn btn-outline-light btn-rounded view-recruiter"><i class="ti-printer pr-2"></i>Imprimir CV</a>
+                <h6 class="header-mono" id="display-header-title">Junior Software Developer especializado en IA y Automatización.</h6>
+                <a href="resumen.html" class="btn btn-outline-light btn-rounded view-recruiter"><i class="ti-printer pr-2"></i><span data-i18n="btn-print-cv">Imprimir CV</span></a>
                 <a href="#contact" class="btn btn-primary btn-rounded btn-pulse ml-md-2 mt-2 mt-md-0" id="display-hero-hire-btn"><i class="ti-envelope pr-2"></i><span id="display-hero-hire-text">Contrátame</span></a>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href="#portfolio" class="nav-link">Portafolio</a>
+                        <a href="#portfolio" class="nav-link" data-i18n="nav-portfolio">Portafolio</a>
                     </li>
                     <li class="nav-item last-item">
                         <a href="#contact" class="nav-link" data-i18n="nav-contact">Contacto</a>
@@ -104,20 +104,20 @@
                 <span class="line mb-5"></span>
                 <h5 class="mb-3" data-i18n="about-tagline">Un apasionado por la tecnología con enfoque en soluciones
                     para el cliente</h5>
-                <p class="mt-20" id="display-about-bio" data-i18n="about-description">Transformo procesos complejos en soluciones digitales eficientes. Mi enfoque combina el desarrollo Full Stack con la implementación estratégica de IA (LLMs) y arquitecturas de datos robustas. Apasionado por la resiliencia del software y la ingeniería detrás de los datos legales.</p>
-                <a href="resumen.html" class="btn btn-outline-danger view-recruiter"><i class="ti-download pr-2"></i>Descargar CV</a>
+                <p class="mt-20" id="display-about-bio">Transformo procesos complejos en soluciones digitales eficientes. Mi enfoque combina el desarrollo Full Stack con la implementación estratégica de IA (LLMs) y arquitecturas de datos robustas. Apasionado por la resiliencia del software y la ingeniería detrás de los datos legales.</p>
+                <a href="resumen.html" class="btn btn-outline-danger view-recruiter"><i class="ti-download pr-2"></i><span data-i18n="btn-download-cv">Descargar CV</span></a>
             </div>
             <div class="col-lg-4 about-card">
                 <h3 class="font-weight-light" data-i18n="about-personal">Información Personal</h3>
                 <span class="line mb-5"></span>
                 <ul class="mt40 info list-unstyled">
-                    <li class="view-recruiter"><span>Cédula</span> : 1042467485 (Barranquilla)</li>
-                    <li class="view-recruiter"><span>Licencia de Conducción</span> : A2, B1, B2</li>
-                    <li class="view-recruiter"><span>Pasaporte</span> : Sí (Disponible para viajar)</li>
-                    <li><span>Email</span> : <span id="display-personal-email">christianjoroce@gmail.com</span></li>
-                    <li><span>Teléfono</span> : <span id="display-personal-phone">3183517802</span></li>
-                    <li><span>Ubicación</span> : <span id="display-personal-location">Medellín, Antioquia</span></li>
-                    <li><span>Portafolio Apps</span> : <a id="display-personal-portfolio" href="https://my-app-s-portafolio-digital.vercel.app/" target="_blank" style="color: #F85C70; font-weight: 600;">Ver Portafolio de Apps</a></li>
+                    <li class="view-recruiter"><span data-i18n="personal-id">Cédula</span> : 1042467485 (Barranquilla)</li>
+                    <li class="view-recruiter"><span data-i18n="personal-license">Licencia de Conducción</span> : A2, B1, B2</li>
+                    <li class="view-recruiter"><span data-i18n="personal-passport">Pasaporte</span> : <span data-i18n="personal-travel">Sí (Disponible para viajar)</span></li>
+                    <li><span data-i18n="personal-email">Email</span> : <span id="display-personal-email">christianjoroce@gmail.com</span></li>
+                    <li><span data-i18n="personal-phone">Teléfono</span> : <span id="display-personal-phone">3183517802</span></li>
+                    <li><span data-i18n="personal-location">Ubicación</span> : <span id="display-personal-location">Medellín, Antioquia</span></li>
+                    <li><span data-i18n="personal-apps">Portafolio Apps</span> : <a id="display-personal-portfolio" href="https://my-app-s-portafolio-digital.vercel.app/" target="_blank" style="color: #F85C70; font-weight: 600;" data-i18n="personal-apps-link">Ver Portafolio de Apps</a></li>
                 </ul>
                 <ul class="social-icons pt-3">
                     <li class="social-item"><a class="social-link" id="display-about-whatsapp" href="https://wa.link/o6m42i" target="_blank"><i
@@ -153,8 +153,8 @@
                                 <div class="row">
                     <div class="col-1 text-danger pt-1"><i class="ti-harddrives icon-lg"></i></div>
                     <div class="col-10 ml-auto mr-3">
-                        <h6>Arquitectura de Hardware</h6>
-                        <p class="subtitle">Ensambles de alto rendimiento, optimización térmica y diagnóstico a nivel de componentes.</p>
+                        <h6 data-i18n="exp-hw">Arquitectura de Hardware</h6>
+                        <p class="subtitle" data-i18n="exp-hw-desc">Ensambles de alto rendimiento, optimización térmica y diagnóstico a nivel de componentes.</p>
                         <hr>
                     </div>
                 </div>
@@ -559,8 +559,8 @@
                             <i class="ti-bolt text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Automatización & Low-Code</h5>
-                            <p class="subtitle">Optimización de procesos operativos mediante plataformas de desarrollo ágil, digitalización de flujos de trabajo y reducción de fricción manual en la gestión empresarial.</p>
+                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-auto">Automatización & Low-Code</h5>
+                            <p class="subtitle" data-i18n="serv-auto-desc">Optimización de procesos operativos mediante plataformas de desarrollo ágil, digitalización de flujos de trabajo y reducción de fricción manual en la gestión empresarial.</p>
                         </div>
                     </div>
                 </div>
@@ -571,8 +571,8 @@
                             <i class="ti-desktop text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Desarrollo de Soluciones de Software</h5>
-                            <p class="subtitle">Creación de aplicaciones web y de escritorio robustas, escalables y orientadas a la eficiencia operativa (.NET, Node.js, Python), diseñadas a la medida del negocio.</p>
+                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-sw">Desarrollo de Soluciones de Software</h5>
+                            <p class="subtitle" data-i18n="serv-sw-desc">Creación de aplicaciones web y de escritorio robustas, escalables y orientadas a la eficiencia operativa (.NET, Node.js, Python), diseñadas a la medida del negocio.</p>
                         </div>
                     </div>
                 </div>
@@ -583,8 +583,8 @@
                             <i class="ti-mobile text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Aplicaciones Móviles</h5>
-                            <p class="subtitle">Desarrollo de herramientas móviles multiplataforma nativas y fluidas con Flutter y Dart, facilitando la movilidad corporativa y la captura de datos en campo.</p>
+                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-mobile">Aplicaciones Móviles</h5>
+                            <p class="subtitle" data-i18n="serv-mobile-desc">Desarrollo de herramientas móviles multiplataforma nativas y fluidas con Flutter y Dart, facilitando la movilidad corporativa y la captura de datos en campo.</p>
                         </div>
                     </div>
                 </div>
@@ -595,8 +595,8 @@
                             <i class="ti-server text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Arquitectura & Gestión de Datos</h5>
-                            <p class="subtitle">Estructuración, almacenamiento seguro y disponibilidad de información empresarial mediante esquemas relacionales (SQL) y no relacionales (NoSQL), trazabilidad y auditoría.</p>
+                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-data">Arquitectura & Gestión de Datos</h5>
+                            <p class="subtitle" data-i18n="serv-data-desc">Estructuración, almacenamiento seguro y disponibilidad de información empresarial mediante esquemas relacionales (SQL) y no relacionales (NoSQL), trazabilidad y auditoría.</p>
                         </div>
                     </div>
                 </div>
@@ -607,8 +607,8 @@
                             <i class="ti-bar-chart text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Business Intelligence & Análisis</h5>
-                            <p class="subtitle">Extracción, consolidación y visualización de métricas para la toma de decisiones estratégicas, detectando patrones clave y optimizaciones mediante Python y analítica.</p>
+                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-bi">Business Intelligence & Análisis</h5>
+                            <p class="subtitle" data-i18n="serv-bi-desc">Extracción, consolidación y visualización de métricas para la toma de decisiones estratégicas, detectando patrones clave y optimizaciones mediante Python y analítica.</p>
                         </div>
                     </div>
                 </div>
@@ -619,27 +619,27 @@
                             <i class="ti-settings text-danger" aria-hidden="true"></i>
                         </div>
                         <div class="card-body px-4 py-3">
-                            <h5 class="mb-3 card-title text-dark">Mantenimiento & Continuidad</h5>
-                            <p class="subtitle">Actualización evolutiva, diagnóstico preventivo y soporte técnico continuo sobre sistemas existentes para garantizar su estabilidad, rapidez y seguridad a largo plazo.</p>
+                            <h5 class="mb-3 card-title text-dark" data-i18n="serv-maint">Mantenimiento & Continuidad</h5>
+                            <p class="subtitle" data-i18n="serv-maint-desc">Actualización evolutiva, diagnóstico preventivo y soporte técnico continuo sobre sistemas existentes para garantizar su estabilidad, rapidez y seguridad a largo plazo.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-                            <!-- SERVICIO ESPECIALIZADO: CONSULTORÍA & ARQUITECTURA DE HARDWARE -->
-                <div class="col-12 mb-4">
-                    <div class="card h-100 shadow-sm" style="border-left: 4px solid #F85C70; background: linear-gradient(135deg, rgba(248, 92, 112, 0.05) 0%, rgba(15, 23, 42, 0.02) 100%);">
-                        <div class="card-body p-4">
-                            <div class="d-flex align-items-center mb-3 flex-wrap" style="gap: 12px;">
-                                <div class="rounded-circle p-2 d-flex align-items-center justify-content-center" style="background: rgba(248, 92, 112, 0.15); width: 45px; height: 45px;">
-                                    <i class="ti-harddrives text-danger" style="font-size: 1.3rem;"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-0 card-title text-dark font-weight-bold">Consultoría & Arquitectura de Hardware | Ensambles de Alto Rendimiento</h5>
-                                    <span class="badge badge-danger px-2 py-1" style="font-size: 0.72rem; background: #F85C70;">Infraestructura Física & Hardware Especializado</span>
-                                </div>
+            <!-- SERVICIO ESPECIALIZADO: CONSULTORÍA & ARQUITECTURA DE HARDWARE -->
+            <div class="col-12 mb-4">
+                <div class="card h-100 shadow-sm" style="border-left: 4px solid #F85C70; background: linear-gradient(135deg, rgba(248, 92, 112, 0.05) 0%, rgba(15, 23, 42, 0.02) 100%);">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3 flex-wrap" style="gap: 12px;">
+                            <div class="rounded-circle p-2 d-flex align-items-center justify-content-center" style="background: rgba(248, 92, 112, 0.15); width: 45px; height: 45px;">
+                                <i class="ti-harddrives text-danger" style="font-size: 1.3rem;"></i>
                             </div>
-                            <p class="subtitle mb-3 text-muted">Especialista en infraestructura física de cómputo y soluciones avanzadas de ingeniería de hardware para maximizar la eficiencia térmica, benchmarking y continuidad operativa:</p>
+                            <div>
+                                <h5 class="mb-0 card-title text-dark font-weight-bold" data-i18n="serv-hw-title">Consultoría & Arquitectura de Hardware | Ensambles de Alto Rendimiento</h5>
+                                <span class="badge badge-danger px-2 py-1" style="font-size: 0.72rem; background: #F85C70;" data-i18n="serv-hw-badge">Infraestructura Física & Hardware Especializado</span>
+                            </div>
+                        </div>
+                        <p class="subtitle mb-3 text-muted" data-i18n="serv-hw-desc">Especialista en infraestructura física de cómputo y soluciones avanzadas de ingeniería de hardware para maximizar la eficiencia térmica, benchmarking y continuidad operativa:</p>
                             <div class="row">
                                 <div class="col-md-6 mb-2">
                                     <div class="d-flex align-items-start">
@@ -778,9 +778,8 @@
 
     <section class="section bg-dark py-5" id="cta-hire-section">
         <div class="container text-center">
-            <h2 class="text-light mb-4 font-weight-normal" id="display-hire-title" data-i18n="hire-title" style="max-width: 900px; margin: 0 auto; line-height: 1.5;">Disponible para proyectos freelance o
-                contrato laboral</h2>
-            <a href="#contact" class="btn bg-primary w-lg" id="display-hire-btn" data-i18n="hire-btn">Contrátame</a>
+            <h2 class="text-light mb-4 font-weight-normal" id="display-hire-title" style="max-width: 900px; margin: 0 auto; line-height: 1.5;">Disponible para proyectos freelance o contrato laboral</h2>
+            <a href="#contact" class="btn bg-primary w-lg" id="display-hire-btn">Contrátame</a>
         </div>
     </section>
 
@@ -1054,7 +1053,7 @@
 
         <!-- Admin CV Manager Modal (Gestión Total de Portafolio y CV) -->
     <div class="modal fade admin-modal" id="admin-cv-manager-modal" tabindex="-1" role="dialog" aria-labelledby="adminCvManagerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="adminCvManagerModalLabel">
@@ -1172,52 +1171,126 @@
                                         </span>
                                     </div>
                                 </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Nombre Completo</label>
-                                        <input type="text" id="admin-input-fullname" class="form-control" placeholder="Christian Romero (ChrizDev)" required>
+                                <!-- SECCIÓN 3: DATOS PERSONALES & CONFIGURACIÓN BILINGÜE (ES / EN) -->
+                                <div class="admin-personal-fields p-3 rounded" style="background: rgba(255,255,255,0.02); border: 1px solid #334155;">
+                                    <label class="form-label font-weight-bold d-block text-light mb-3">
+                                        <i class="ti-id-badge text-danger mr-1"></i> Perfil Profesional y Textos Dinámicos Bilingües (ES / EN)
+                                    </label>
+
+                                    <!-- Nombres -->
+                                    <div class="row mb-2">
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label">Nombre Completo</label>
+                                            <input type="text" id="admin-input-fullname" class="form-control" placeholder="Christian Romero (ChrizDev)" required>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label">Nombre Corto / Marca</label>
+                                            <input type="text" id="admin-input-displayname" class="form-control" placeholder="Christian Romero">
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Nombre Corto / Marca</label>
-                                        <input type="text" id="admin-input-displayname" class="form-control" placeholder="Christian Romero">
+
+                                    <!-- Título Profesional Bilingüe -->
+                                    <div class="row mb-2">
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>Título Profesional (Header & CV)</span>
+                                                <span class="badge-lang badge-lang-es">ES</span>
+                                            </label>
+                                            <input type="text" id="admin-input-jobtitle-es" class="form-control" placeholder="Junior Software Developer especializado en IA y Automatización" required>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>Professional Title (Header & CV)</span>
+                                                <span class="badge-lang badge-lang-en">EN</span>
+                                            </label>
+                                            <input type="text" id="admin-input-jobtitle-en" class="form-control" placeholder="Junior Software Developer specialized in AI & Automation" required>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Título Profesional (Header & CV)</label>
-                                        <input type="text" id="admin-input-jobtitle" class="form-control" placeholder="Junior Software Developer especializado en IA y Automatización" required>
+
+                                    <!-- Especialidad / Subtítulo Bilingüe -->
+                                    <div class="row mb-2">
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>Especialidad / Subtítulo Navbar</span>
+                                                <span class="badge-lang badge-lang-es">ES</span>
+                                            </label>
+                                            <input type="text" id="admin-input-brandtitle-es" class="form-control" placeholder="Analista de Datos | Desarrollador Junior">
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>Specialty / Navbar Subtitle</span>
+                                                <span class="badge-lang badge-lang-en">EN</span>
+                                            </label>
+                                            <input type="text" id="admin-input-brandtitle-en" class="form-control" placeholder="Data Analyst | Junior Developer">
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Especialidad / Subtítulo Navbar</label>
-                                        <input type="text" id="admin-input-brandtitle" class="form-control" placeholder="Analista de Datos | Desarrollador Junior">
+
+                                    <!-- Biografía / Resumen Bilingüe (Who am I?) -->
+                                    <div class="row mb-2">
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>Biografía / "¿Quién Soy?" (Perfil Web & CV)</span>
+                                                <span class="badge-lang badge-lang-es">ES</span>
+                                            </label>
+                                            <textarea id="admin-input-bio-es" class="form-control" rows="4" placeholder="Describe tu perfil y propuesta de valor profesional en español..."></textarea>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>Biography / "Who Am I?" (Web & CV Profile)</span>
+                                                <span class="badge-lang badge-lang-en">EN</span>
+                                            </label>
+                                            <textarea id="admin-input-bio-en" class="form-control" rows="4" placeholder="Describe your profile and value proposition in English..."></textarea>
+                                        </div>
                                     </div>
-                                    <div class="col-12 form-group">
-                                        <label class="form-label">Biografía / Resumen Ejecutivo</label>
-                                        <textarea id="admin-input-bio" class="form-control" rows="3" placeholder="Describe tu perfil y propuesta de valor profesional..."></textarea>
+
+                                    <!-- Ubicación Bilingüe -->
+                                    <div class="row mb-2">
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>Ciudad / Ubicación</span>
+                                                <span class="badge-lang badge-lang-es">ES</span>
+                                            </label>
+                                            <input type="text" id="admin-input-location-es" class="form-control" placeholder="Medellín, Antioquia, Colombia">
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>City / Location</span>
+                                                <span class="badge-lang badge-lang-en">EN</span>
+                                            </label>
+                                            <input type="text" id="admin-input-location-en" class="form-control" placeholder="Medellin, Antioquia, Colombia">
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Correo Electrónico</label>
-                                        <input type="email" id="admin-input-email" class="form-control" placeholder="christianjoroce@gmail.com">
+
+                                    <!-- Contacto y Redes Sociales (3 Columnas en Desktop) -->
+                                    <div class="row mb-2">
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label"><i class="ti-email text-danger mr-1"></i> Correo Electrónico</label>
+                                            <input type="email" id="admin-input-email" class="form-control" placeholder="christianjoroce@gmail.com">
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label"><i class="ti-mobile text-danger mr-1"></i> Teléfono Móvil</label>
+                                            <input type="text" id="admin-input-phone" class="form-control" placeholder="3183517802">
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label"><i class="ti-comment-alt text-success mr-1"></i> Enlace WhatsApp</label>
+                                            <input type="url" id="admin-input-whatsapp" class="form-control" placeholder="https://wa.link/...">
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Teléfono / WhatsApp</label>
-                                        <input type="text" id="admin-input-phone" class="form-control" placeholder="3183517802">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Ciudad / Ubicación</label>
-                                        <input type="text" id="admin-input-location" class="form-control" placeholder="Medellín, Antioquia">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Enlace de Portafolio</label>
-                                        <input type="url" id="admin-input-portfolio" class="form-control" placeholder="https://my-app-s-portafolio-digital.vercel.app/">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Enlace a LinkedIn</label>
-                                        <input type="url" id="admin-input-linkedin" class="form-control" placeholder="https://www.linkedin.com/in/christian-romero-5a9577145/">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Enlace a GitHub</label>
-                                        <input type="url" id="admin-input-github" class="form-control" placeholder="https://github.com/ChrisEna07">
+
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label"><i class="ti-world text-danger mr-1"></i> Enlace de Portafolio</label>
+                                            <input type="url" id="admin-input-portfolio" class="form-control" placeholder="https://my-app-s-portafolio-digital.vercel.app/">
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label"><i class="ti-linkedin text-info mr-1"></i> Enlace a LinkedIn</label>
+                                            <input type="url" id="admin-input-linkedin" class="form-control" placeholder="https://www.linkedin.com/in/christian-romero-5a9577145/">
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label"><i class="ti-github text-light mr-1"></i> Enlace a GitHub</label>
+                                            <input type="url" id="admin-input-github" class="form-control" placeholder="https://github.com/ChrisEna07">
+                                        </div>
                                     </div>
                                 </div>
                             </form>

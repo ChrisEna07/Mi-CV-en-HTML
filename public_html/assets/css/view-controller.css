@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    VIEW CONTROLLER STYLES (Control de Audiencia & Administración)
    Christian Romero Portfolio/CV
    ========================================================================== */
@@ -703,3 +703,150 @@ body.mode-public .portfolio-col-apps {
 #display-hire-btn, #display-hero-hire-btn {
     transition: all 0.25s ease;
 }
+
+/* ==========================================================================
+   4. MODAL CHRIZDEV: RESPONSIVIDAD Y DIMENSIONES OPTIMIZADAS (DESKTOP & MOBILE)
+   ========================================================================== */
+
+/* Estilos de imagen de Portada / Muro en Hero */
+.header#display-header-bg {
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    transition: background-image 0.4s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .header#display-header-bg {
+        background-attachment: scroll !important; /* Corrige renderizado en navegadores móviles */
+    }
+}
+
+/* Modal ChrizDev - Base */
+#admin-cv-manager-modal .modal-dialog {
+    transition: all 0.3s ease-out;
+}
+
+#admin-cv-manager-modal .modal-content {
+    background: #13171f;
+    border: 1px solid rgba(248, 92, 112, 0.4);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* Badges de idioma para inputs bilingües */
+.badge-lang {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.badge-lang-es {
+    background: rgba(248, 92, 112, 0.2);
+    color: #F85C70;
+    border: 1px solid rgba(248, 92, 112, 0.4);
+}
+.badge-lang-en {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+/* Pestañas del Modal */
+.admin-nav-pills .nav-link {
+    background: #1e2229;
+    color: #94a3b8;
+    border: 1px solid #334155;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+}
+
+.admin-nav-pills .nav-link:hover {
+    color: #ffffff;
+    border-color: #F85C70;
+}
+
+.admin-nav-pills .nav-link.active {
+    background: #F85C70 !important;
+    color: #ffffff !important;
+    border-color: #F85C70 !important;
+    box-shadow: 0 4px 12px rgba(248, 92, 112, 0.35);
+}
+
+/* En pantallas de escritorio grandes (>= 1024px) */
+@media (min-width: 1024px) {
+    #admin-cv-manager-modal .modal-dialog {
+        max-width: 1200px !important;
+        width: 90vw !important;
+        margin: 2rem auto !important;
+    }
+
+    #admin-cv-manager-modal .modal-content {
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        border-radius: 16px;
+    }
+
+    #admin-cv-manager-modal .modal-body {
+        max-height: calc(88vh - 145px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 2rem 2.5rem !important;
+    }
+
+    /* Grid bilingüe de 2 columnas lado a lado */
+    .admin-bilingual-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+    }
+
+    /* Grid de 3 columnas para configuración y contacto */
+    .admin-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+
+    .admin-grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* En pantallas móviles y tablets (< 1024px) */
+@media (max-width: 1023.98px) {
+    #admin-cv-manager-modal .modal-dialog {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        margin: 0.75rem auto !important;
+    }
+
+    #admin-cv-manager-modal .modal-content {
+        max-height: 94vh;
+        border-radius: 12px;
+    }
+
+    #admin-cv-manager-modal .modal-body {
+        max-height: calc(94vh - 135px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 1.25rem 1rem !important;
+    }
+
+    .admin-bilingual-grid,
+    .admin-grid-3,
+    .admin-grid-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
