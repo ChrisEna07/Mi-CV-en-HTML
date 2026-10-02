@@ -669,3 +669,37 @@ body.mode-public .portfolio-col-apps {
 .cursor-pointer {
     cursor: pointer;
 }
+
+/* ==========================================================================
+   ESTILOS EXPANDIDOS: INDEPENDENCIA DE IMÁGENES Y SWITCH DE DISPONIBILIDAD
+   ========================================================================== */
+.admin-photo-section {
+    transition: border-color 0.2s ease;
+}
+
+.custom-switch .custom-control-label::before {
+    background-color: #334155;
+    border-color: #475569;
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #F85C70;
+    border-color: #F85C70;
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+    background-color: #ffffff;
+}
+
+.admin-availability-section {
+    transition: all 0.25s ease;
+}
+
+/* Transición suave para banner de hire me */
+#display-hire-title {
+    transition: opacity 0.3s ease;
+}
+
+#display-hire-btn, #display-hero-hire-btn {
+    transition: all 0.25s ease;
+}

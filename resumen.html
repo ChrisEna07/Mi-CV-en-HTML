@@ -3,376 +3,579 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV - Christian Romero</title>
+    <title>Curriculum Vitae - Christian Romero (ChrizDev)</title>
     <link rel="icon" type="image/png" href="assets/imgs/favicon.png">
     <link rel="stylesheet" href="assets/vendors/themify-icons/css/themify-icons.css">
     <link rel="stylesheet" href="assets/css/view-controller.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
             --primary: #F85C70;
-            --dark: #212529;
-            --gray: #6c757d;
+            --primary-dark: #e11d48;
+            --primary-soft: rgba(248, 92, 112, 0.08);
+            --dark: #0f172a;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --bg-card: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.5;
+            color: var(--text-main);
             margin: 0;
             padding: 0;
-            background: #f4f7f6;
-        }
-
-        .page {
-            width: 210mm;
-            min-height: 297mm;
-            padding: 20mm;
-            margin: 10mm auto;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        .header-info h1 {
-            margin: 0;
-            font-size: 32px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .header-info h2 {
-            margin: 5px 0 0;
-            font-size: 18px;
-            color: var(--primary);
-            font-weight: 400;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            font-size: 14px;
-        }
-
-        .contact-item i {
-            color: var(--primary);
-            margin-right: 8px;
-        }
-
-        section {
-            margin-bottom: 25px;
-        }
-
-        h3 {
-            font-size: 20px;
-            border-left: 4px solid var(--primary);
-            padding-left: 15px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            color: var(--dark);
-        }
-
-        .exp-item, .edu-item {
-            margin-bottom: 15px;
-        }
-
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-        }
-
-        .item-sub {
-            color: var(--primary);
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .skill-tag {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .skills-grid-categorized {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .category {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 12px 15px;
-            border-radius: 5px;
-        }
-
-        .category h3 {
-            font-size: 15px !important;
-            border-left: none !important;
-            padding-left: 0 !important;
-            margin-top: 0 !important;
-            margin-bottom: 5px !important;
-            text-transform: uppercase !important;
-            color: var(--primary) !important;
-            font-weight: 600;
-        }
-
-        .category p {
-            margin: 0;
-            font-size: 13px;
-            line-height: 1.4;
-            color: var(--dark);
+            background: #f1f5f9;
+            font-size: 13.5px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .no-print {
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 100;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
         }
 
         .btn-print {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-print:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-back {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-back:hover {
+            background: #e2e8f0;
+        }
+
+        /* Página estructurada A4 / Carta */
+        .cv-page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 14mm 16mm;
+            margin: 15px auto;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        /* Encabezado Ejecutivo */
+        .cv-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 18px;
+            gap: 18px;
+        }
+
+        .cv-header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex: 1.2;
         }
 
         .profile-img-resume {
-            width: 80px;
-            height: 80px;
+            width: 86px;
+            height: 86px;
             object-fit: cover;
             border-radius: 50%;
-            border: 2px solid var(--primary);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            margin-right: 15px;
+            border: 3px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            flex-shrink: 0;
         }
 
-        .portfolio-link-item {
+        .cv-header-info h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .cv-header-info h2 {
+            margin: 4px 0 6px;
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cv-header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-soft);
+            color: var(--primary-dark);
+            font-size: 11.5px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(248, 92, 112, 0.25);
+        }
+
+        /* Contacto en encabezado derecho */
+        .cv-header-contact {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-left: 1px solid var(--border);
+            padding-left: 18px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            word-break: break-word;
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .contact-full-span {
             grid-column: span 2;
         }
 
-        @media screen and (max-width: 768px) {
-            .page {
-                width: auto;
-                min-height: auto;
-                padding: 15px;
-                margin: 10px;
-                box-shadow: none;
+        /* Layout Grid Modular en 2 Columnas */
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 1.55fr 1fr;
+            gap: 18px;
+        }
+
+        .cv-col-main {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .cv-col-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Secciones y Títulos */
+        .cv-section {
+            page-break-inside: avoid;
+        }
+
+        .cv-section-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--dark);
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 10px;
+            padding-bottom: 4px;
+            border-bottom: 1.5px solid var(--primary);
+        }
+
+        .cv-section-title i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Experiencia y Educación Items */
+        .exp-item, .edu-item {
+            margin-bottom: 12px;
+            page-break-inside: avoid;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 13px;
+        }
+
+        .item-period {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--primary);
+            background: var(--primary-soft);
+            padding: 1px 6px;
+            border-radius: 3px;
+        }
+
+        .item-sub {
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 600;
+            margin: 2px 0 4px;
+        }
+
+        .item-desc {
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* Cajas de Especialidad en Sidebar */
+        .cv-card-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--primary);
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 12px;
+            page-break-inside: avoid;
+        }
+
+        .cv-card-box h4 {
+            margin: 0 0 6px;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cv-card-box h4 i {
+            color: var(--primary);
+        }
+
+        .cv-card-box ul {
+            margin: 0;
+            padding-left: 16px;
+            color: var(--text-muted);
+        }
+
+        .cv-card-box li {
+            margin-bottom: 4px;
+            line-height: 1.35;
+        }
+
+        .cv-card-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Tags de Habilidades */
+        .skill-tags-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .cv-tag {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 3px 7px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .cv-tag.highlight {
+            border-color: rgba(248, 92, 112, 0.4);
+            color: var(--primary-dark);
+            background: var(--primary-soft);
+            font-weight: 600;
+        }
+
+        /* Proyectos */
+        .project-item {
+            margin-bottom: 8px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .project-item strong {
+            color: var(--dark);
+        }
+
+        /* Optimización @media print */
+        @media print {
+            .no-print { display: none !important; }
+            body { 
+                background: white !important; 
+                margin: 0 !important; 
+                padding: 0 !important;
+                font-size: 12px !important;
             }
-            header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
+            .cv-page { 
+                margin: 0 !important; 
+                box-shadow: none !important; 
+                width: 100% !important; 
+                padding: 10mm 12mm !important;
+                border: none !important;
             }
-            header > div {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
+            @page {
+                size: A4 portrait;
+                margin: 10mm 12mm;
             }
-            .profile-img-resume {
-                margin-right: 0 !important;
-                margin-bottom: 15px;
-            }
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 8px;
-                margin-top: 15px;
-                width: 100%;
-            }
-            .skills-grid, .skills-grid-categorized {
-                grid-template-columns: 1fr;
-            }
-            .portfolio-link-item {
-                grid-column: span 1;
-            }
-            .no-print {
-                position: static;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 15px;
-                background: white;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                margin-bottom: 10px;
-            }
-            .no-print a {
-                margin-top: 5px;
+            .cv-section, .exp-item, .cv-card-box {
+                page-break-inside: avoid !important;
             }
         }
 
-        @media print {
-            .no-print { display: none; }
-            body { background: white; margin: 0; }
-            .page { margin: 0; box-shadow: none; width: 100%; padding: 0; }
+        @media screen and (max-width: 820px) {
+            .cv-page {
+                width: 95%;
+                padding: 15px;
+                margin: 10px auto;
+            }
+            .cv-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .cv-header-left {
+                flex-direction: column;
+            }
+            .cv-header-contact {
+                border-left: none;
+                border-top: 1px solid var(--border);
+                padding-left: 0;
+                padding-top: 12px;
+                width: 100%;
+                grid-template-columns: 1fr;
+            }
+            .cv-grid {
+                grid-template-columns: 1fr;
+            }
+            .no-print {
+                position: static;
+                justify-content: center;
+                margin: 10px auto;
+                width: 95%;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Barra Superior de Control (Oculta en Impresión) -->
     <div class="no-print">
         <button class="btn-print" onclick="window.print()">
             <i class="ti-printer"></i> Imprimir / Guardar como PDF
         </button>
-        <a href="index.html" style="display: block; text-align: center; margin-top: 10px; color: var(--gray); text-decoration: none;">Volver al sitio</a>
+        <a href="index.html" class="btn-back">
+            <i class="ti-arrow-left"></i> Volver al Portafolio
+        </a>
     </div>
 
-    <div class="page">
-        <header>
-            <div style="display: flex; align-items: center;">
+    <div class="cv-page">
+        <!-- 1. ENCABEZADO EJECUTIVO SOBRIO -->
+        <header class="cv-header">
+            <div class="cv-header-left">
                 <img src="assets/imgs/CVpicture.jpg" alt="Christian Romero" class="profile-img-resume" id="display-resume-avatar">
-                <div class="header-info">
+                <div class="cv-header-info">
                     <h1 id="display-resume-name">Christian Romero (ChrizDev)</h1>
                     <h2 id="display-resume-title">Junior Software Developer | IA & Automatización</h2>
+                    <div class="cv-header-badge">
+                        <i class="ti-medall"></i> Tecnólogo SENA ADSO (Enero 2027) & Celerix SAS
+                    </div>
                 </div>
             </div>
-            <div class="contact-grid">
+            <div class="cv-header-contact">
                 <div class="contact-item"><i class="ti-id-badge"></i> C.C. 1042467485 (Barranquilla)</div>
-                <div class="contact-item"><i class="ti-car"></i> Licencia de Conducción: A2, B1, B2</div>
-                <div class="contact-item"><i class="ti-world"></i> Pasaporte / Disponibilidad de viajar</div>
+                <div class="contact-item"><i class="ti-car"></i> Licencia: A2, B1, B2</div>
+                <div class="contact-item"><i class="ti-world"></i> Pasaporte / Disponible viajar</div>
                 <div class="contact-item"><i class="ti-mobile"></i> <span id="display-resume-phone">3183517802</span></div>
                 <div class="contact-item"><i class="ti-location-pin"></i> <span id="display-resume-location">Medellín, Antioquia</span></div>
                 <div class="contact-item"><i class="ti-email"></i> <span id="display-resume-email">christianjoroce@gmail.com</span></div>
-                <div class="contact-item"><i class="ti-linkedin"></i> <a id="display-resume-linkedin" href="https://linkedin.com/in/christian-romero-5a9577145/" style="color: inherit; text-decoration: none;">linkedin.com/in/christian-romero</a></div>
-                <div class="contact-item"><i class="ti-github"></i> <a id="display-resume-github" href="https://github.com/ChrisEna07" style="color: inherit; text-decoration: none;">github.com/ChrisEna07</a></div>
-                <div class="contact-item portfolio-link-item"><i class="ti-link"></i> <a id="display-resume-portfolio" href="https://my-app-s-portafolio-digital.vercel.app/" style="color: inherit; text-decoration: none; font-weight: 600;">Portafolio de Apps: my-app-s-portafolio-digital.vercel.app</a></div>
+                <div class="contact-item contact-full-span"><i class="ti-linkedin"></i> <a id="display-resume-linkedin" href="https://linkedin.com/in/christian-romero-5a9577145/" style="color: inherit; text-decoration: none;">linkedin.com/in/christian-romero</a></div>
+                <div class="contact-item contact-full-span"><i class="ti-github"></i> <a id="display-resume-github" href="https://github.com/ChrisEna07" style="color: inherit; text-decoration: none;">github.com/ChrisEna07</a></div>
+                <div class="contact-item contact-full-span"><i class="ti-link"></i> <a id="display-resume-portfolio" href="https://my-app-s-portafolio-digital.vercel.app/" style="color: var(--primary-dark); font-weight: 600; text-decoration: none;">Portafolio: my-app-s-portafolio-digital.vercel.app</a></div>
             </div>
         </header>
 
-        <section>
-            <h3>Perfil Profesional</h3>
-            <p style="margin-bottom: 10px;" id="display-resume-bio">Desarrollador Software enfocado en la automatización de procesos mediante Inteligencia Artificial aplicada. Cuento con experiencia en el diseño de sistemas de gestión documental inteligente, logrando extraer datos estructurados de fuentes no estructuradas de manera eficiente.</p>
-            <p style="margin-bottom: 5px; font-weight: 600;">Mi diferencial es mi capacidad técnica integral:</p>
-            <ul style="padding-left: 20px; margin: 0; font-size: 14px; line-height: 1.5; color: var(--dark);">
-                <li style="margin-bottom: 4px;"><strong>Ingeniería de IA:</strong> Orquestación de LLMs (Groq, Gemini), OCR Multimodal y Prompt Engineering para entornos de alta exigencia.</li>
-                <li style="margin-bottom: 4px;"><strong>Arquitectura Full Stack:</strong> Diseño y despliegue de aplicaciones nativas y web, priorizando la mantenibilidad, escalabilidad y una experiencia de usuario fluida.</li>
-                <li style="margin-bottom: 4px;"><strong>Persistencia & Trazabilidad:</strong> Implementación de bases de datos seguras con Supabase, anonimización de datos sensibles y sistemas de auditoría inmutables.</li>
-                <li style="margin-bottom: 4px;"><strong>Resiliencia:</strong> Aplicación de patrones de diseño (Circuit Breaker) para asegurar la continuidad operativa frente a fallos externos de API.</li>
-            </ul>
-        </section>
+        <!-- 2. CUERPO MODULAR EN 2 COLUMNAS EQUILIBRADAS -->
+        <div class="cv-grid">
+            <!-- COLUMNA PRINCIPAL (IZQUIERDA) -->
+            <div class="cv-col-main">
+                <!-- Perfil Profesional -->
+                <section class="cv-section">
+                    <h3 class="cv-section-title"><i class="ti-user"></i> Perfil Profesional</h3>
+                    <p style="margin: 0 0 6px; font-size: 12.5px; line-height: 1.45; text-align: justify;" id="display-resume-bio">
+                        Desarrollador de Software enfocado en la transformación de procesos complejos en soluciones digitales eficientes. Especialista en orquestación de Inteligencia Artificial aplicada (LLMs, OCR multimodal), arquitectura Full Stack resiliente y consultoría de infraestructura física de cómputo.
+                    </p>
+                    <ul style="margin: 0; padding-left: 18px; font-size: 11.5px; color: var(--text-muted); line-height: 1.4;">
+                        <li><strong>Ingeniería de IA:</strong> Orquestación de LLMs (Groq, Gemini), OCR Multimodal y Prompt Engineering.</li>
+                        <li><strong>Arquitectura & Resiliencia:</strong> Patrón Circuit Breaker ante fallos 429 de APIs y bases de datos seguras con Supabase.</li>
+                        <li><strong>Infraestructura & Hardware:</strong> Benchmarking y ensambles de estaciones de trabajo de alto desempeño.</li>
+                    </ul>
+                </section>
 
-                <section>
-            <h3>Experiencia Laboral</h3>
-            <div id="resume-experience-container">
-                <div class="exp-item">
-                    <div class="item-header">
-                        <span id="cv-resume-job-role">Desarrollador de Software</span>
-                        <span id="cv-resume-job-period">2024 - Presente</span>
+                <!-- Experiencias Laborales (Render Dinámico CRUD) -->
+                <section class="cv-section">
+                    <h3 class="cv-section-title"><i class="ti-briefcase"></i> Experiencia Laboral</h3>
+                    <div id="resume-experience-container">
+                        <div class="exp-item">
+                            <div class="item-header">
+                                <span id="cv-resume-job-role">Desarrollador de Software</span>
+                                <span class="item-period" id="cv-resume-job-period">2024 - Presente</span>
+                            </div>
+                            <div class="item-sub" id="cv-resume-job-company">Celerix SAS (Contrato de Aprendizaje)</div>
+                            <p class="item-desc" id="cv-resume-job-desc">Desarrollo y soporte en soluciones tecnológicas empresariales, automatización de procesos internos, desarrollo de módulos con Claris FileMaker e integración de datos y APIs.</p>
+                        </div>
+                        <div class="exp-item">
+                            <div class="item-header">
+                                <span>Técnico en Soporte de Hardware & Ensambles</span>
+                                <span class="item-period">2020 - 2023</span>
+                            </div>
+                            <div class="item-sub">Soporte Técnico Freelance (Independiente)</div>
+                            <p class="item-desc">Ensamble, calibración y benchmarking de estaciones de trabajo profesionales y PCs Gaming. Mantenimiento predictivo/correctivo y optimización térmica.</p>
+                        </div>
+                        <div class="exp-item">
+                            <div class="item-header">
+                                <span>Asistente Administrativo & Digitalización</span>
+                                <span class="item-period">2018 - 2020</span>
+                            </div>
+                            <div class="item-sub">Empresa Privada (Presencial)</div>
+                            <p class="item-desc">Gestión documental, digitalización de archivos masivos, soporte ofimático y atención al usuario.</p>
+                        </div>
                     </div>
-                    <div class="item-sub" id="cv-resume-job-company">Celerix SAS (Contrato de Aprendizaje)</div>
-                    <p id="cv-resume-job-desc">Desarrollo y soporte en soluciones tecnológicas empresariales, automatización de procesos, desarrollo de módulos con Claris FileMaker e integración de datos y APIs.</p>
-                </div>
-                <div class="exp-item">
-                    <div class="item-header">
-                        <span>Técnico de Hardware</span>
-                        <span>2020 - 2023</span>
+                </section>
+
+                <!-- Proyectos Destacados de Ingeniería -->
+                <section class="cv-section">
+                    <h3 class="cv-section-title"><i class="ti-folder"></i> Proyectos de Ingeniería</h3>
+                    <div class="project-item">
+                        <strong>DataExPY (Python & IA):</strong> Extractor de datos estructurados de fuentes no estructuradas (PDFs, imágenes) con orquestación asíncrona y manejo de resiliencia ante errores 429.
                     </div>
-                    <div class="item-sub">Soporte Técnico (Independiente)</div>
-                    <p>Ensamble, reparación y mantenimiento preventivo y correctivo de computadores de escritorio y portátiles de diversas marcas.</p>
-                </div>
-                <div class="exp-item">
-                    <div class="item-header">
-                        <span>Técnico de Sistemas</span>
-                        <span>2018 - 2020</span>
+                    <div class="project-item">
+                        <strong>PrimeDesk (Flutter):</strong> Sistema multiplataforma de gestión operativa para talleres mecánicos y órdenes de servicio en tiempo real.
                     </div>
-                    <div class="item-sub">Soporte de Software y Redes (Presencial)</div>
-                    <p>Instalación y actualización de software, implementación de redes y aprovisionamiento de herramientas ofimáticas y digitales.</p>
-                </div>
+                    <div class="project-item">
+                        <strong>iRemApp (Flutter & Dart):</strong> Aplicación móvil nativa para control financiero personal, recordatorios inteligentes y almacenamiento local seguro.
+                    </div>
+                    <div class="project-item">
+                        <strong>DeepFace AI (Python):</strong> Pipeline de visión por computador y clasificación biométrica para análisis de expresiones faciales.
+                    </div>
+                </section>
             </div>
-        </section>
 
-        <section>
-            <h3>Formación Académica</h3>
-            <div class="edu-item">
-                <div class="item-header">
-                    <span id="cv-resume-edu-title">Tecnólogo en Análisis y Desarrollo de Software</span>
-                    <span id="cv-resume-edu-status">En formación / Estudiante (Finalización estimada: Enero de 2027)</span>
-                </div>
-                <div class="item-sub" id="cv-resume-edu-institution">SENA (Servicio Nacional de Aprendizaje)</div>
+            <!-- COLUMNA LATERAL (DERECHA) -->
+            <div class="cv-col-sidebar">
+                <!-- Formación Académica -->
+                <section class="cv-section">
+                    <h3 class="cv-section-title"><i class="ti-book"></i> Educación</h3>
+                    <div class="edu-item">
+                        <div class="item-header">
+                            <span id="cv-resume-edu-title">Tecnólogo en Análisis y Desarrollo de Software</span>
+                        </div>
+                        <div class="item-sub" id="cv-resume-edu-institution">SENA (Servicio Nacional de Aprendizaje)</div>
+                        <div class="item-period mt-1" id="cv-resume-edu-status">En formación / Estudiante (Finalización estimada: Enero de 2027)</div>
+                    </div>
+                </section>
+
+                <!-- CONSULTORÍA & ARQUITECTURA DE HARDWARE (TALENTO FORMAL) -->
+                <section class="cv-section">
+                    <div class="cv-card-box">
+                        <h4><i class="ti-harddrives"></i> Arquitectura de Hardware</h4>
+                        <div style="font-weight: 600; color: var(--primary-dark); font-size: 11px; margin-bottom: 5px;">Ensambles & Cómputo de Alto Desempeño</div>
+                        <ul>
+                            <li><strong>Ensambles Pro:</strong> Montaje, calibración y benchmarking de Workstations y PCs Gaming optimizados por caso de uso.</li>
+                            <li><strong>Diagnóstico & Térmica:</strong> Reparación a nivel de componentes y optimización de curvas de ventilación.</li>
+                            <li><strong>Sistemas & Drivers:</strong> Despliegue limpio de SO, particionamiento avanzado y aseguramiento de controladores.</li>
+                            <li><strong>Asesoría Estratégica:</strong> Compatibilidad rigurosa de partes y presupuesto.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- ESPECIALIZACIÓN CLARIS FILEMAKER -->
+                <section class="cv-section">
+                    <div class="cv-card-box" style="border-left-color: #3b82f6;">
+                        <h4 style="color: #1e3a8a;"><i class="ti-layers" style="color: #3b82f6;"></i> Claris FileMaker Pro & Server</h4>
+                        <div style="font-weight: 600; color: #2563eb; font-size: 11px; margin-bottom: 5px;">Nivel Competitivo / Enterprise</div>
+                        <ul>
+                            <li><strong>Desarrollo Low-Code:</strong> Soluciones modulares y arquitectura Data Separation Model.</li>
+                            <li><strong>Automatización:</strong> Scripting complejo y validaciones lógicas de negocio.</li>
+                            <li><strong>Integración:</strong> Conexión vía FileMaker Data API (REST) y WebDirect.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- HABILIDADES TÉCNICAS (STACK) -->
+                <section class="cv-section">
+                    <h3 class="cv-section-title"><i class="ti-widget"></i> Stack Tecnológico</h3>
+                    <div class="skill-tags-wrap">
+                        <span class="cv-tag highlight">Python</span>
+                        <span class="cv-tag highlight">JavaScript</span>
+                        <span class="cv-tag highlight">Dart & Flutter</span>
+                        <span class="cv-tag highlight">SQL & Supabase</span>
+                        <span class="cv-tag">React</span>
+                        <span class="cv-tag">Node.js</span>
+                        <span class="cv-tag">PostgreSQL</span>
+                        <span class="cv-tag">MongoDB</span>
+                        <span class="cv-tag">Git & GitHub</span>
+                        <span class="cv-tag">Scrum / Ágil</span>
+                        <span class="cv-tag">REST APIs</span>
+                        <span class="cv-tag">Benchmarking</span>
+                    </div>
+                </section>
+
+                <!-- IDIOMAS -->
+                <section class="cv-section">
+                    <h3 class="cv-section-title"><i class="ti-world"></i> Idiomas</h3>
+                    <div style="font-size: 12px; color: var(--text-muted);">
+                        <strong>Español:</strong> Nativo &nbsp;|&nbsp; <strong>Inglés:</strong> B1 (Intermedio)
+                    </div>
+                </section>
             </div>
-        </section>
-
-        <section>
-            <h3>Idiomas</h3>
-            <p><strong>Español:</strong> Nativo | <strong>Inglés:</strong> B1 (Intermedio)</p>
-        </section>
-
-        <section>
-            <h3>Intereses y Hobbies</h3>
-            <p>Tocar la guitarra, Cine, Juegos de estrategia (XCOM: Enemy Within), Cocina.</p>
-        </section>
-
-        <section>
-            <h3>Habilidades Técnicas</h3>
-            <div class="skills-grid">
-                <div class="skill-tag">Python & Análisis de Datos</div>
-                <div class="skill-tag">Flutter & Dart (Móvil)</div>
-                <div class="skill-tag">JavaScript & React (Web)</div>
-                <div class="skill-tag">SQL & Bases de Datos (Postgres, Mongo)</div>
-            </div>
-        </section>
-
-        <section id="habilidades">
-            <h3>Skills & Expertise</h3>
-            <div class="skills-grid-categorized">
-                <div class="category">
-                    <h3>AI & Automation</h3>
-                    <p>AI Orchestration (Groq/Gemini), OCR Multimodal, Prompt Engineering, Resiliencia de Sistemas.</p>
-                </div>
-
-                <div class="category">
-                    <h3>Full Stack Development</h3>
-                    <p>JavaScript (React), Node.js, Python, HTML5/CSS3, Flutter (Flame Engine), REST APIs, UI Nativa (CustomTkinter).</p>
-                </div>
-
-                <div class="category">
-                    <h3>Database & Architecture</h3>
-                    <p>Supabase (PostgreSQL), SQL, Diseño de Esquemas, Trazabilidad de Datos, Auditoría de Sistemas.</p>
-                </div>
-
-                <div class="category">
-                    <h3>Tecnologías Adaptativas</h3>
-                    <p>Experiencia comprobable en múltiples lenguajes de programación, permitiendo una rápida adaptación a cualquier stack tecnológico necesario para el negocio.</p>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h3>Proyectos Destacados</h3>
-            <ul>
-                <li style="margin-bottom: 6px;"><strong>DataExPY:</strong> Extractor de datos estructurados a partir de documentos no estructurados (PDFs, imágenes) con IA y procesamiento asíncrono. <a href="https://github.com/ChrisEna07/DataExPY" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">Ver proyecto en GitHub</a>. El desarrollo de este sistema me permitió dominar la resiliencia ante errores de producción (429 Rate Limiting) y la arquitectura de sistemas asíncronos.</li>
-                <li style="margin-bottom: 6px;"><strong>Uparqueo:</strong> Sistema web para gestión de parqueaderos con JS.</li>
-                <li style="margin-bottom: 6px;"><strong>iRemApp:</strong> Aplicación móvil de recordatorios y finanzas con Flutter.</li>
-                <li style="margin-bottom: 6px;"><strong>DeepFace AI:</strong> Implementación de detección de emociones con Python.</li>
-                <li style="margin-bottom: 6px;"><strong>PrimeDesk:</strong> Gestión operativa para talleres con Flutter.</li>
-            </ul>
-        </section>
+        </div>
     </div>
 
     <!-- View Controller JS -->

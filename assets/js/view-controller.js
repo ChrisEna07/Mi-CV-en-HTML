@@ -6,11 +6,12 @@
  * 1. La segmentación entre Vista Pública y Vista Profesional (Empresas/Reclutadores).
  * 2. Autenticación de Administrador (ChrizDev07) y persistencia de sesión.
  * 3. Gestión y persistencia completa del Portafolio y CV en localStorage ('chrizdev_cv_data'):
+ *    - Independencia total de imágenes: Portada/Muro, Avatar Web y Foto CV Imprimible con live preview.
+ *    - Switch dinámico de disponibilidad laboral: Búsqueda activa (freelance/laboral) vs Trabajando (soluciones corporativas).
  *    - Edición total de datos personales (nombre, título, bio, contacto, redes, etc.).
- *    - Foto de perfil dinámica por URL con previsualización en vivo (web y CV).
  *    - Gestor CRUD dinámico de experiencias laborales (añadir, editar, eliminar y reordenar).
  *    - Configuración de educación y estado académico (estudiante vs graduado).
- * 4. Sincronización en tiempo real con el DOM de la página principal y la vista de impresión (resumen.html).
+ * 4. Sincronización en tiempo real con el DOM de la página principal y la vista de impresión ejecutiva (resumen.html).
  * 5. Importación y exportación de respaldos en formato JSON.
  */
 
@@ -34,7 +35,7 @@
         LEGACY_PROFILE_DATA: 'cv_profile_data'
     };
 
-    // Estructura completa de datos por defecto
+    // Estructura completa de datos por defecto con las 3 imágenes y switch
     const DEFAULT_CV_DATA = {
         personal: {
             fullname: 'Christian Romero (ChrizDev)',
@@ -49,7 +50,18 @@
             linkedinUrl: 'https://www.linkedin.com/in/christian-romero-5a9577145/',
             githubUrl: 'https://github.com/ChrisEna07',
             whatsappUrl: 'https://wa.link/o6m42i',
-            avatarUrl: 'assets/imgs/avatar.jpg'
+            // 3 Imágenes Desacopladas
+            bannerUrl: 'assets/imgs/header.jpg',          // Foto de Portada / Banner (Muro)
+            avatarWebUrl: 'assets/imgs/avatar.jpg',        // Foto de Presentación Web
+            avatarResumeUrl: 'assets/imgs/CVpicture.jpg',  // Foto del CV Imprimible (Ejecutiva)
+            avatarUrl: 'assets/imgs/avatar.jpg'            // Retrocompatibilidad
+        },
+        availability: {
+            isCurrentlyWorking: false, // false = Búsqueda activa / Freelance o laboral, true = Trabajando actualmente / Soluciones a medida
+            workingBannerText: '¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y sistemas de gestión administrativa personalizados para tiendas, firmas legales, cadenas comerciales o empresas de cualquier sector. Hablemos de tu proyecto.',
+            standardBannerText: 'Disponible para proyectos freelance o contrato laboral',
+            workingBtnText: 'Iniciar Proyecto',
+            standardBtnText: 'Contrátame'
         },
         education: {
             title: 'Tecnólogo en Análisis y Desarrollo de Software',
@@ -69,10 +81,10 @@
             {
                 id: 'exp_2',
                 company: 'Soporte Técnico Freelance',
-                role: 'Técnico en Soporte de Hardware',
+                role: 'Técnico en Soporte de Hardware & Ensambles',
                 period: '2020 - 2023',
                 contract: 'Independiente',
-                desc: 'Ensamble, reparación y mantenimiento preventivo/correctivo de computadores de escritorio y portátiles de diversas marcas.'
+                desc: 'Consultoría y ensamble de estaciones de trabajo y PCs de alto rendimiento. Diagnóstico a nivel de componentes, optimización térmica, configuración de sistemas operativos y benchmarking.'
             },
             {
                 id: 'exp_3',
@@ -85,7 +97,6 @@
         ]
     };
 
-    // Variable en memoria para operaciones del modal
     let activeCvData = null;
 
     // -------------------------------------------------------------------------
@@ -133,8 +144,21 @@
             const raw = localStorage.getItem(STORAGE_KEYS.CV_DATA);
             if (raw) {
                 const parsed = JSON.parse(raw);
+                const personal = Object.assign({}, DEFAULT_CV_DATA.personal, parsed.personal || {});
+                
+                // Normalización de imágenes desacopladas si faltan
+                if (!personal.bannerUrl) personal.bannerUrl = DEFAULT_CV_DATA.personal.bannerUrl;
+                if (!personal.avatarWebUrl) personal.avatarWebUrl = personal.avatarUrl || DEFAULT_CV_DATA.personal.avatarWebUrl;
+                if (!personal.avatarResumeUrl) personal.avatarResumeUrl = DEFAULT_CV_DATA.personal.avatarResumeUrl;
+
+                const availability = Object.assign({}, DEFAULT_CV_DATA.availability, parsed.availability || {});
+                if (parsed.personal && typeof parsed.personal.isCurrentlyWorking === 'boolean') {
+                    availability.isCurrentlyWorking = parsed.personal.isCurrentlyWorking;
+                }
+
                 return {
-                    personal: Object.assign({}, DEFAULT_CV_DATA.personal, parsed.personal || {}),
+                    personal: personal,
+                    availability: availability,
                     education: Object.assign({}, DEFAULT_CV_DATA.education, parsed.education || {}),
                     experiences: Array.isArray(parsed.experiences) && parsed.experiences.length > 0 
                         ? parsed.experiences 
@@ -142,7 +166,7 @@
                 };
             }
 
-            // Migración transparente si existía cv_profile_data legacy
+            // Migración desde legacy cv_profile_data
             const legacyRaw = localStorage.getItem(STORAGE_KEYS.LEGACY_PROFILE_DATA);
             if (legacyRaw) {
                 const legacy = JSON.parse(legacyRaw);
@@ -170,7 +194,7 @@
             if (!data) data = activeCvData || getCvData();
             localStorage.setItem(STORAGE_KEYS.CV_DATA, JSON.stringify(data));
             
-            // Sincronizar compatibilidad legacy
+            // Compatibilidad legacy
             if (data.experiences && data.experiences.length > 0 && data.education) {
                 const legacyData = {
                     jobRole: data.experiences[0].role,
@@ -206,28 +230,59 @@
     function applyCvDataToDOM(data) {
         if (!data) data = getCvData();
         const p = data.personal || {};
+        const avail = data.availability || DEFAULT_CV_DATA.availability;
         const edu = data.education || {};
         const exps = Array.isArray(data.experiences) ? data.experiences : [];
 
         // ---------------------------------------------------------------------
-        // A. FOTO DE PERFIL (Avatar)
+        // A. GESTIÓN INDEPENDIENTE DE IMÁGENES
         // ---------------------------------------------------------------------
-        const avatarUrl = p.avatarUrl || 'assets/imgs/avatar.jpg';
+        // 1. Portada / Banner (Muro)
+        const bannerUrl = p.bannerUrl || 'assets/imgs/header.jpg';
+        const headerBg = document.getElementById('display-header-bg') || document.querySelector('header.header');
+        if (headerBg) {
+            headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("${bannerUrl}")`;
+        }
 
+        // 2. Avatar de Presentación Web
+        const avatarWebUrl = p.avatarWebUrl || p.avatarUrl || 'assets/imgs/avatar.jpg';
         const webAvatarImg = document.getElementById('display-avatar-img');
-        if (webAvatarImg) webAvatarImg.src = avatarUrl;
+        if (webAvatarImg) webAvatarImg.src = avatarWebUrl;
+        document.querySelectorAll('.brand-img').forEach(img => { img.src = avatarWebUrl; });
 
+        // 3. Foto del CV Imprimible (Ejecutiva)
+        const avatarResumeUrl = p.avatarResumeUrl || p.avatarUrl || 'assets/imgs/CVpicture.jpg';
         const resumeAvatarImg = document.getElementById('display-resume-avatar');
-        if (resumeAvatarImg) resumeAvatarImg.src = avatarUrl;
-
-        // Cualquier otro avatar con clase brand-img o profile-img-resume
-        document.querySelectorAll('.brand-img').forEach(img => { img.src = avatarUrl; });
-        document.querySelectorAll('.profile-img-resume').forEach(img => { img.src = avatarUrl; });
+        if (resumeAvatarImg) resumeAvatarImg.src = avatarResumeUrl;
+        document.querySelectorAll('.profile-img-resume').forEach(img => { img.src = avatarResumeUrl; });
 
         // ---------------------------------------------------------------------
-        // B. DATOS PERSONALES & ENCABEZADOS
+        // B. SWITCH DINÁMICO DE DISPONIBILIDAD LABORAL (BANNER CTA)
         // ---------------------------------------------------------------------
-        // Nombre Completo
+        const isWorking = avail.isCurrentlyWorking === true;
+        const hireTitleEl = document.getElementById('display-hire-title');
+        const hireBtnEl = document.getElementById('display-hire-btn');
+        const heroHireTextEl = document.getElementById('display-hero-hire-text');
+
+        if (hireTitleEl) {
+            hireTitleEl.textContent = isWorking 
+                ? (avail.workingBannerText || DEFAULT_CV_DATA.availability.workingBannerText)
+                : (avail.standardBannerText || DEFAULT_CV_DATA.availability.standardBannerText);
+        }
+
+        if (hireBtnEl) {
+            hireBtnEl.textContent = isWorking 
+                ? (avail.workingBtnText || DEFAULT_CV_DATA.availability.workingBtnText)
+                : (avail.standardBtnText || DEFAULT_CV_DATA.availability.standardBtnText);
+        }
+
+        if (heroHireTextEl) {
+            heroHireTextEl.textContent = isWorking ? 'Iniciar Proyecto' : 'Contrátame';
+        }
+
+        // ---------------------------------------------------------------------
+        // C. DATOS PERSONALES & ENCABEZADOS
+        // ---------------------------------------------------------------------
         const elHeaderName = document.getElementById('display-header-name');
         if (elHeaderName && p.fullname) elHeaderName.textContent = p.fullname;
 
@@ -237,127 +292,96 @@
         const elFooterName = document.getElementById('display-footer-name');
         if (elFooterName && (p.displayName || p.fullname)) elFooterName.textContent = p.displayName || p.fullname;
 
-        // Nombre de Marca / Navbar
         const elBrandName = document.getElementById('display-brand-name');
         if (elBrandName && (p.displayName || p.fullname)) elBrandName.textContent = p.displayName || p.fullname;
 
-        // Título Profesional
         const elHeaderTitle = document.getElementById('display-header-title');
         if (elHeaderTitle && p.jobTitle) elHeaderTitle.textContent = p.jobTitle;
 
         const elResumeTitle = document.getElementById('display-resume-title');
         if (elResumeTitle && p.jobTitle) elResumeTitle.textContent = p.jobTitle;
 
-        // Subtítulo Navbar / Especialidad
         const elBrandTitle = document.getElementById('display-brand-title');
         if (elBrandTitle && p.brandSubtitle) elBrandTitle.textContent = p.brandSubtitle;
 
-        // Biografía / Resumen
         const elAboutBio = document.getElementById('display-about-bio');
         if (elAboutBio && p.bio) elAboutBio.textContent = p.bio;
 
         const elResumeBio = document.getElementById('display-resume-bio');
         if (elResumeBio && p.bio) elResumeBio.textContent = p.bio;
 
-        // Correo Electrónico
+        // Contacto
         const elPersonalEmail = document.getElementById('display-personal-email');
         if (elPersonalEmail && p.email) elPersonalEmail.textContent = p.email;
-
         const elContactEmail = document.getElementById('display-contact-email');
         if (elContactEmail && p.email) elContactEmail.textContent = p.email;
-
         const elResumeEmail = document.getElementById('display-resume-email');
         if (elResumeEmail && p.email) elResumeEmail.textContent = p.email;
 
-        // Teléfono
         const elPersonalPhone = document.getElementById('display-personal-phone');
         if (elPersonalPhone && p.phone) elPersonalPhone.textContent = p.phone;
-
         const elContactPhone = document.getElementById('display-contact-phone');
         if (elContactPhone && p.phone) elContactPhone.textContent = p.phone;
-
         const elResumePhone = document.getElementById('display-resume-phone');
         if (elResumePhone && p.phone) elResumePhone.textContent = p.phone;
 
-        // Ubicación
         const elPersonalLoc = document.getElementById('display-personal-location');
         if (elPersonalLoc && p.location) elPersonalLoc.textContent = p.location;
-
         const elContactLoc = document.getElementById('display-contact-location');
         if (elContactLoc && p.location) elContactLoc.textContent = p.location;
-
         const elResumeLoc = document.getElementById('display-resume-location');
         if (elResumeLoc && p.location) elResumeLoc.textContent = p.location;
 
-        // Enlace de Portafolio
+        // Enlaces
         if (p.portfolioUrl) {
             const elPersonalPort = document.getElementById('display-personal-portfolio');
-            if (elPersonalPort) {
-                elPersonalPort.href = p.portfolioUrl;
-            }
+            if (elPersonalPort) elPersonalPort.href = p.portfolioUrl;
             const elResumePort = document.getElementById('display-resume-portfolio');
             if (elResumePort) {
                 elResumePort.href = p.portfolioUrl;
                 let cleanPort = p.portfolioUrl.replace(/^https?:\/\//i, '').replace(/\/$/, '');
-                elResumePort.textContent = `Portafolio de Apps: ${cleanPort}`;
+                elResumePort.textContent = `Portafolio: ${cleanPort}`;
             }
         }
 
-        // Enlace a LinkedIn
         if (p.linkedinUrl) {
             const elAboutIn = document.getElementById('display-about-linkedin');
             if (elAboutIn) elAboutIn.href = p.linkedinUrl;
-
             const elHeaderIn = document.getElementById('display-header-linkedin');
             if (elHeaderIn) elHeaderIn.href = p.linkedinUrl;
-
             const elResumeIn = document.getElementById('display-resume-linkedin');
             if (elResumeIn) {
                 elResumeIn.href = p.linkedinUrl;
                 let cleanIn = p.linkedinUrl.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
                 elResumeIn.textContent = cleanIn;
             }
-
-            document.querySelectorAll('.contact-info-card a[href*="linkedin"]').forEach(a => {
-                a.href = p.linkedinUrl;
-            });
+            document.querySelectorAll('.contact-info-card a[href*="linkedin"]').forEach(a => { a.href = p.linkedinUrl; });
         }
 
-        // Enlace a GitHub
         if (p.githubUrl) {
             const elAboutGh = document.getElementById('display-about-github');
             if (elAboutGh) elAboutGh.href = p.githubUrl;
-
             const elHeaderGh = document.getElementById('display-header-github');
             if (elHeaderGh) elHeaderGh.href = p.githubUrl;
-
             const elResumeGh = document.getElementById('display-resume-github');
             if (elResumeGh) {
                 elResumeGh.href = p.githubUrl;
                 let cleanGh = p.githubUrl.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
                 elResumeGh.textContent = cleanGh;
             }
-
-            document.querySelectorAll('.contact-info-card a[href*="github"]').forEach(a => {
-                a.href = p.githubUrl;
-            });
+            document.querySelectorAll('.contact-info-card a[href*="github"]').forEach(a => { a.href = p.githubUrl; });
         }
 
-        // Enlace de WhatsApp
         if (p.whatsappUrl) {
             const elAboutWa = document.getElementById('display-about-whatsapp');
             if (elAboutWa) elAboutWa.href = p.whatsappUrl;
-
             const elHeaderWa = document.getElementById('display-header-whatsapp');
             if (elHeaderWa) elHeaderWa.href = p.whatsappUrl;
-
-            document.querySelectorAll('.whatsapp-float, .contact-info-card a[href*="wa.link"], .contact-info-card a[href*="whatsapp"]').forEach(a => {
-                a.href = p.whatsappUrl;
-            });
+            document.querySelectorAll('.whatsapp-float, .contact-info-card a[href*="wa.link"], .contact-info-card a[href*="whatsapp"]').forEach(a => { a.href = p.whatsappUrl; });
         }
 
         // ---------------------------------------------------------------------
-        // C. EDUCACIÓN & ESTADO ACADÉMICO
+        // D. EDUCACIÓN & ESTADO ACADÉMICO
         // ---------------------------------------------------------------------
         const isGraduated = edu.status === 'graduated';
 
@@ -383,7 +407,6 @@
                 : `Finalización estimada: ${edu.date}`;
         }
 
-        // En resumen.html
         const resumeEduTitle = document.getElementById('cv-resume-edu-title');
         if (resumeEduTitle && edu.title) resumeEduTitle.textContent = edu.title;
 
@@ -398,7 +421,7 @@
         if (resumeEduInst && edu.institution) resumeEduInst.textContent = edu.institution;
 
         // ---------------------------------------------------------------------
-        // D. EXPERIENCIAS LABORALES DINÁMICAS (CRUD RENDER)
+        // E. EXPERIENCIAS LABORALES DINÁMICAS (CRUD RENDER)
         // ---------------------------------------------------------------------
         // 1. En index.html (#display-experience-container)
         const displayExpContainer = document.getElementById('display-experience-container');
@@ -437,37 +460,15 @@
                         <div class="exp-item">
                             <div class="item-header">
                                 <span>${escapeHtml(exp.role)}</span>
-                                <span>${escapeHtml(exp.period)}</span>
+                                <span class="item-period">${escapeHtml(exp.period)}</span>
                             </div>
                             <div class="item-sub">${escapeHtml(exp.company)}${exp.contract ? ` (${escapeHtml(exp.contract)})` : ''}</div>
-                            <p>${escapeHtml(exp.desc)}</p>
+                            <p class="item-desc">${escapeHtml(exp.desc)}</p>
                         </div>
                     `;
                 });
                 resumeExpContainer.innerHTML = html;
             }
-        }
-
-        // Elementos legacy si existen en el DOM
-        if (exps.length > 0) {
-            const firstExp = exps[0];
-            const elJobRole = document.getElementById('display-job-role');
-            if (elJobRole) elJobRole.textContent = firstExp.role;
-            const elJobCompany = document.getElementById('display-job-company');
-            if (elJobCompany) elJobCompany.textContent = firstExp.company;
-            const elJobPeriod = document.getElementById('display-job-period');
-            if (elJobPeriod) elJobPeriod.textContent = firstExp.period;
-            const elJobDesc = document.getElementById('display-job-desc');
-            if (elJobDesc) elJobDesc.textContent = firstExp.desc;
-
-            const resumeRole = document.getElementById('cv-resume-job-role');
-            if (resumeRole) resumeRole.textContent = firstExp.role;
-            const resumeCompany = document.getElementById('cv-resume-job-company');
-            if (resumeCompany) resumeCompany.textContent = firstExp.company;
-            const resumePeriod = document.getElementById('cv-resume-job-period');
-            if (resumePeriod) resumePeriod.textContent = firstExp.period;
-            const resumeDesc = document.getElementById('cv-resume-job-desc');
-            if (resumeDesc) resumeDesc.textContent = firstExp.desc;
         }
     }
 
@@ -497,9 +498,7 @@
             toast.style.transform = 'translateY(-15px)';
             toast.style.transition = 'all 0.3s ease';
             setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
             }, 300);
         }, duration);
     }
@@ -539,9 +538,7 @@
         }
 
         if (typeof ScrollTrigger !== 'undefined') {
-            setTimeout(() => {
-                ScrollTrigger.refresh();
-            }, 100);
+            setTimeout(() => { ScrollTrigger.refresh(); }, 100);
         }
     }
 
@@ -564,14 +561,39 @@
 
     function populateModalInputs(data) {
         const p = data.personal || {};
+        const avail = data.availability || DEFAULT_CV_DATA.availability;
         const edu = data.education || {};
 
-        // 1. Datos Personales
         const setVal = (id, val) => {
             const el = document.getElementById(id);
             if (el) el.value = val || '';
         };
 
+        // 1. Imágenes Desacopladas
+        setVal('admin-input-banner-url', p.bannerUrl);
+        setVal('admin-input-avatar-web-url', p.avatarWebUrl);
+        setVal('admin-input-avatar-resume-url', p.avatarResumeUrl);
+
+        const bannerPrev = document.getElementById('admin-banner-preview');
+        if (bannerPrev) bannerPrev.src = p.bannerUrl || DEFAULT_CV_DATA.personal.bannerUrl;
+
+        const avatarWebPrev = document.getElementById('admin-avatar-web-preview');
+        if (avatarWebPrev) avatarWebPrev.src = p.avatarWebUrl || DEFAULT_CV_DATA.personal.avatarWebUrl;
+
+        const avatarResumePrev = document.getElementById('admin-avatar-resume-preview');
+        if (avatarResumePrev) avatarResumePrev.src = p.avatarResumeUrl || DEFAULT_CV_DATA.personal.avatarResumeUrl;
+
+        // 2. Switch de Disponibilidad
+        const switchWork = document.getElementById('admin-switch-working-status');
+        const labelWork = document.getElementById('admin-label-working-status');
+        const hintWork = document.getElementById('admin-availability-hint-text');
+
+        if (switchWork) {
+            switchWork.checked = (avail.isCurrentlyWorking === true);
+            updateAvailabilityUI(switchWork.checked);
+        }
+
+        // 3. Datos Personales
         setVal('admin-input-fullname', p.fullname);
         setVal('admin-input-displayname', p.displayName);
         setVal('admin-input-jobtitle', p.jobTitle);
@@ -583,23 +605,31 @@
         setVal('admin-input-portfolio', p.portfolioUrl);
         setVal('admin-input-linkedin', p.linkedinUrl);
         setVal('admin-input-github', p.githubUrl);
-        setVal('admin-input-avatar-url', p.avatarUrl);
 
-        // Preview foto de perfil
-        const previewImg = document.getElementById('admin-avatar-preview');
-        if (previewImg) {
-            previewImg.src = p.avatarUrl || 'assets/imgs/avatar.jpg';
-        }
-
-        // 2. Educación
+        // 4. Educación
         setVal('admin-input-edutitle', edu.title);
         setVal('admin-input-eduinst', edu.institution);
         setVal('admin-input-edudate', edu.date);
         const selEduStatus = document.getElementById('admin-select-edustatus');
         if (selEduStatus) selEduStatus.value = edu.status || 'studying';
 
-        // 3. Renderizar listado de experiencias CRUD
+        // 5. Renderizar listado de experiencias CRUD
         renderAdminExpList();
+    }
+
+    function updateAvailabilityUI(isWorking) {
+        const labelWork = document.getElementById('admin-label-working-status');
+        const hintWork = document.getElementById('admin-availability-hint-text');
+        if (labelWork) {
+            labelWork.textContent = isWorking 
+                ? 'Trabajando Actualmente (Soluciones Corporativas)' 
+                : 'Búsqueda Activa (Freelance o Laboral)';
+        }
+        if (hintWork) {
+            hintWork.textContent = isWorking
+                ? 'Modo corporativo activo: El banner ofrecerá soluciones a medida para negocios ("¿Buscas digitalizar tu negocio...?") con botón "Iniciar Proyecto" (oculta contrato laboral).'
+                : 'Modo búsqueda activa: El banner ofrecerá proyectos freelance o contrato laboral con botón "Contrátame".';
+        }
     }
 
     function renderAdminExpList() {
@@ -659,18 +689,14 @@
     }
 
     function attachExpListEvents() {
-        // Editar
         document.querySelectorAll('.admin-btn-edit-exp').forEach(btn => {
             btn.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 const exp = activeCvData.experiences.find(e => e.id === id);
-                if (exp) {
-                    showExpForm(exp);
-                }
+                if (exp) showExpForm(exp);
             });
         });
 
-        // Eliminar
         document.querySelectorAll('.admin-btn-delete-exp').forEach(btn => {
             btn.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
@@ -686,7 +712,6 @@
             });
         });
 
-        // Mover Arriba / Abajo
         document.querySelectorAll('.admin-btn-move-exp').forEach(btn => {
             btn.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
@@ -748,17 +773,11 @@
     }
 
     function initCvManagerModal() {
-        // Botón "Nueva Experiencia"
         const btnNewExp = document.getElementById('admin-btn-new-exp');
-        if (btnNewExp) {
-            btnNewExp.addEventListener('click', () => showExpForm(null));
-        }
+        if (btnNewExp) btnNewExp.addEventListener('click', () => showExpForm(null));
 
-        // Botón Cancelar Formulario Experiencia
         const btnCancelExp = document.getElementById('admin-btn-cancel-exp');
-        if (btnCancelExp) {
-            btnCancelExp.addEventListener('click', hideExpForm);
-        }
+        if (btnCancelExp) btnCancelExp.addEventListener('click', hideExpForm);
 
         // Submit Formulario Experiencia
         const formExp = document.getElementById('form-admin-exp');
@@ -781,13 +800,11 @@
                 if (!Array.isArray(activeCvData.experiences)) activeCvData.experiences = [];
 
                 if (expId) {
-                    // Actualizar existente
                     const idx = activeCvData.experiences.findIndex(item => item.id === expId);
                     if (idx >= 0) {
                         activeCvData.experiences[idx] = { id: expId, company, role, period, contract, desc };
                     }
                 } else {
-                    // Crear nuevo
                     const newId = generateId();
                     activeCvData.experiences.unshift({ id: newId, company, role, period, contract, desc });
                 }
@@ -799,47 +816,77 @@
             });
         }
 
-        // Live Preview de Foto de Perfil por URL
-        const inputAvatarUrl = document.getElementById('admin-input-avatar-url');
-        const previewAvatarImg = document.getElementById('admin-avatar-preview');
-        const btnPreviewAvatar = document.getElementById('admin-btn-preview-avatar');
-        const btnResetAvatar = document.getElementById('admin-btn-reset-avatar');
+        // Setup Live Previews para las 3 Imágenes Desacopladas
+        const setupImagePreview = (inputId, previewId, btnPreviewId, btnResetId, defaultUrl) => {
+            const inputEl = document.getElementById(inputId);
+            const previewEl = document.getElementById(previewId);
+            const btnPrev = document.getElementById(btnPreviewId);
+            const btnReset = document.getElementById(btnResetId);
 
-        if (inputAvatarUrl && previewAvatarImg) {
-            const updatePreview = () => {
-                const url = inputAvatarUrl.value.trim();
-                if (url) {
-                    previewAvatarImg.src = url;
-                } else {
-                    previewAvatarImg.src = DEFAULT_CV_DATA.personal.avatarUrl;
-                }
+            if (!inputEl || !previewEl) return;
+
+            const update = () => {
+                const url = inputEl.value.trim();
+                previewEl.src = url || defaultUrl;
             };
 
-            inputAvatarUrl.addEventListener('input', updatePreview);
-            inputAvatarUrl.addEventListener('change', updatePreview);
+            inputEl.addEventListener('input', update);
+            inputEl.addEventListener('change', update);
 
-            previewAvatarImg.addEventListener('error', function () {
-                this.src = DEFAULT_CV_DATA.personal.avatarUrl;
-                showToast('No se pudo cargar la imagen desde la URL proporcionada. Se mantendrá la foto original.', 'danger');
+            previewEl.addEventListener('error', function () {
+                this.src = defaultUrl;
+                showToast('No se pudo cargar la imagen desde esa URL. Se restauró el valor previo.', 'danger');
             });
 
-            if (btnPreviewAvatar) {
-                btnPreviewAvatar.addEventListener('click', () => {
-                    updatePreview();
-                    showToast('Previsualización de foto actualizada.', 'info');
+            if (btnPrev) {
+                btnPrev.addEventListener('click', () => {
+                    update();
+                    showToast('Previsualización actualizada.', 'info');
                 });
             }
 
-            if (btnResetAvatar) {
-                btnResetAvatar.addEventListener('click', () => {
-                    inputAvatarUrl.value = DEFAULT_CV_DATA.personal.avatarUrl;
-                    previewAvatarImg.src = DEFAULT_CV_DATA.personal.avatarUrl;
-                    showToast('Foto restablecida a la original del proyecto.', 'info');
+            if (btnReset) {
+                btnReset.addEventListener('click', () => {
+                    inputEl.value = defaultUrl;
+                    previewEl.src = defaultUrl;
+                    showToast('Imagen restaurada a la original por defecto.', 'info');
                 });
             }
+        };
+
+        setupImagePreview(
+            'admin-input-banner-url', 
+            'admin-banner-preview', 
+            'admin-btn-preview-banner', 
+            'admin-btn-reset-banner', 
+            DEFAULT_CV_DATA.personal.bannerUrl
+        );
+
+        setupImagePreview(
+            'admin-input-avatar-web-url', 
+            'admin-avatar-web-preview', 
+            'admin-btn-preview-avatar-web', 
+            'admin-btn-reset-avatar-web', 
+            DEFAULT_CV_DATA.personal.avatarWebUrl
+        );
+
+        setupImagePreview(
+            'admin-input-avatar-resume-url', 
+            'admin-avatar-resume-preview', 
+            'admin-btn-preview-avatar-resume', 
+            'admin-btn-reset-avatar-resume', 
+            DEFAULT_CV_DATA.personal.avatarResumeUrl
+        );
+
+        // Switch de Disponibilidad Laboral Listener
+        const switchWork = document.getElementById('admin-switch-working-status');
+        if (switchWork) {
+            switchWork.addEventListener('change', function () {
+                updateAvailabilityUI(this.checked);
+            });
         }
 
-        // Botón Maestro: Guardar Cambios (Modal Footer)
+        // Botón Maestro: Guardar Cambios
         const btnSaveMaster = document.getElementById('admin-btn-save-master');
         if (btnSaveMaster) {
             btnSaveMaster.addEventListener('click', function () {
@@ -850,7 +897,10 @@
                     return el ? el.value.trim() : def;
                 };
 
-                // 1. Recoger Datos Personales
+                const swWorking = document.getElementById('admin-switch-working-status');
+                const isWorkingChecked = swWorking ? swWorking.checked : false;
+
+                // 1. Recoger Imágenes Desacopladas y Datos Personales
                 activeCvData.personal = {
                     fullname: getVal('admin-input-fullname', DEFAULT_CV_DATA.personal.fullname),
                     displayName: getVal('admin-input-displayname', DEFAULT_CV_DATA.personal.displayName),
@@ -864,10 +914,22 @@
                     linkedinUrl: getVal('admin-input-linkedin', DEFAULT_CV_DATA.personal.linkedinUrl),
                     githubUrl: getVal('admin-input-github', DEFAULT_CV_DATA.personal.githubUrl),
                     whatsappUrl: activeCvData.personal.whatsappUrl || DEFAULT_CV_DATA.personal.whatsappUrl,
-                    avatarUrl: getVal('admin-input-avatar-url', DEFAULT_CV_DATA.personal.avatarUrl)
+                    bannerUrl: getVal('admin-input-banner-url', DEFAULT_CV_DATA.personal.bannerUrl),
+                    avatarWebUrl: getVal('admin-input-avatar-web-url', DEFAULT_CV_DATA.personal.avatarWebUrl),
+                    avatarResumeUrl: getVal('admin-input-avatar-resume-url', DEFAULT_CV_DATA.personal.avatarResumeUrl),
+                    avatarUrl: getVal('admin-input-avatar-web-url', DEFAULT_CV_DATA.personal.avatarWebUrl)
                 };
 
-                // 2. Recoger Educación
+                // 2. Disponibilidad
+                activeCvData.availability = {
+                    isCurrentlyWorking: isWorkingChecked,
+                    workingBannerText: DEFAULT_CV_DATA.availability.workingBannerText,
+                    standardBannerText: DEFAULT_CV_DATA.availability.standardBannerText,
+                    workingBtnText: DEFAULT_CV_DATA.availability.workingBtnText,
+                    standardBtnText: DEFAULT_CV_DATA.availability.standardBtnText
+                };
+
+                // 3. Educación
                 const selEduStatus = document.getElementById('admin-select-edustatus');
                 activeCvData.education = {
                     title: getVal('admin-input-edutitle', DEFAULT_CV_DATA.education.title),
@@ -876,10 +938,8 @@
                     date: getVal('admin-input-edudate', DEFAULT_CV_DATA.education.date)
                 };
 
-                // Guardar y aplicar en DOM
                 saveCvData(activeCvData);
 
-                // Feedback en modal
                 const feedback = document.getElementById('admin-modal-feedback');
                 if (feedback) {
                     feedback.className = 'alert alert-success mt-3 py-2 small';
@@ -933,7 +993,7 @@
                     }
                 };
                 reader.readAsText(file);
-                this.value = ''; // Reset file input
+                this.value = '';
             });
         }
 
@@ -963,9 +1023,7 @@
             toolbar.className = 'admin-toolbar';
 
             const isCollapsed = localStorage.getItem(STORAGE_KEYS.TOOLBAR_COLLAPSED) === 'true';
-            if (isCollapsed) {
-                toolbar.classList.add('collapsed');
-            }
+            if (isCollapsed) toolbar.classList.add('collapsed');
 
             const cvData = getCvData();
             const firstExp = cvData.experiences && cvData.experiences.length > 0 ? cvData.experiences[0] : {};
@@ -1006,8 +1064,19 @@
                             </button>
                         </div>
 
+                        <!-- MINI SWITCH DE DISPONIBILIDAD DIRECTO -->
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary">
+                            <span style="font-size: 0.78rem; color: #f1f5f9; font-weight: 600;">
+                                <i class="ti-briefcase text-danger mr-1"></i> ¿Trabajando?
+                            </span>
+                            <div class="custom-control custom-switch m-0">
+                                <input type="checkbox" class="custom-control-input" id="admin-quick-switch-working" ${cvData.availability.isCurrentlyWorking ? 'checked' : ''}>
+                                <label class="custom-control-label" for="admin-quick-switch-working" style="cursor: pointer;"></label>
+                            </div>
+                        </div>
+
                         <!-- MINI EDITOR RÁPIDO PLEGABLE -->
-                        <div class="admin-cv-config-section mt-3 pt-3" style="border-top: 1px solid rgba(248, 92, 112, 0.25);">
+                        <div class="admin-cv-config-section mt-3 pt-2" style="border-top: 1px solid rgba(248, 92, 112, 0.25);">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="admin-section-label mb-0" style="color: #F85C70; font-weight: 700;">
                                     <i class="ti-settings mr-1"></i> Edición Rápida
@@ -1083,17 +1152,23 @@
                 localStorage.setItem(STORAGE_KEYS.TOOLBAR_COLLAPSED, collapsed ? 'true' : 'false');
             });
 
-            // Abrir Modal de Gestión Completo desde Toolbar
             const btnOpenModal = document.getElementById('admin-btn-open-cv-manager');
-            if (btnOpenModal) {
-                btnOpenModal.addEventListener('click', openCvManagerModal);
-            }
+            if (btnOpenModal) btnOpenModal.addEventListener('click', openCvManagerModal);
+
             const btnOpenModalFromQuick = document.getElementById('admin-btn-open-modal-from-quick');
-            if (btnOpenModalFromQuick) {
-                btnOpenModalFromQuick.addEventListener('click', openCvManagerModal);
+            if (btnOpenModalFromQuick) btnOpenModalFromQuick.addEventListener('click', openCvManagerModal);
+
+            // Quick Switch Trabajando Listener
+            const quickSwitch = document.getElementById('admin-quick-switch-working');
+            if (quickSwitch) {
+                quickSwitch.addEventListener('change', function () {
+                    const current = getCvData();
+                    current.availability.isCurrentlyWorking = this.checked;
+                    saveCvData(current);
+                    showToast(this.checked ? 'Disponibilidad: Trabajando (Enfoque Corporativo)' : 'Disponibilidad: Búsqueda Activa (Freelance o Laboral)', 'info');
+                });
             }
 
-            // Cambiar modo de vista
             document.getElementById('admin-btn-view-public').addEventListener('click', function () {
                 applyViewMode('public');
                 showToast('Modo de previsualización: Vista Pública', 'info');
@@ -1104,7 +1179,6 @@
                 showToast('Modo de previsualización: Vista de Empresa', 'info');
             });
 
-            // Copiar Enlace
             document.getElementById('admin-btn-copy-link').addEventListener('click', function () {
                 const input = document.getElementById('admin-share-link');
                 input.value = getRecruiterShareUrl();
@@ -1126,7 +1200,6 @@
                 });
             });
 
-            // Toggle Editor Rápido
             const btnToggleEditor = document.getElementById('admin-editor-toggle-btn');
             const editorPanel = document.getElementById('admin-editor-panel');
             const editorChevron = document.getElementById('admin-editor-chevron');
@@ -1140,7 +1213,6 @@
                 });
             }
 
-            // Form Submit: Guardar Rápido
             const formQuick = document.getElementById('admin-cv-quick-editor-form');
             if (formQuick) {
                 formQuick.addEventListener('submit', function (e) {
@@ -1170,7 +1242,6 @@
                 });
             }
 
-            // Logout
             document.getElementById('admin-btn-logout').addEventListener('click', function () {
                 logoutAdmin();
             });
@@ -1243,10 +1314,7 @@
     // 10. Inicialización en index.html
     // -------------------------------------------------------------------------
     function initIndexPage() {
-        // Aplicar datos dinámicos guardados en el DOM inmediatamente
         applyCvDataToDOM(getCvData());
-
-        // Inicializar listeners del modal de administración
         initCvManagerModal();
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1254,7 +1322,6 @@
         const tokenParam = urlParams.get('token');
         const adminParam = urlParams.get('admin');
 
-        // Disparador vía URL ?admin=1 o ?admin=login
         if (adminParam === 'login' || adminParam === '1') {
             setTimeout(openAdminModal, 500);
         }
@@ -1282,7 +1349,7 @@
 
         applyViewMode(activeMode);
 
-        // Atajos de teclado: Ctrl + Shift + A o Alt + A para Administrador
+        // Atajos de teclado: Ctrl + Shift + A o Alt + A
         document.addEventListener('keydown', function (e) {
             if ((e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) ||
                 (e.altKey && (e.key === 'A' || e.key === 'a'))) {
@@ -1295,7 +1362,7 @@
             }
         });
 
-        // Trigger discreto: 3 clics rápidos en el avatar o nombre de marca
+        // 3 Clics rápidos en la marca
         let avatarClicks = 0;
         let avatarTimer = null;
         const brandAvatar = document.querySelector('.navbar-brand, .brand-img, .brand');
@@ -1311,14 +1378,11 @@
                         openCvManagerModal();
                     }
                 } else {
-                    avatarTimer = setTimeout(() => {
-                        avatarClicks = 0;
-                    }, 1200);
+                    avatarTimer = setTimeout(() => { avatarClicks = 0; }, 1200);
                 }
             });
         }
 
-        // Form Login Administrador
         const adminForm = document.getElementById('admin-login-form');
         if (adminForm) {
             adminForm.addEventListener('submit', function (e) {
@@ -1339,7 +1403,6 @@
             });
         }
 
-        // Form Token Reclutador
         const recruiterForm = document.getElementById('recruiter-token-form');
         if (recruiterForm) {
             recruiterForm.addEventListener('submit', function (e) {
@@ -1365,7 +1428,6 @@
             });
         }
 
-        // Salir de modo reclutador desde el banner
         const btnExitRecruiter = document.getElementById('btn-exit-recruiter');
         if (btnExitRecruiter) {
             btnExitRecruiter.addEventListener('click', function () {
@@ -1375,7 +1437,6 @@
             });
         }
 
-        // Triggers del Footer
         const footerAdminTrigger = document.getElementById('admin-login-trigger');
         if (footerAdminTrigger) {
             footerAdminTrigger.addEventListener('click', function (e) {
@@ -1401,7 +1462,6 @@
     // 11. Protección y Render Dinámico en resumen.html (CV Imprimible)
     // -------------------------------------------------------------------------
     function initResumePage() {
-        // Aplicar datos dinámicos guardados en el DOM inmediatamente
         applyCvDataToDOM(getCvData());
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1417,7 +1477,7 @@
         }
 
         if (!isAuthorized) {
-            const pages = document.querySelectorAll('.page');
+            const pages = document.querySelectorAll('.cv-page, .page');
             pages.forEach(p => p.style.display = 'none');
             const noPrint = document.querySelectorAll('.no-print');
             noPrint.forEach(np => np.style.display = 'none');
@@ -1482,7 +1542,6 @@
         }
     });
 
-    // Exponer API en window para interacción y pruebas
     window.ViewController = {
         applyViewMode: applyViewMode,
         loginAdmin: loginAdmin,

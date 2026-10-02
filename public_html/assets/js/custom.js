@@ -71,6 +71,8 @@ const translations = {
         'stat-clients': 'Satisfacción',
         'stat-coffee': 'Cafés Tomados',
         'hire-title': 'Disponible para proyectos freelance o contrato laboral',
+        'hire-working-title': '¿Buscas digitalizar tu negocio o necesitas una solución a medida? Desarrollo aplicaciones web, plataformas móviles y sistemas de gestión administrativa personalizados para tiendas, firmas legales, cadenas comerciales o empresas de cualquier sector. Hablemos de tu proyecto.',
+        'hire-working-btn': 'Iniciar Proyecto',
         'hire-btn': 'Contrátame',
         'contact-form-title': 'Envía un mensaje',
         'contact-info-title': 'Ponte en contacto',

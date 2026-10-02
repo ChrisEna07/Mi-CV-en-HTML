@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <header class="header">
+    <header class="header" id="display-header-bg">
         <div class="container">
             <ul class="social-icons pt-3">
                 <li class="social-item"><a class="social-link text-light" id="display-header-whatsapp" href="https://wa.link/o6m42i"
@@ -49,7 +49,7 @@
                 <h1 class="header-title" id="display-header-name">Christian Romero (ChrizDev)</h1>
                 <h6 class="header-mono" id="display-header-title" data-i18n="header-title">Junior Software Developer especializado en IA y Automatización.</h6>
                 <a href="resumen.html" class="btn btn-outline-light btn-rounded view-recruiter"><i class="ti-printer pr-2"></i>Imprimir CV</a>
-                <a href="#contact" class="btn btn-primary btn-rounded btn-pulse ml-md-2 mt-2 mt-md-0"><i class="ti-envelope pr-2"></i>Contrátame</a>
+                <a href="#contact" class="btn btn-primary btn-rounded btn-pulse ml-md-2 mt-2 mt-md-0" id="display-hero-hire-btn"><i class="ti-envelope pr-2"></i><span id="display-hero-hire-text">Contrátame</span></a>
             </div>
         </div>
     </header>
@@ -150,7 +150,15 @@
                         <hr>
                     </div>
                 </div>
-                <div class="row">
+                                <div class="row">
+                    <div class="col-1 text-danger pt-1"><i class="ti-harddrives icon-lg"></i></div>
+                    <div class="col-10 ml-auto mr-3">
+                        <h6>Arquitectura de Hardware</h6>
+                        <p class="subtitle">Ensambles de alto rendimiento, optimización térmica y diagnóstico a nivel de componentes.</p>
+                        <hr>
+                    </div>
+                </div>
+<div class="row">
                     <div class="col-1 text-danger pt-1"><i class="ti-stats-up icon-lg"></i></div>
                     <div class="col-10 ml-auto mr-3">
                         <h6 data-i18n="exp-data">Análisis de Datos</h6>
@@ -618,6 +626,50 @@
                 </div>
             </div>
 
+                            <!-- SERVICIO ESPECIALIZADO: CONSULTORÍA & ARQUITECTURA DE HARDWARE -->
+                <div class="col-12 mb-4">
+                    <div class="card h-100 shadow-sm" style="border-left: 4px solid #F85C70; background: linear-gradient(135deg, rgba(248, 92, 112, 0.05) 0%, rgba(15, 23, 42, 0.02) 100%);">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3 flex-wrap" style="gap: 12px;">
+                                <div class="rounded-circle p-2 d-flex align-items-center justify-content-center" style="background: rgba(248, 92, 112, 0.15); width: 45px; height: 45px;">
+                                    <i class="ti-harddrives text-danger" style="font-size: 1.3rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 card-title text-dark font-weight-bold">Consultoría & Arquitectura de Hardware | Ensambles de Alto Rendimiento</h5>
+                                    <span class="badge badge-danger px-2 py-1" style="font-size: 0.72rem; background: #F85C70;">Infraestructura Física & Hardware Especializado</span>
+                                </div>
+                            </div>
+                            <p class="subtitle mb-3 text-muted">Especialista en infraestructura física de cómputo y soluciones avanzadas de ingeniería de hardware para maximizar la eficiencia térmica, benchmarking y continuidad operativa:</p>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <div class="d-flex align-items-start">
+                                        <i class="ti-check-box text-danger mr-2 mt-1"></i>
+                                        <span class="small"><strong>Ensambles de Alto Rendimiento:</strong> Ensamble, calibración y benchmarking de estaciones de trabajo profesionales y PCs Gaming de alto rendimiento optimizadas por presupuesto y caso de uso.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="d-flex align-items-start">
+                                        <i class="ti-check-box text-danger mr-2 mt-1"></i>
+                                        <span class="small"><strong>Diagnóstico Avanzado & Térmica:</strong> Diagnóstico avanzado a nivel de componentes, mantenimiento predictivo/correctivo y optimización térmica.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="d-flex align-items-start">
+                                        <i class="ti-check-box text-danger mr-2 mt-1"></i>
+                                        <span class="small"><strong>Despliegue & Drivers:</strong> Despliegue, configuración e instalación limpia de sistemas operativos, particionamiento avanzado y aseguramiento de drivers.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="d-flex align-items-start">
+                                        <i class="ti-check-box text-danger mr-2 mt-1"></i>
+                                        <span class="small"><strong>Asesoría Estratégica:</strong> Asesoría estratégica en adquisición y compatibilidad de componentes según métricas de rendimiento y requerimientos del usuario.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             <!-- ============================================================
                  SUBSECCIÓN TÉCNICA COMPLEMENTARIA: CLARIS FILEMAKER (NIVEL COMPETITIVO)
                  ============================================================ -->
@@ -724,11 +776,11 @@
     </section>
 
 
-    <section class="section bg-dark py-5">
+    <section class="section bg-dark py-5" id="cta-hire-section">
         <div class="container text-center">
-            <h2 class="text-light mb-5 font-weight-normal" data-i18n="hire-title">Disponible para proyectos freelance o
+            <h2 class="text-light mb-4 font-weight-normal" id="display-hire-title" data-i18n="hire-title" style="max-width: 900px; margin: 0 auto; line-height: 1.5;">Disponible para proyectos freelance o
                 contrato laboral</h2>
-            <a href="#contact" class="btn bg-primary w-lg" data-i18n="hire-btn">Contrátame</a>
+            <a href="#contact" class="btn bg-primary w-lg" id="display-hire-btn" data-i18n="hire-btn">Contrátame</a>
         </div>
     </section>
 
@@ -1042,28 +1094,84 @@
                         <!-- TAB 1: DATOS PERSONALES -->
                         <div class="tab-pane fade show active" id="admin-tab-personal" role="tabpanel">
                             <form id="form-admin-personal">
-                                <!-- Foto de perfil con preview en vivo -->
+                                <!-- SECCIÓN 1: GESTIÓN INDEPENDIENTE DE IMÁGENES (3 MÓDULOS CON LIVE PREVIEW) -->
                                 <div class="admin-photo-section p-3 mb-3 rounded" style="background: rgba(255,255,255,0.03); border: 1px solid #334155;">
                                     <label class="form-label font-weight-bold d-block text-light mb-2">
-                                        <i class="ti-image text-danger mr-1"></i> Foto de Perfil (Web & CV Imprimible)
+                                        <i class="ti-image text-danger mr-1"></i> Gestión Independiente de Imágenes (Web, Portada & CV)
                                     </label>
-                                    <div class="d-flex align-items-center flex-wrap" style="gap: 15px;">
-                                        <div class="avatar-preview-wrap text-center">
-                                            <img id="admin-avatar-preview" src="assets/imgs/avatar.jpg" alt="Preview" style="width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid #F85C70; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                                            <small class="d-block text-muted mt-1" style="font-size: 0.72rem;">Vista Previa</small>
+                                    <div class="row">
+                                        <!-- Imagen 1: Foto de Portada / Banner (Muro) -->
+                                        <div class="col-md-4 mb-3">
+                                            <div class="p-2 rounded h-100" style="background: #0f172a; border: 1px solid #1e293b;">
+                                                <small class="d-block text-danger font-weight-bold mb-1"><i class="ti-layout-media-overlay mr-1"></i> Portada / Banner (Muro)</small>
+                                                <div class="text-center my-2">
+                                                    <img id="admin-banner-preview" src="assets/imgs/header.jpg" alt="Banner Preview" style="width: 100%; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #F85C70;">
+                                                </div>
+                                                <input type="text" id="admin-input-banner-url" class="form-control form-control-sm mb-2" placeholder="URL fondo portada..." style="font-size: 0.75rem;">
+                                                <div class="d-flex justify-content-between" style="gap: 4px;">
+                                                    <button type="button" id="admin-btn-preview-banner" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-eye"></i> Probar</button>
+                                                    <button type="button" id="admin-btn-reset-banner" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-reload"></i> Original</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="flex-fill" style="min-width: 250px;">
-                                            <input type="text" id="admin-input-avatar-url" class="form-control form-control-sm mb-2" placeholder="Introduce URL de la imagen (ej: https://... o assets/imgs/avatar.jpg)">
-                                            <div class="d-flex align-items-center" style="gap: 8px;">
-                                                <button type="button" id="admin-btn-preview-avatar" class="btn btn-outline-secondary btn-sm" style="font-size: 0.75rem;">
-                                                    <i class="ti-eye mr-1"></i> Probar URL
-                                                </button>
-                                                <button type="button" id="admin-btn-reset-avatar" class="btn btn-outline-secondary btn-sm" style="font-size: 0.75rem;">
-                                                    <i class="ti-reload mr-1"></i> Foto Original
-                                                </button>
+
+                                        <!-- Imagen 2: Foto de Presentación Web (Hero / Perfil) -->
+                                        <div class="col-md-4 mb-3">
+                                            <div class="p-2 rounded h-100" style="background: #0f172a; border: 1px solid #1e293b;">
+                                                <small class="d-block text-danger font-weight-bold mb-1"><i class="ti-user mr-1"></i> Avatar Web (Portafolio)</small>
+                                                <div class="text-center my-2">
+                                                    <img id="admin-avatar-web-preview" src="assets/imgs/avatar.jpg" alt="Avatar Web" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #F85C70;">
+                                                </div>
+                                                <input type="text" id="admin-input-avatar-web-url" class="form-control form-control-sm mb-2" placeholder="URL avatar web..." style="font-size: 0.75rem;">
+                                                <div class="d-flex justify-content-between" style="gap: 4px;">
+                                                    <button type="button" id="admin-btn-preview-avatar-web" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-eye"></i> Probar</button>
+                                                    <button type="button" id="admin-btn-reset-avatar-web" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-reload"></i> Original</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Imagen 3: Foto del CV Imprimible (Ejecutiva) -->
+                                        <div class="col-md-4 mb-3">
+                                            <div class="p-2 rounded h-100" style="background: #0f172a; border: 1px solid #1e293b;">
+                                                <small class="d-block text-danger font-weight-bold mb-1"><i class="ti-id-badge mr-1"></i> Foto CV Imprimible</small>
+                                                <div class="text-center my-2">
+                                                    <img id="admin-avatar-resume-preview" src="assets/imgs/CVpicture.jpg" alt="Avatar CV" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #64748b;">
+                                                </div>
+                                                <input type="text" id="admin-input-avatar-resume-url" class="form-control form-control-sm mb-2" placeholder="URL foto CV sobria..." style="font-size: 0.75rem;">
+                                                <div class="d-flex justify-content-between" style="gap: 4px;">
+                                                    <button type="button" id="admin-btn-preview-avatar-resume" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-eye"></i> Probar</button>
+                                                    <button type="button" id="admin-btn-reset-avatar-resume" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-reload"></i> Original</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- SECCIÓN 2: SWITCH DINÁMICO DE DISPONIBILIDAD LABORAL (BANNER CTA) -->
+                                <div class="admin-availability-section p-3 mb-3 rounded" style="background: rgba(248, 92, 112, 0.08); border: 1px solid rgba(248, 92, 112, 0.35);">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 10px;">
+                                        <div>
+                                            <h6 class="text-light mb-1 font-weight-bold">
+                                                <i class="ti-briefcase text-danger mr-1"></i> Estado de Disponibilidad Laboral (Banner CTA)
+                                            </h6>
+                                            <small class="text-muted d-block" id="admin-availability-status-desc">
+                                                ¿Trabajando actualmente / No disponible para contratación directa?
+                                            </small>
+                                        </div>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="admin-switch-working-status">
+                                            <label class="custom-control-label font-weight-bold text-light" for="admin-switch-working-status" id="admin-label-working-status" style="cursor: pointer;">
+                                                Búsqueda Activa (Disponible)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 pt-2 border-top border-secondary small text-muted" id="admin-availability-preview-hint">
+                                        <i class="ti-info-alt text-info mr-1"></i> 
+                                        <span id="admin-availability-hint-text">
+                                            Modo actual: Banner ofrecerá "Disponible para proyectos freelance o contrato laboral" con botón "Contrátame".
+                                        </span>
+                                    </div>
+                                </div>
                                 </div>
 
                                 <div class="row">
