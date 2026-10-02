@@ -163,14 +163,15 @@
         </div>
     </div>
 
-    <!--Resume Section-->
+        <!--Resume Section-->
     <section class="section view-recruiter" id="resume">
         <div class="container">
             <h2 class="mb-5"><span class="text-danger" data-i18n="resume-my">Mi</span> <span
                     data-i18n="resume-title">Currículum</span></h2>
             <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <div class="card">
+                <!-- Columna 1: Experiencia y Educación -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card mb-4">
                         <div class="card-header">
                             <div class="mt-2">
                                 <h4 data-i18n="resume-exp">Experiencia</h4>
@@ -178,21 +179,22 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="title text-danger" data-i18n="resume-current">Actualidad</h6>
-                            <P data-i18n="resume-role1">Desarrollador Independiente</P>
-                            <P class="subtitle" data-i18n="resume-desc1">Desarrollo de proyectos y soluciones de
-                                software de manera autónoma mientras finalizo mis estudios tecnológicos.</P>
+                            <h6 class="title text-danger" id="display-job-period" data-i18n="resume-current">2024 - Presente</h6>
+                            <p class="font-weight-bold mb-1" id="display-job-role" data-i18n="resume-role1">Desarrollador de Software (Contrato de Aprendizaje)</p>
+                            <p class="text-danger font-weight-bold small mb-2" id="display-job-company">Celerix SAS</p>
+                            <p class="subtitle" id="display-job-desc" data-i18n="resume-desc1">Desarrollo y soporte en soluciones tecnológicas empresariales, automatización de procesos internos, desarrollo de módulos con Claris FileMaker e integración de datos y APIs.</p>
                             <hr>
                             <h6 class="title text-danger">2020 - 2023</h6>
-                            <P>Técnico en Soporte de Hardware</P>
-                            <P class="subtitle">Ensamble, reparación y mantenimiento preventivo/correctivo de computadores de escritorio y portátiles.</P>
+                            <p class="font-weight-bold mb-1">Técnico en Soporte de Hardware</p>
+                            <p class="subtitle">Ensamble, reparación y mantenimiento preventivo/correctivo de computadores de escritorio y portátiles.</p>
                             <hr>
                             <h6 class="title text-danger">2018 - 2020</h6>
-                            <P>Técnico en Soporte de Sistemas</P>
-                            <P class="subtitle">Instalación y actualización de software, configuración de redes y aprovisionamiento de herramientas ofimáticas y digitales.</P>
+                            <p class="font-weight-bold mb-1">Técnico en Soporte de Sistemas</p>
+                            <p class="subtitle">Instalación y actualización de software, configuración de redes y aprovisionamiento de herramientas ofimáticas y digitales.</p>
                         </div>
                     </div>
-                    <div class="card">
+
+                    <div class="card mb-4">
                         <div class="card-header">
                             <div class="mt-2">
                                 <h4 data-i18n="resume-edu">Educación</h4>
@@ -200,14 +202,43 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="title text-danger" data-i18n="resume-inprogress">En curso</h6>
-                            <P data-i18n="resume-degree">Tecnología en Análisis y Desarrollo de Software</P>
-                            <P class="subtitle">SENA (CESGE)</P>
+                            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+                                <h6 class="title text-danger mb-0" id="display-edu-status-badge">
+                                    <span class="badge badge-danger px-2 py-1" style="font-size: 0.75rem; border-radius: 4px; background-color: #F85C70;">
+                                        <i class="ti-book mr-1"></i> <span id="display-edu-status-text" data-i18n="resume-inprogress">En formación / Estudiante</span>
+                                    </span>
+                                </h6>
+                            </div>
+                            <p class="font-weight-bold mb-1" id="display-edu-title" data-i18n="resume-degree">Tecnólogo en Análisis y Desarrollo de Software</p>
+                            <p class="text-muted font-weight-bold small mb-2" id="display-edu-institution">SENA (Servicio Nacional de Aprendizaje)</p>
+                            <p class="subtitle mb-0" id="display-edu-period"><i class="ti-calendar mr-1"></i> <span id="display-edu-date-text">Finalización estimada: Enero de 2027</span></p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="mt-2">
+                                <h4>Formación Continua</h4>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="card-body py-3">
+                            <div class="mb-2">
+                                <h6 class="font-weight-bold mb-0 text-danger" style="font-size: 0.9rem;">Inteligencia Artificial & Automatización</h6>
+                                <p class="subtitle mb-1">Ingeniería de Prompts, Integración de LLMs (Groq, Gemini) y flujos asíncronos.</p>
+                            </div>
+                            <hr class="my-2">
+                            <div>
+                                <h6 class="font-weight-bold mb-0 text-danger" style="font-size: 0.9rem;">Bases de Datos & Arquitectura Cloud</h6>
+                                <p class="subtitle mb-0">Modelado relacional avanzado, normalización SQL y persistencia segura.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="card">
+
+                <!-- Columna 2: Habilidades Blandas e Idiomas -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card mb-4">
                         <div class="card-header">
                             <div class="pull-left">
                                 <h4 class="mt-2">Habilidades Blandas</h4>
@@ -252,63 +283,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                                        <div class="card">
-                        <div class="card-header">
-                            <div class="pull-left">
-                                <h4 class="mt-2">Habilidades Técnicas</h4>
-                                <span class="line"></span>
-                            </div>
-                        </div>
-                        <div class="card-body pb-2">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="mb-0">Claris FileMaker (Scripting & Arquitectura)</h6>
-                                <span class="text-danger font-weight-bold small">85%</span>
-                            </div>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 85%"
-                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
 
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="mb-0">SQL & Modelado Relacional (PostgreSQL, SQLite)</h6>
-                                <span class="text-danger font-weight-bold small">75%</span>
-                            </div>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="mb-0">Python & Análisis / Automatización de Datos</h6>
-                                <span class="text-danger font-weight-bold small">70%</span>
-                            </div>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 70%"
-                                    aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="mb-0">JavaScript & REST APIs (Webhooks / JSON)</h6>
-                                <span class="text-danger font-weight-bold small">65%</span>
-                            </div>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 65%"
-                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="mb-0">Flutter & Dart (UI Móvil)</h6>
-                                <span class="text-danger font-weight-bold small">55%</span>
-                            </div>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 55%"
-                                    aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
                     <div class="card">
                         <div class="card-header">
                             <div class="mt-2">
@@ -327,20 +302,127 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Columna 3: Habilidades Técnicas, Metodologías e Intereses -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="pull-left">
+                                <h4 class="mt-2">Habilidades Técnicas</h4>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="card-body pb-2">
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">Claris FileMaker (Scripting & Arquitectura)</h6>
+                                <span class="text-danger font-weight-bold small">85%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 85%"
+                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">SQL & Modelado Relacional (PostgreSQL, SQLite, MySQL)</h6>
+                                <span class="text-danger font-weight-bold small">80%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 80%"
+                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">Python & Automatización / IA</h6>
+                                <span class="text-danger font-weight-bold small">75%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">JavaScript (ES6+), React & REST APIs</h6>
+                                <span class="text-danger font-weight-bold small">75%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">Flutter & Dart (UI Móvil)</h6>
+                                <span class="text-danger font-weight-bold small">70%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 70%"
+                                    aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <h6 class="mb-0">NoSQL & Cloud (Firebase, Supabase, MongoDB)</h6>
+                                <span class="text-danger font-weight-bold small">65%</span>
+                            </div>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 65%"
+                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metodologías de Trabajo: Scrum / Git (Relleno armónico del espacio) -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="mt-2">
+                                <h4>Metodologías de Trabajo</h4>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="card-body py-3">
+                            <div class="methodology-list">
+                                <div class="method-item d-flex align-items-start mb-2">
+                                    <i class="ti-reload text-danger mr-2 mt-1" style="font-size: 1.1rem;"></i>
+                                    <div>
+                                        <strong class="d-block text-dark font-weight-bold" style="font-size: 0.88rem;">Scrum & Metodologías Ágiles</strong>
+                                        <span class="text-muted small">Sprints cortos, daily meetings y entregas incrementales de alto valor.</span>
+                                    </div>
+                                </div>
+                                <div class="method-item d-flex align-items-start mb-2">
+                                    <i class="ti-split-v text-danger mr-2 mt-1" style="font-size: 1.1rem;"></i>
+                                    <div>
+                                        <strong class="d-block text-dark font-weight-bold" style="font-size: 0.88rem;">Git & Flujo GitFlow</strong>
+                                        <span class="text-muted small">Ramas de características, pull requests, versionamiento semántico y merges limpios.</span>
+                                    </div>
+                                </div>
+                                <div class="method-item d-flex align-items-start">
+                                    <i class="ti-check-box text-danger mr-2 mt-1" style="font-size: 1.1rem;"></i>
+                                    <div>
+                                        <strong class="d-block text-dark font-weight-bold" style="font-size: 0.88rem;">Clean Code & Modularidad</strong>
+                                        <span class="text-muted small">Código autodocumentado, buenas prácticas y patrones de resiliencia ante errores.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Intereses & Enfoque: Diseño con badges estilizados y balance armónico -->
                     <div class="card">
                         <div class="card-header">
                             <div class="mt-2">
-                                <h4>Intereses</h4>
+                                <h4>Intereses & Enfoque</h4>
                                 <span class="line"></span>
                             </div>
                         </div>
                         <div class="card-body">
-                            <ul class="list-unstyled">
-                                <li><i class="ti-music-alt text-danger pr-2"></i> Tocar la guitarra</li>
-                                <li><i class="ti-video-clapper text-danger pr-2"></i> Ver películas</li>
-                                <li><i class="ti-game text-danger pr-2"></i> Juegos de estrategia (XCOM)</li>
-                                <li><i class="ti-cup text-danger pr-2"></i> Cocinar</li>
-                            </ul>
+                            <p class="subtitle mb-2 small text-muted">Áreas de constante exploración técnica y actividades personales:</p>
+                            <div class="interest-tags d-flex flex-wrap" style="gap: 6px;">
+                                <span class="interest-tag"><i class="ti-music-alt text-danger mr-1"></i> Tocar la guitarra</span>
+                                <span class="interest-tag"><i class="ti-video-clapper text-danger mr-1"></i> Cine</span>
+                                <span class="interest-tag"><i class="ti-game text-danger mr-1"></i> Juegos de estrategia (XCOM)</span>
+                                <span class="interest-tag"><i class="ti-cup text-danger mr-1"></i> Cocina</span>
+                                <span class="interest-tag"><i class="ti-light-bulb text-danger mr-1"></i> IA Aplicada</span>
+                                <span class="interest-tag"><i class="ti-layout-grid2 text-danger mr-1"></i> UI/UX Design</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -437,16 +519,16 @@
         </div>
     </section>
 
-        <!-- Services Section -->
+            <!-- Services Section -->
     <section class="section" id="service">
         <div class="container">
             <h2 class="mb-5 pb-4"><span class="text-danger" data-i18n="services-my">Mis</span> <span
                     data-i18n="services-title">Servicios</span></h2>
 
             <!-- ============================================================
-                 VISTA PÚBLICA (General / Clientes / Negocio de Alto Nivel)
+                 SERVICIOS PRINCIPALES MULTI-STACK (Siempre visibles para todos)
                  ============================================================ -->
-            <div class="row view-public">
+            <div class="row">
                 <div class="col-12 col-md-6 col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-header has-icon">
@@ -466,7 +548,7 @@
                         </div>
                         <div class="card-body px-4 py-3">
                             <h5 class="mb-3 card-title text-dark">Desarrollo de Soluciones de Software</h5>
-                            <p class="subtitle">Creación de aplicaciones web y de escritorio robustas, escalables y orientadas a la eficiencia operativa, diseñadas a la medida de los requerimientos del negocio.</p>
+                            <p class="subtitle">Creación de aplicaciones web y de escritorio robustas, escalables y orientadas a la eficiencia operativa (.NET, Node.js, Python), diseñadas a la medida del negocio.</p>
                         </div>
                     </div>
                 </div>
@@ -478,7 +560,7 @@
                         </div>
                         <div class="card-body px-4 py-3">
                             <h5 class="mb-3 card-title text-dark">Aplicaciones Móviles</h5>
-                            <p class="subtitle">Desarrollo de herramientas móviles multiplataforma ágiles y funcionales con Flutter, facilitando la captura de datos en campo y la movilidad corporativa.</p>
+                            <p class="subtitle">Desarrollo de herramientas móviles multiplataforma nativas y fluidas con Flutter y Dart, facilitando la movilidad corporativa y la captura de datos en campo.</p>
                         </div>
                     </div>
                 </div>
@@ -490,7 +572,7 @@
                         </div>
                         <div class="card-body px-4 py-3">
                             <h5 class="mb-3 card-title text-dark">Arquitectura & Gestión de Datos</h5>
-                            <p class="subtitle">Estructuración, almacenamiento seguro y disponibilidad de información empresarial mediante esquemas confiables, trazabilidad auditada y control de accesos.</p>
+                            <p class="subtitle">Estructuración, almacenamiento seguro y disponibilidad de información empresarial mediante esquemas relacionales (SQL) y no relacionales (NoSQL), trazabilidad y auditoría.</p>
                         </div>
                     </div>
                 </div>
@@ -502,7 +584,7 @@
                         </div>
                         <div class="card-body px-4 py-3">
                             <h5 class="mb-3 card-title text-dark">Business Intelligence & Análisis</h5>
-                            <p class="subtitle">Extracción, consolidación y visualización de métricas para la toma de decisiones estratégicas, detectando patrones clave y oportunidades de mejora.</p>
+                            <p class="subtitle">Extracción, consolidación y visualización de métricas para la toma de decisiones estratégicas, detectando patrones clave y optimizaciones mediante Python y analítica.</p>
                         </div>
                     </div>
                 </div>
@@ -521,17 +603,20 @@
             </div>
 
             <!-- ============================================================
-                 VISTA EXCLUSIVA PARA EMPRESAS (Reclutadores / Claris FileMaker)
+                 SUBSECCIÓN TÉCNICA COMPLEMENTARIA: CLARIS FILEMAKER (NIVEL COMPETITIVO)
                  ============================================================ -->
-            <div class="view-recruiter view-enterprise">
+            <div class="filemaker-specialization-container mt-5 pt-3">
                 <div class="d-flex align-items-center mb-4 flex-wrap">
-                    <span class="badge badge-danger px-3 py-2 mr-2" style="font-size: 0.85rem; border-radius: 20px;">
-                        <i class="ti-layers mr-1"></i> ARQUITECTURA EMPRESARIAL
+                    <span class="badge badge-danger px-3 py-2 mr-2" style="font-size: 0.85rem; border-radius: 20px; background-color: #F85C70;">
+                        <i class="ti-layers mr-1"></i> ESPECIALIZACIÓN TÉCNICA COMPLEMENTARIA
                     </span>
-                    <h5 class="mb-0 text-muted font-weight-normal" style="font-size: 1rem;">
-                        Especialización Técnica en <strong>Claris FileMaker</strong> & Soluciones de Misión Crítica
-                    </h5>
+                    <h4 class="mb-0 text-dark font-weight-bold" style="font-size: 1.2rem;">
+                        Claris FileMaker Pro & Server <span class="text-danger font-weight-normal" style="font-size: 0.95rem;">(Nivel Competitivo / Enterprise)</span>
+                    </h4>
                 </div>
+                <p class="subtitle mb-4 text-muted">
+                    Capacidad técnica avanzada para el diseño, optimización e integración de sistemas operativos de misión crítica con el ecosistema Claris.
+                </p>
 
                 <div class="row">
                     <!-- 1. Desarrollo Low-Code en Claris FileMaker -->

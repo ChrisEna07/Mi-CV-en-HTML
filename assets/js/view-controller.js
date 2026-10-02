@@ -3,7 +3,8 @@
  * Proyecto: Christian Romero Portfolio & CV
  * 
  * Gestiona la segmentación entre Vista Pública y Vista Profesional (Empresas/Reclutadores),
- * el flujo de autenticación administrativa, y la persistencia de acceso por token.
+ * el flujo de autenticación administrativa, la persistencia de acceso por token,
+ * y la configuración dinámica de datos clave del CV en tiempo real con persistencia en localStorage.
  */
 
 (function () {
@@ -21,7 +22,20 @@
         RECRUITER_SESSION: 'cv_recruiter_session',
         RECRUITER_TOKEN: 'cv_recruiter_token',
         ADMIN_PREVIEW: 'cv_admin_preview_mode',
-        TOOLBAR_COLLAPSED: 'cv_admin_toolbar_collapsed'
+        TOOLBAR_COLLAPSED: 'cv_admin_toolbar_collapsed',
+        PROFILE_DATA: 'cv_profile_data'
+    };
+
+    // Datos por defecto del perfil profesional y académico
+    const DEFAULT_PROFILE_DATA = {
+        jobRole: 'Desarrollador de Software (Contrato de Aprendizaje)',
+        jobCompany: 'Celerix SAS',
+        jobPeriod: '2024 - Presente',
+        jobDesc: 'Desarrollo y soporte en soluciones tecnológicas empresariales, automatización de procesos internos, desarrollo de módulos con Claris FileMaker e integración de datos y APIs.',
+        eduTitle: 'Tecnólogo en Análisis y Desarrollo de Software',
+        eduInstitution: 'SENA (Servicio Nacional de Aprendizaje)',
+        eduStatus: 'studying', // 'studying' | 'graduated'
+        eduDate: 'Enero de 2027'
     };
 
     // -------------------------------------------------------------------------
@@ -45,6 +59,89 @@
 
     function getRecruiterShareUrl() {
         return `${getCleanBaseUrl()}?mode=empresa&token=${encodeURIComponent(getRecruiterToken())}`;
+    }
+
+    // Gestión del Perfil Dinámico (localStorage)
+    function getProfileData() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEYS.PROFILE_DATA);
+            if (raw) {
+                return Object.assign({}, DEFAULT_PROFILE_DATA, JSON.parse(raw));
+            }
+        } catch (e) {
+            console.warn('Error al leer cv_profile_data:', e);
+        }
+        return Object.assign({}, DEFAULT_PROFILE_DATA);
+    }
+
+    function saveProfileData(data) {
+        try {
+            localStorage.setItem(STORAGE_KEYS.PROFILE_DATA, JSON.stringify(data));
+            applyProfileDataToDOM(data);
+            return true;
+        } catch (e) {
+            console.error('Error al guardar cv_profile_data:', e);
+            return false;
+        }
+    }
+
+    function applyProfileDataToDOM(data) {
+        if (!data) data = getProfileData();
+
+        // 1. Puesto Actual y Empresa
+        const elJobRole = document.getElementById('display-job-role');
+        if (elJobRole) elJobRole.textContent = data.jobRole;
+
+        const elJobCompany = document.getElementById('display-job-company');
+        if (elJobCompany) elJobCompany.textContent = data.jobCompany;
+
+        const elJobPeriod = document.getElementById('display-job-period');
+        if (elJobPeriod) elJobPeriod.textContent = data.jobPeriod;
+
+        const elJobDesc = document.getElementById('display-job-desc');
+        if (elJobDesc && data.jobDesc) elJobDesc.textContent = data.jobDesc;
+
+        // 2. Carrera y Entidad Educativa
+        const elEduTitle = document.getElementById('display-edu-title');
+        if (elEduTitle) elEduTitle.textContent = data.eduTitle;
+
+        const elEduInstitution = document.getElementById('display-edu-institution');
+        if (elEduInstitution) elEduInstitution.textContent = data.eduInstitution;
+
+        // 3. Switch de Estado Académico (Estudiando vs Graduado)
+        const elStatusBadge = document.getElementById('display-edu-status-badge');
+        const elEduDateText = document.getElementById('display-edu-date-text');
+        const isGraduated = data.eduStatus === 'graduated';
+
+        if (elStatusBadge) {
+            if (isGraduated) {
+                elStatusBadge.innerHTML = `<span class="badge badge-success px-2 py-1" style="font-size: 0.75rem; border-radius: 4px; background-color: #10b981;"><i class="ti-medall mr-1"></i> <span id="display-edu-status-text">Graduado en ${data.eduDate}</span></span>`;
+            } else {
+                elStatusBadge.innerHTML = `<span class="badge badge-danger px-2 py-1" style="font-size: 0.75rem; border-radius: 4px; background-color: #F85C70;"><i class="ti-book mr-1"></i> <span id="display-edu-status-text">En formación / Estudiante</span></span>`;
+            }
+        }
+
+        if (elEduDateText) {
+            elEduDateText.textContent = isGraduated 
+                ? `Graduado: ${data.eduDate}` 
+                : `Finalización estimada: ${data.eduDate}`;
+        }
+
+        // 4. Sincronización en resumen.html si está cargada
+        const resumeRole = document.getElementById('cv-resume-job-role');
+        if (resumeRole) resumeRole.textContent = data.jobRole;
+        const resumeCompany = document.getElementById('cv-resume-job-company');
+        if (resumeCompany) resumeCompany.textContent = data.jobCompany;
+        const resumePeriod = document.getElementById('cv-resume-job-period');
+        if (resumePeriod) resumePeriod.textContent = data.jobPeriod;
+        const resumeEduTitle = document.getElementById('cv-resume-edu-title');
+        if (resumeEduTitle) resumeEduTitle.textContent = data.eduTitle;
+        const resumeEduStatus = document.getElementById('cv-resume-edu-status');
+        if (resumeEduStatus) {
+            resumeEduStatus.textContent = isGraduated
+                ? `Graduado en ${data.eduDate}`
+                : `En formación / Estudiante (Finalización estimada: ${data.eduDate})`;
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -122,7 +219,7 @@
             localStorage.setItem(STORAGE_KEYS.ADMIN_PREVIEW, mode);
         }
 
-        // Refrescar GSAP ScrollTrigger si está cargado para recalcular medidas y evitar desfases
+        // Refrescar GSAP ScrollTrigger si está cargado
         if (typeof ScrollTrigger !== 'undefined') {
             setTimeout(() => {
                 ScrollTrigger.refresh();
@@ -146,6 +243,8 @@
             if (isCollapsed) {
                 toolbar.classList.add('collapsed');
             }
+
+            const profileData = getProfileData();
 
             toolbar.innerHTML = `
                 <div class="admin-card">
@@ -176,6 +275,65 @@
                             <button id="admin-btn-copy-link" class="admin-btn-copy" title="Copiar enlace directo">
                                 <i class="ti-clipboard mr-1"></i> Copiar
                             </button>
+                        </div>
+
+                        <!-- SECCIÓN DE CONFIGURACIÓN DINÁMICA DEL CV (CHRIZDEV07) -->
+                        <div class="admin-cv-config-section mt-3 pt-3" style="border-top: 1px solid rgba(248, 92, 112, 0.25);">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="admin-section-label mb-0" style="color: #F85C70; font-weight: 700;">
+                                    <i class="ti-settings mr-1"></i> Configuración Dinámica CV
+                                </span>
+                                <button id="admin-editor-toggle-btn" class="admin-btn-icon" title="Plegar/Desplegar Editor" type="button">
+                                    <i class="ti-angle-down" id="admin-editor-chevron"></i>
+                                </button>
+                            </div>
+
+                            <div id="admin-editor-panel" class="admin-editor-panel">
+                                <form id="admin-cv-editor-form">
+                                    <div class="admin-form-group mb-2">
+                                        <label class="admin-form-label" for="admin-input-job-role">Puesto / Rol Actual</label>
+                                        <input type="text" id="admin-input-job-role" class="admin-ctrl-input" value="${profileData.jobRole}" placeholder="Desarrollador de Software">
+                                    </div>
+
+                                    <div class="admin-form-group mb-2">
+                                        <label class="admin-form-label" for="admin-input-job-company">Empresa Actual</label>
+                                        <input type="text" id="admin-input-job-company" class="admin-ctrl-input" value="${profileData.jobCompany}" placeholder="Celerix SAS">
+                                    </div>
+
+                                    <div class="admin-form-group mb-2">
+                                        <label class="admin-form-label" for="admin-input-job-period">Periodo de Experiencia</label>
+                                        <input type="text" id="admin-input-job-period" class="admin-ctrl-input" value="${profileData.jobPeriod}" placeholder="2024 - Presente">
+                                    </div>
+
+                                    <div class="admin-form-group mb-2">
+                                        <label class="admin-form-label" for="admin-input-edu-title">Carrera / Título</label>
+                                        <input type="text" id="admin-input-edu-title" class="admin-ctrl-input" value="${profileData.eduTitle}" placeholder="Tecnólogo en Análisis y Desarrollo de Software">
+                                    </div>
+
+                                    <div class="admin-form-group mb-2">
+                                        <label class="admin-form-label" for="admin-select-edu-status">Estado Académico</label>
+                                        <select id="admin-select-edu-status" class="admin-ctrl-select">
+                                            <option value="studying" ${profileData.eduStatus === 'studying' ? 'selected' : ''}>En formación / Estudiante</option>
+                                            <option value="graduated" ${profileData.eduStatus === 'graduated' ? 'selected' : ''}>Graduado</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="admin-form-group mb-2">
+                                        <label class="admin-form-label" for="admin-input-edu-date">Fecha Finalización / Graduación</label>
+                                        <input type="text" id="admin-input-edu-date" class="admin-ctrl-input" value="${profileData.eduDate}" placeholder="Enero de 2027">
+                                    </div>
+
+                                    <div class="d-flex align-items-center mt-3 pt-1" style="gap: 8px;">
+                                        <button type="submit" id="admin-btn-save-cv" class="admin-btn-save-cv flex-fill" title="Guardar cambios y actualizar en vivo">
+                                            <i class="ti-save mr-1"></i> Guardar Cambios
+                                        </button>
+                                        <button type="button" id="admin-btn-reset-cv" class="admin-btn-reset-cv" title="Restablecer valores originales">
+                                            <i class="ti-reload"></i>
+                                        </button>
+                                    </div>
+                                    <div id="admin-editor-feedback" class="admin-editor-feedback mt-2" style="display: none;"></div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="admin-card-footer">
@@ -226,6 +384,74 @@
                     showToast('Enlace copiado al portapapeles', 'success');
                 });
             });
+
+            // Toggle Editor Panel
+            const btnToggleEditor = document.getElementById('admin-editor-toggle-btn');
+            const editorPanel = document.getElementById('admin-editor-panel');
+            const editorChevron = document.getElementById('admin-editor-chevron');
+            if (btnToggleEditor && editorPanel) {
+                btnToggleEditor.addEventListener('click', function () {
+                    const isHidden = editorPanel.style.display === 'none';
+                    editorPanel.style.display = isHidden ? 'block' : 'none';
+                    if (editorChevron) {
+                        editorChevron.className = isHidden ? 'ti-angle-down' : 'ti-angle-up';
+                    }
+                });
+            }
+
+            // Form Submit: Guardar Cambios Dinámicos
+            const formEditor = document.getElementById('admin-cv-editor-form');
+            if (formEditor) {
+                formEditor.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const updated = {
+                        jobRole: document.getElementById('admin-input-job-role').value.trim() || DEFAULT_PROFILE_DATA.jobRole,
+                        jobCompany: document.getElementById('admin-input-job-company').value.trim() || DEFAULT_PROFILE_DATA.jobCompany,
+                        jobPeriod: document.getElementById('admin-input-job-period').value.trim() || DEFAULT_PROFILE_DATA.jobPeriod,
+                        jobDesc: DEFAULT_PROFILE_DATA.jobDesc,
+                        eduTitle: document.getElementById('admin-input-edu-title').value.trim() || DEFAULT_PROFILE_DATA.eduTitle,
+                        eduInstitution: DEFAULT_PROFILE_DATA.eduInstitution,
+                        eduStatus: document.getElementById('admin-select-edu-status').value,
+                        eduDate: document.getElementById('admin-input-edu-date').value.trim() || DEFAULT_PROFILE_DATA.eduDate
+                    };
+
+                    saveProfileData(updated);
+
+                    const feedback = document.getElementById('admin-editor-feedback');
+                    if (feedback) {
+                        feedback.innerHTML = '<i class="ti-check mr-1"></i> ¡Cambios guardados y reflejados en el CV!';
+                        feedback.style.display = 'block';
+                        setTimeout(() => {
+                            feedback.style.display = 'none';
+                        }, 3000);
+                    }
+                    showToast('Perfil del CV actualizado y guardado en tiempo real.', 'success');
+                });
+            }
+
+            // Reset Button: Restablecer Valores por Defecto
+            const btnReset = document.getElementById('admin-btn-reset-cv');
+            if (btnReset) {
+                btnReset.addEventListener('click', function () {
+                    saveProfileData(DEFAULT_PROFILE_DATA);
+                    document.getElementById('admin-input-job-role').value = DEFAULT_PROFILE_DATA.jobRole;
+                    document.getElementById('admin-input-job-company').value = DEFAULT_PROFILE_DATA.jobCompany;
+                    document.getElementById('admin-input-job-period').value = DEFAULT_PROFILE_DATA.jobPeriod;
+                    document.getElementById('admin-input-edu-title').value = DEFAULT_PROFILE_DATA.eduTitle;
+                    document.getElementById('admin-select-edu-status').value = DEFAULT_PROFILE_DATA.eduStatus;
+                    document.getElementById('admin-input-edu-date').value = DEFAULT_PROFILE_DATA.eduDate;
+
+                    const feedback = document.getElementById('admin-editor-feedback');
+                    if (feedback) {
+                        feedback.innerHTML = '<i class="ti-reload mr-1"></i> Valores restablecidos por defecto.';
+                        feedback.style.display = 'block';
+                        setTimeout(() => {
+                            feedback.style.display = 'none';
+                        }, 3000);
+                    }
+                    showToast('Valores del CV restablecidos por defecto.', 'info');
+                });
+            }
 
             document.getElementById('admin-btn-logout').addEventListener('click', function () {
                 logoutAdmin();
@@ -300,6 +526,9 @@
     // 7. Inicialización en index.html
     // -------------------------------------------------------------------------
     function initIndexPage() {
+        // Aplicar datos dinámicos guardados en el DOM inmediatamente
+        applyProfileDataToDOM(getProfileData());
+
         const urlParams = new URLSearchParams(window.location.search);
         const modeParam = urlParams.get('mode');
         const tokenParam = urlParams.get('token');
@@ -458,6 +687,9 @@
     // 8. Protección de la Página de CV (resumen.html)
     // -------------------------------------------------------------------------
     function initResumePage() {
+        // Aplicar datos dinámicos guardados en el DOM inmediatamente
+        applyProfileDataToDOM(getProfileData());
+
         const urlParams = new URLSearchParams(window.location.search);
         const tokenParam = urlParams.get('token');
         const modeParam = urlParams.get('mode');
@@ -537,14 +769,17 @@
         }
     });
 
-    // Exponer API mínima en window para interacción si es necesario
+    // Exponer API en window para interacción y pruebas
     window.ViewController = {
         applyViewMode: applyViewMode,
         loginAdmin: loginAdmin,
         logoutAdmin: logoutAdmin,
         openAdminModal: openAdminModal,
         openRecruiterModal: openRecruiterModal,
-        getShareUrl: getRecruiterShareUrl
+        getShareUrl: getRecruiterShareUrl,
+        getProfileData: getProfileData,
+        saveProfileData: saveProfileData,
+        applyProfileDataToDOM: applyProfileDataToDOM
     };
 
 })();

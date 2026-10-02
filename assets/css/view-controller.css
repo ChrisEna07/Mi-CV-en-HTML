@@ -482,3 +482,105 @@ body.mode-public .portfolio-col-apps {
         padding: 5px 10px;
     }
 }
+
+/* --------------------------------------------------------------------------
+   7. Editor Dinámico de CV en Admin Toolbar (ChrizDev07)
+   -------------------------------------------------------------------------- */
+.admin-toolbar .admin-card {
+    max-height: 86vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(248, 92, 112, 0.4) #111418;
+}
+
+.admin-toolbar .admin-card::-webkit-scrollbar {
+    width: 5px;
+}
+.admin-toolbar .admin-card::-webkit-scrollbar-track {
+    background: #111418;
+}
+.admin-toolbar .admin-card::-webkit-scrollbar-thumb {
+    background: rgba(248, 92, 112, 0.4);
+    border-radius: 3px;
+}
+.admin-toolbar .admin-card::-webkit-scrollbar-thumb:hover {
+    background: #F85C70;
+}
+
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+.admin-form-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.admin-ctrl-input, .admin-ctrl-select {
+    background: #111418;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: #f1f5f9;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+.admin-ctrl-input:focus, .admin-ctrl-select:focus {
+    border-color: #F85C70;
+    box-shadow: 0 0 0 2px rgba(248, 92, 112, 0.25);
+}
+.admin-ctrl-select option {
+    background: #1e2229;
+    color: #ffffff;
+}
+
+.admin-btn-save-cv {
+    background: #F85C70;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-btn-save-cv:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.admin-btn-reset-cv {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #94a3b8;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.admin-btn-reset-cv:hover {
+    color: #ffffff;
+    border-color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.admin-editor-feedback {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    color: #10b981;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.76rem;
+    text-align: center;
+}
