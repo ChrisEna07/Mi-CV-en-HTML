@@ -15,6 +15,26 @@ body.mode-recruiter .view-public {
     display: none !important;
 }
 
+/* Restricción de descargas privadas para Modo Público / Stalker */
+body.mode-public .recruiter-only-download,
+body.mode-public .fm-cert-pdf-btn {
+    display: none !important;
+}
+
+body.mode-public .recruiter-lock-notice {
+    display: inline-flex !important;
+    align-items: center;
+}
+
+body.mode-recruiter .recruiter-lock-notice {
+    display: none !important;
+}
+
+body.mode-recruiter .recruiter-only-download,
+body.mode-recruiter .fm-cert-pdf-btn {
+    display: inline-flex !important;
+}
+
 /* Transición suave para evitar saltos bruscos */
 .view-recruiter,
 .view-public {
@@ -953,5 +973,37 @@ body.mode-public .portfolio-col-apps {
     font-size: 0.82rem;
     line-height: 1.4;
     margin-top: 6px;
+}
+
+/* Range Sliders de Enfoque en Admin Modal */
+.admin-photo-section .custom-range {
+    background: transparent;
+    cursor: pointer;
+}
+.admin-photo-section .custom-range::-webkit-slider-runnable-track {
+    background: #334155;
+    height: 4px;
+    border-radius: 2px;
+}
+.admin-photo-section .custom-range::-webkit-slider-thumb {
+    background: #F85C70;
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.admin-photo-section .custom-range::-moz-range-track {
+    background: #334155;
+    height: 4px;
+    border-radius: 2px;
+}
+.admin-photo-section .custom-range::-moz-range-thumb {
+    background: #F85C70;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
 }
 

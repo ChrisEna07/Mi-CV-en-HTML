@@ -59,10 +59,13 @@
             linkedinUrl: 'https://www.linkedin.com/in/christian-romero-5a9577145/',
             githubUrl: 'https://github.com/ChrisEna07',
             whatsappUrl: 'https://wa.link/o6m42i',
-            // 3 Imágenes Desacopladas
+            // 3 Imágenes Desacopladas y Enfoque/Posición Vertical
             bannerUrl: 'assets/imgs/header.jpg',          // Foto de Portada / Banner (Muro)
+            bannerPos: '50%',                             // Posición vertical fondo portada
             avatarWebUrl: 'assets/imgs/avatar.jpg',        // Foto de Presentación Web
+            avatarWebPos: '20%',                          // Enfoque vertical avatar web
             avatarResumeUrl: 'assets/imgs/CVpicture.jpg',  // Foto del CV Imprimible (Ejecutiva)
+            avatarResumePos: '15%',                       // Enfoque vertical rostro CV
             avatarUrl: 'assets/imgs/avatar.jpg'            // Retrocompatibilidad
         },
         availability: {
@@ -180,10 +183,13 @@
                 const parsed = JSON.parse(raw);
                 const personal = Object.assign({}, DEFAULT_CV_DATA.personal, parsed.personal || {});
                 
-                // Normalización de imágenes desacopladas si faltan
+                // Normalización de imágenes desacopladas y posiciones si faltan
                 if (!personal.bannerUrl) personal.bannerUrl = DEFAULT_CV_DATA.personal.bannerUrl;
+                if (!personal.bannerPos) personal.bannerPos = DEFAULT_CV_DATA.personal.bannerPos;
                 if (!personal.avatarWebUrl) personal.avatarWebUrl = personal.avatarUrl || DEFAULT_CV_DATA.personal.avatarWebUrl;
+                if (!personal.avatarWebPos) personal.avatarWebPos = DEFAULT_CV_DATA.personal.avatarWebPos;
                 if (!personal.avatarResumeUrl) personal.avatarResumeUrl = DEFAULT_CV_DATA.personal.avatarResumeUrl;
+                if (!personal.avatarResumePos) personal.avatarResumePos = DEFAULT_CV_DATA.personal.avatarResumePos;
 
                 // Normalización de campos bilingües nativos
                 if (!personal.jobTitle_es) personal.jobTitle_es = personal.jobTitle || DEFAULT_CV_DATA.personal.jobTitle_es;
@@ -295,26 +301,27 @@
     // -------------------------------------------------------------------------
     // 4. Sincronización Total con el DOM (Web & CV Imprimible)
     // -------------------------------------------------------------------------
-    function applyHeroCoverImage(url) {
+    function applyHeroCoverImage(url, pos) {
         const headerBg = document.getElementById('display-header-bg') || document.querySelector('header.header');
         if (!headerBg) return;
 
         const defaultUrl = DEFAULT_CV_DATA.personal.bannerUrl || 'assets/imgs/header.jpg';
         let cleanUrl = (url && typeof url === 'string') ? url.trim().replace(/\\/g, '/') : '';
         if (!cleanUrl) cleanUrl = defaultUrl;
+        const bgPos = (pos && typeof pos === 'string') ? (pos.includes('%') ? pos : pos + '%') : '50%';
 
         const imgTester = new Image();
         imgTester.onload = function () {
             headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${cleanUrl}")`;
             headerBg.style.backgroundSize = 'cover';
-            headerBg.style.backgroundPosition = 'center';
+            headerBg.style.backgroundPosition = `center ${bgPos}`;
             headerBg.style.backgroundRepeat = 'no-repeat';
         };
         imgTester.onerror = function () {
             console.warn('Imagen de portada no accesible:', cleanUrl, '. Usando imagen por defecto.');
             headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${defaultUrl}")`;
             headerBg.style.backgroundSize = 'cover';
-            headerBg.style.backgroundPosition = 'center';
+            headerBg.style.backgroundPosition = `center ${bgPos}`;
             headerBg.style.backgroundRepeat = 'no-repeat';
         };
         imgTester.src = cleanUrl;
@@ -408,22 +415,37 @@
         const currentLang = localStorage.getItem('lang') || 'es';
 
         // ---------------------------------------------------------------------
-        // A. GESTIÓN INDEPENDIENTE DE IMÁGENES
+        // A. GESTIÓN INDEPENDIENTE DE IMÁGENES & ENFOQUE/POSICIÓN
         // ---------------------------------------------------------------------
-        // 1. Portada / Banner (Muro) con verificación y fallback
-        applyHeroCoverImage(p.bannerUrl);
+        // 1. Portada / Banner (Muro) con verificación, fallback y posición vertical
+        const bannerPos = p.bannerPos || '50%';
+        applyHeroCoverImage(p.bannerUrl, bannerPos);
 
-        // 2. Avatar de Presentación Web
+        // 2. Avatar de Presentación Web con enfoque vertical
         const avatarWebUrl = p.avatarWebUrl || p.avatarUrl || 'assets/imgs/avatar.jpg';
+        const webPos = p.avatarWebPos ? (p.avatarWebPos.includes('%') ? p.avatarWebPos : p.avatarWebPos + '%') : '20%';
         const webAvatarImg = document.getElementById('display-avatar-img');
-        if (webAvatarImg) webAvatarImg.src = avatarWebUrl;
-        document.querySelectorAll('.brand-img').forEach(img => { img.src = avatarWebUrl; });
+        if (webAvatarImg) {
+            webAvatarImg.src = avatarWebUrl;
+            webAvatarImg.style.objectPosition = `center ${webPos}`;
+        }
+        document.querySelectorAll('.brand-img').forEach(img => {
+            img.src = avatarWebUrl;
+            img.style.objectPosition = `center ${webPos}`;
+        });
 
-        // 3. Foto del CV Imprimible (Ejecutiva)
+        // 3. Foto del CV Imprimible (Ejecutiva) con enfoque vertical (rostro)
         const avatarResumeUrl = p.avatarResumeUrl || p.avatarUrl || 'assets/imgs/CVpicture.jpg';
+        const resumePos = p.avatarResumePos ? (p.avatarResumePos.includes('%') ? p.avatarResumePos : p.avatarResumePos + '%') : '15%';
         const resumeAvatarImg = document.getElementById('display-resume-avatar');
-        if (resumeAvatarImg) resumeAvatarImg.src = avatarResumeUrl;
-        document.querySelectorAll('.profile-img-resume').forEach(img => { img.src = avatarResumeUrl; });
+        if (resumeAvatarImg) {
+            resumeAvatarImg.src = avatarResumeUrl;
+            resumeAvatarImg.style.objectPosition = `center ${resumePos}`;
+        }
+        document.querySelectorAll('.profile-img-resume').forEach(img => {
+            img.src = avatarResumeUrl;
+            img.style.objectPosition = `center ${resumePos}`;
+        });
 
         // ---------------------------------------------------------------------
         // B. SWITCH DINÁMICO DE DISPONIBILIDAD LABORAL (BANNER CTA)
@@ -663,6 +685,7 @@
         }
 
         // 2. Lista General de Certificaciones en index.html (#display-certifications-container)
+        const isRecruiterMode = isRecruiterAuthorized() || isAdminLoggedIn() || document.body.classList.contains('mode-recruiter');
         const displayCertsContainer = document.getElementById('display-certifications-container');
         if (displayCertsContainer) {
             const webCerts = certs.filter(c => c.showInWeb !== false);
@@ -684,7 +707,10 @@
                                     <p class="subtitle mb-2 small text-muted">${escapeHtml(cert.desc)}</p>
                                     <div class="d-flex flex-wrap" style="gap: 6px;">
                                         ${cert.credlyUrl ? `<a href="${escapeHtml(cert.credlyUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-check-box mr-1"></i>Verificar en Credly</a>` : ''}
-                                        ${cert.pdfUrl ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download class="btn btn-outline-dark btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-download mr-1"></i>Descargar PDF</a>` : ''}
+                                        ${cert.pdfUrl ? (isRecruiterMode 
+                                            ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download class="btn btn-outline-dark btn-sm py-0 px-2 recruiter-only-download" style="font-size: 0.72rem;"><i class="ti-download mr-1"></i>Descargar PDF</a>` 
+                                            : `<span class="badge badge-light border text-muted py-1 px-2 recruiter-lock-notice" style="font-size: 0.72rem;"><i class="ti-lock text-warning mr-1"></i>PDF (Modo Empresa)</span>`
+                                        ) : ''}
                                         ${cert.imageUrl ? `<a href="${escapeHtml(cert.imageUrl)}" target="_blank" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-image mr-1"></i>Ver Diploma</a>` : ''}
                                     </div>
                                 </div>
@@ -716,8 +742,11 @@
                                     </div>
                                     <div style="font-size: 11px; color: #F85C70; font-weight: 700; margin: 2px 0;">${escapeHtml(cert.issuer)}</div>
                                     <p style="margin: 0 0 5px; font-size: 11px; color: var(--text-muted); line-height: 1.35;">${escapeHtml(cert.desc)}</p>
-                                    <div class="no-print" style="display: flex; gap: 6px; flex-wrap: wrap;">
-                                        ${cert.pdfUrl ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #0f172a; text-decoration: none; background: #e2e8f0; padding: 2px 7px; border-radius: 4px;"><i class="ti-download text-danger"></i> Descargar PDF</a>` : ''}
+                                    <div class="cert-card-actions no-print" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                        ${cert.pdfUrl ? (isRecruiterMode
+                                            ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download class="recruiter-only-download" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #0f172a; text-decoration: none; background: #e2e8f0; padding: 2px 7px; border-radius: 4px;"><i class="ti-download text-danger"></i> Descargar PDF</a>`
+                                            : `<span class="recruiter-lock-notice" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 2px 7px; border-radius: 4px; border: 1px solid #cbd5e1;"><i class="ti-lock text-warning"></i> PDF en Modo Empresa</span>`
+                                        ) : ''}
                                         ${cert.credlyUrl ? `<a href="${escapeHtml(cert.credlyUrl)}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #F85C70; text-decoration: none; background: rgba(248, 92, 112, 0.08); padding: 2px 7px; border-radius: 4px;"><i class="ti-check-box"></i> Verificar Credly</a>` : ''}
                                     </div>
                                 </div>
@@ -827,19 +856,44 @@
             if (el) el.value = val || '';
         };
 
-        // 1. Imágenes Desacopladas
+        // 1. Imágenes Desacopladas y Posición/Enfoque
         setVal('admin-input-banner-url', p.bannerUrl);
         setVal('admin-input-avatar-web-url', p.avatarWebUrl);
         setVal('admin-input-avatar-resume-url', p.avatarResumeUrl);
 
+        const bannerPosNum = parseInt(p.bannerPos || '50', 10);
+        const webPosNum = parseInt(p.avatarWebPos || '20', 10);
+        const resumePosNum = parseInt(p.avatarResumePos || '15', 10);
+
+        setVal('admin-input-banner-pos', bannerPosNum);
+        const lblBannerPos = document.getElementById('admin-val-banner-pos');
+        if (lblBannerPos) lblBannerPos.textContent = bannerPosNum + '%';
+
+        setVal('admin-input-avatar-web-pos', webPosNum);
+        const lblWebPos = document.getElementById('admin-val-avatar-web-pos');
+        if (lblWebPos) lblWebPos.textContent = webPosNum + '%';
+
+        setVal('admin-input-avatar-resume-pos', resumePosNum);
+        const lblResumePos = document.getElementById('admin-val-avatar-resume-pos');
+        if (lblResumePos) lblResumePos.textContent = resumePosNum + '%';
+
         const bannerPrev = document.getElementById('admin-banner-preview');
-        if (bannerPrev) bannerPrev.src = p.bannerUrl || DEFAULT_CV_DATA.personal.bannerUrl;
+        if (bannerPrev) {
+            bannerPrev.src = p.bannerUrl || DEFAULT_CV_DATA.personal.bannerUrl;
+            bannerPrev.style.objectPosition = `center ${bannerPosNum}%`;
+        }
 
         const avatarWebPrev = document.getElementById('admin-avatar-web-preview');
-        if (avatarWebPrev) avatarWebPrev.src = p.avatarWebUrl || DEFAULT_CV_DATA.personal.avatarWebUrl;
+        if (avatarWebPrev) {
+            avatarWebPrev.src = p.avatarWebUrl || DEFAULT_CV_DATA.personal.avatarWebUrl;
+            avatarWebPrev.style.objectPosition = `center ${webPosNum}%`;
+        }
 
         const avatarResumePrev = document.getElementById('admin-avatar-resume-preview');
-        if (avatarResumePrev) avatarResumePrev.src = p.avatarResumeUrl || DEFAULT_CV_DATA.personal.avatarResumeUrl;
+        if (avatarResumePrev) {
+            avatarResumePrev.src = p.avatarResumeUrl || DEFAULT_CV_DATA.personal.avatarResumeUrl;
+            avatarResumePrev.style.objectPosition = `center ${resumePosNum}%`;
+        }
 
         // 2. Switch de Disponibilidad
         const switchWork = document.getElementById('admin-switch-working-status');
@@ -1394,6 +1448,35 @@
             DEFAULT_CV_DATA.personal.avatarResumeUrl
         );
 
+        // Sliders de Enfoque y Posición Vertical con previsualización en vivo
+        const bindPosSlider = (sliderId, labelId, previewId, liveTargetSelector, isBg = false) => {
+            const slider = document.getElementById(sliderId);
+            const label = document.getElementById(labelId);
+            const preview = document.getElementById(previewId);
+            if (!slider) return;
+
+            slider.addEventListener('input', function () {
+                const val = this.value + '%';
+                if (label) label.textContent = val;
+                if (preview) {
+                    preview.style.objectPosition = `center ${val}`;
+                }
+                if (liveTargetSelector) {
+                    document.querySelectorAll(liveTargetSelector).forEach(el => {
+                        if (isBg) {
+                            el.style.backgroundPosition = `center ${val}`;
+                        } else {
+                            el.style.objectPosition = `center ${val}`;
+                        }
+                    });
+                }
+            });
+        };
+
+        bindPosSlider('admin-input-banner-pos', 'admin-val-banner-pos', 'admin-banner-preview', '#display-header-bg, header.header', true);
+        bindPosSlider('admin-input-avatar-web-pos', 'admin-val-avatar-web-pos', 'admin-avatar-web-preview', '#display-avatar-img, .brand-img', false);
+        bindPosSlider('admin-input-avatar-resume-pos', 'admin-val-avatar-resume-pos', 'admin-avatar-resume-preview', '#display-resume-avatar, .profile-img-resume', false);
+
         // Switch de Disponibilidad Laboral Listener - Reactividad Bidireccional Inmediata
         const switchWork = document.getElementById('admin-switch-working-status');
         if (switchWork) {
@@ -1426,6 +1509,10 @@
                 const locationEs = getVal('admin-input-location-es') || getVal('admin-input-location') || DEFAULT_CV_DATA.personal.location_es;
                 const locationEn = getVal('admin-input-location-en') || DEFAULT_CV_DATA.personal.location_en;
 
+                const bannerPosVal = (getVal('admin-input-banner-pos') || '50') + '%';
+                const avatarWebPosVal = (getVal('admin-input-avatar-web-pos') || '20') + '%';
+                const avatarResumePosVal = (getVal('admin-input-avatar-resume-pos') || '15') + '%';
+
                 activeCvData.personal = {
                     fullname: getVal('admin-input-fullname', DEFAULT_CV_DATA.personal.fullname),
                     displayName: getVal('admin-input-displayname', DEFAULT_CV_DATA.personal.displayName),
@@ -1448,8 +1535,11 @@
                     githubUrl: getVal('admin-input-github', DEFAULT_CV_DATA.personal.githubUrl),
                     whatsappUrl: getVal('admin-input-whatsapp', activeCvData.personal.whatsappUrl || DEFAULT_CV_DATA.personal.whatsappUrl),
                     bannerUrl: getVal('admin-input-banner-url', DEFAULT_CV_DATA.personal.bannerUrl),
+                    bannerPos: bannerPosVal,
                     avatarWebUrl: getVal('admin-input-avatar-web-url', DEFAULT_CV_DATA.personal.avatarWebUrl),
+                    avatarWebPos: avatarWebPosVal,
                     avatarResumeUrl: getVal('admin-input-avatar-resume-url', DEFAULT_CV_DATA.personal.avatarResumeUrl),
+                    avatarResumePos: avatarResumePosVal,
                     avatarUrl: getVal('admin-input-avatar-web-url', DEFAULT_CV_DATA.personal.avatarWebUrl)
                 };
 
@@ -2014,11 +2104,25 @@
             sessionStorage.setItem(STORAGE_KEYS.RECRUITER_SESSION, 'true');
         }
 
-        if (!isAuthorized) {
+        if (isAuthorized) {
+            document.body.classList.remove('mode-public');
+            document.body.classList.add('mode-recruiter');
+            const topClarisBtn = document.getElementById('resume-top-claris-btn');
+            if (topClarisBtn) topClarisBtn.style.display = 'inline-flex';
+            const topClarisLock = document.getElementById('resume-top-claris-lock');
+            if (topClarisLock) topClarisLock.style.display = 'none';
+        } else {
+            document.body.classList.remove('mode-recruiter');
+            document.body.classList.add('mode-public');
+            const topClarisBtn = document.getElementById('resume-top-claris-btn');
+            if (topClarisBtn) topClarisBtn.style.display = 'none';
+            const topClarisLock = document.getElementById('resume-top-claris-lock');
+            if (topClarisLock) topClarisLock.style.display = 'inline-flex';
+
             const pages = document.querySelectorAll('.cv-page, .page');
             pages.forEach(p => p.style.display = 'none');
-            const noPrint = document.querySelectorAll('.no-print');
-            noPrint.forEach(np => np.style.display = 'none');
+            const topBars = document.querySelectorAll('.cv-top-bar, .no-print');
+            topBars.forEach(np => np.style.display = 'none');
 
             let lockOverlay = document.getElementById('restricted-access-overlay');
             if (!lockOverlay) {
@@ -2057,9 +2161,16 @@
 
                     if (val === getRecruiterToken() || val === ADMIN_PASS) {
                         sessionStorage.setItem(STORAGE_KEYS.RECRUITER_SESSION, 'true');
+                        document.body.classList.remove('mode-public');
+                        document.body.classList.add('mode-recruiter');
                         lockOverlay.remove();
                         pages.forEach(p => p.style.display = '');
-                        noPrint.forEach(np => np.style.display = '');
+                        topBars.forEach(np => np.style.display = '');
+                        const topBtn = document.getElementById('resume-top-claris-btn');
+                        if (topBtn) topBtn.style.display = 'inline-flex';
+                        const topLock = document.getElementById('resume-top-claris-lock');
+                        if (topLock) topLock.style.display = 'none';
+                        applyCvDataToDOM(getCvData());
                     } else {
                         err.innerText = 'Token incorrecto. Solicita acceso al propietario.';
                         err.style.display = 'block';

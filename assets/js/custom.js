@@ -77,6 +77,7 @@ const translations = {
         'cert-verified': 'LOGRO OFICIAL VERIFICADO',
         'cert-verify-btn': 'Verificar en Credly (Público)',
         'cert-download-btn': 'Descargar Certificado Oficial (PDF)',
+        'cert-locked-btn': 'Descarga PDF (Modo Empresa)',
         'cert-view-diploma': 'Ver Diploma Digital (JPEG)',
 
         // Habilidades Blandas
@@ -195,6 +196,7 @@ const translations = {
         'cert-verified': 'OFFICIAL VERIFIED ACHIEVEMENT',
         'cert-verify-btn': 'Verify on Credly (Public)',
         'cert-download-btn': 'Download Official Certificate (PDF)',
+        'cert-locked-btn': 'Download PDF (Recruiter Mode)',
         'cert-view-diploma': 'View Digital Diploma (JPEG)',
 
         // Soft Skills

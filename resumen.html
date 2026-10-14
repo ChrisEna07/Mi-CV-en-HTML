@@ -37,7 +37,7 @@
             print-color-adjust: exact;
         }
 
-        .no-print {
+        .cv-top-bar {
             position: fixed;
             top: 20px;
             right: 20px;
@@ -48,6 +48,10 @@
             padding: 8px 12px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        @media print {
+            .no-print { display: none !important; }
         }
 
         .btn-print {
@@ -121,6 +125,7 @@
             width: 86px;
             height: 86px;
             object-fit: cover;
+            object-position: center 15%;
             border-radius: 50%;
             border: 3px solid var(--primary);
             box-shadow: 0 4px 10px rgba(0,0,0,0.12);
@@ -394,7 +399,7 @@
             .cv-grid {
                 grid-template-columns: 1fr;
             }
-            .no-print {
+            .cv-top-bar {
                 position: static;
                 justify-content: center;
                 margin: 10px auto;
@@ -406,13 +411,16 @@
 <body>
 
     <!-- Barra Superior de Control (Oculta en Impresión) -->
-    <div class="no-print">
+    <div class="cv-top-bar no-print">
         <button class="btn-print" onclick="window.print()">
             <i class="ti-printer"></i> Imprimir / Guardar como PDF
         </button>
-        <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Certificate.pdf" class="btn-back" style="color: #F85C70; border-color: #F85C70; font-weight: 600;">
+        <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Certificate.pdf" class="btn-back recruiter-only-download" id="resume-top-claris-btn" style="color: #F85C70; border-color: #F85C70; font-weight: 600;">
             <i class="ti-medall"></i> Certificado Claris (PDF)
         </a>
+        <span class="btn-back recruiter-lock-notice" id="resume-top-claris-lock" style="color: #64748b; border-color: #cbd5e1; font-weight: 500; display: none; cursor: not-allowed;" title="Descarga de certificados reservada para reclutadores autorizados">
+            <i class="ti-lock text-warning"></i> Certificado (Modo Empresa)
+        </span>
         <a href="index.html" class="btn-back">
             <i class="ti-arrow-left"></i> Volver al Portafolio
         </a>
@@ -567,10 +575,13 @@
                                     <p style="margin: 0 0 5px; font-size: 11px; color: var(--text-muted); line-height: 1.35;">
                                         Acreditación oficial internacional en desarrollo de soluciones empresariales, arquitectura relacional y automatización en Claris FileMaker Pro.
                                     </p>
-                                    <div class="no-print" style="display: flex; gap: 6px; flex-wrap: wrap;">
-                                        <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Certificate.pdf" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #0f172a; text-decoration: none; background: #e2e8f0; padding: 2px 7px; border-radius: 4px;">
+                                    <div class="cert-card-actions no-print" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                        <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Certificate.pdf" class="recruiter-only-download" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #0f172a; text-decoration: none; background: #e2e8f0; padding: 2px 7px; border-radius: 4px;">
                                             <i class="ti-download text-danger"></i> Descargar PDF
                                         </a>
+                                        <span class="recruiter-lock-notice" style="display: none; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 2px 7px; border-radius: 4px; border: 1px solid #cbd5e1;">
+                                            <i class="ti-lock text-warning"></i> PDF en Modo Empresa
+                                        </span>
                                         <a href="https://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #F85C70; text-decoration: none; background: rgba(248, 92, 112, 0.08); padding: 2px 7px; border-radius: 4px;">
                                             <i class="ti-check-box"></i> Verificar Credly
                                         </a>
