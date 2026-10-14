@@ -73,6 +73,11 @@ const translations = {
         'resume-edu': 'Educación',
         'resume-inprogress': 'En formación / Estudiante',
         'resume-degree': 'Tecnología en Análisis y Desarrollo de Software',
+        'cert-section-title': 'Certificaciones & Insignias Oficiales',
+        'cert-verified': 'LOGRO OFICIAL VERIFICADO',
+        'cert-verify-btn': 'Verificar en Credly (Público)',
+        'cert-download-btn': 'Descargar Certificado Oficial (PDF)',
+        'cert-view-diploma': 'Ver Diploma Digital (JPEG)',
 
         // Habilidades Blandas
         'skill-adaptation': 'Adaptación',
@@ -186,6 +191,11 @@ const translations = {
         'resume-edu': 'Education',
         'resume-inprogress': 'In Training / Student',
         'resume-degree': 'Software Analysis and Development Technology',
+        'cert-section-title': 'Official Certifications & Badges',
+        'cert-verified': 'OFFICIAL VERIFIED ACHIEVEMENT',
+        'cert-verify-btn': 'Verify on Credly (Public)',
+        'cert-download-btn': 'Download Official Certificate (PDF)',
+        'cert-view-diploma': 'View Digital Diploma (JPEG)',
 
         // Soft Skills
         'skill-adaptation': 'Adaptability',

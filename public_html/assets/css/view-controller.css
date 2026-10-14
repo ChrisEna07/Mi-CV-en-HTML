@@ -850,3 +850,108 @@ body.mode-public .portfolio-col-apps {
     }
 }
 
+/* --------------------------------------------------------------------------
+   8. Estilos para Certificaciones, Insignias (Credly) y Tarjeta FileMaker
+   -------------------------------------------------------------------------- */
+.filemaker-cert-card {
+    transition: transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.25s ease;
+}
+.filemaker-cert-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(248, 92, 112, 0.15) !important;
+}
+
+.credly-embed-wrapper {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 10px;
+    padding: 6px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    min-height: 280px;
+    min-width: 160px;
+    transition: transform 0.2s ease;
+}
+.credly-embed-wrapper:hover {
+    transform: scale(1.02);
+}
+
+/* Insignias en resumen.html */
+.cv-cert-item {
+    page-break-inside: avoid;
+    margin-bottom: 12px;
+}
+.cv-cert-badge-img {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    padding: 2px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Indicador de Estado en el Header del Panel Administrador */
+.admin-status-pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 0 rgba(16, 185, 129, 0.6);
+    animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Elementos CRUD de Certificaciones en el Panel */
+.admin-cert-item {
+    background: #111418;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+}
+.admin-cert-item:hover {
+    border-color: rgba(248, 92, 112, 0.5);
+    background: #151a22;
+    transform: translateY(-1px);
+}
+.admin-cert-thumb {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    background: #0f172a;
+    border: 1px solid rgba(248, 92, 112, 0.4);
+    border-radius: 8px;
+    padding: 3px;
+    flex-shrink: 0;
+}
+.admin-cert-title {
+    color: #f1f5f9;
+    font-weight: 700;
+    font-size: 0.96rem;
+}
+.admin-cert-issuer {
+    color: #F85C70;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+.admin-cert-meta {
+    color: #94a3b8;
+    font-size: 0.78rem;
+}
+.admin-cert-desc {
+    color: #cbd5e1;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin-top: 6px;
+}
+

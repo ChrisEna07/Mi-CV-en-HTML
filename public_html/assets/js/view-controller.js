@@ -112,6 +112,22 @@
                 contract: 'Presencial',
                 desc: 'Gestión documental, digitalización de archivos masivos, atención a clientes y soporte en procesos administrativos.'
             }
+        ],
+        certifications: [
+            {
+                id: 'cert_claris_filemaker_2026',
+                title: 'App Developer for Claris FileMaker Pro Associate',
+                issuer: 'Claris International Inc. (An Apple Company) & Credly',
+                date: 'Octubre 2026',
+                credlyUrl: 'https://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url',
+                badgeId: 'd8c70883-218b-46e7-a89b-5b459d53a20a',
+                pdfUrl: 'ClarisCertificate-Main20261013-21-sbjpms.pdf',
+                imageUrl: 'certificado.jpeg',
+                desc: 'Acreditación internacional oficial que certifica competencias avanzadas en el diseño de arquitectura relacional, desarrollo de soluciones empresariales modulares, creación de flujos automatizados con scripting complejo y diseño de interfaces optimizadas bajo el ecosistema Claris FileMaker Pro.',
+                skills: 'Claris FileMaker Pro, Scripting, Relational Architecture, Data APIs, Enterprise Solutions',
+                showInWeb: true,
+                showInResume: true
+            }
         ]
     };
 
@@ -208,7 +224,10 @@
                     education: Object.assign({}, DEFAULT_CV_DATA.education, parsed.education || {}),
                     experiences: Array.isArray(parsed.experiences) && parsed.experiences.length > 0 
                         ? parsed.experiences 
-                        : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.experiences))
+                        : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.experiences)),
+                    certifications: Array.isArray(parsed.certifications) && parsed.certifications.length > 0
+                        ? parsed.certifications
+                        : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.certifications))
                 };
             }
 
@@ -610,6 +629,105 @@
                 resumeExpContainer.innerHTML = html;
             }
         }
+
+        // ---------------------------------------------------------------------
+        // F. CERTIFICACIONES & INSIGNIAS OFICIALES (CREDLY & CLARIS)
+        // ---------------------------------------------------------------------
+        const certs = (data.certifications && Array.isArray(data.certifications)) 
+            ? data.certifications 
+            : DEFAULT_CV_DATA.certifications;
+
+        // 1. Tarjeta Destacada de FileMaker en index.html (#filemaker-cert-highlight)
+        const fmCertContainer = document.getElementById('filemaker-cert-highlight');
+        if (fmCertContainer) {
+            const fmCert = certs.find(c => c.badgeId || (c.title && c.title.toLowerCase().includes('filemaker'))) || certs[0];
+            if (fmCert && fmCert.showInWeb !== false) {
+                fmCertContainer.style.display = 'block';
+                const elTitle = fmCertContainer.querySelector('.fm-cert-title');
+                if (elTitle) elTitle.textContent = fmCert.title;
+                const elIssuer = fmCertContainer.querySelector('.fm-cert-issuer-text');
+                if (elIssuer) elIssuer.textContent = fmCert.issuer;
+                const elDate = fmCertContainer.querySelector('.fm-cert-date-text');
+                if (elDate) elDate.textContent = fmCert.date;
+                const elDesc = fmCertContainer.querySelector('.fm-cert-desc-text');
+                if (elDesc) elDesc.textContent = fmCert.desc;
+                const elCredlyBtn = fmCertContainer.querySelector('.fm-cert-credly-btn');
+                if (elCredlyBtn && fmCert.credlyUrl) elCredlyBtn.href = fmCert.credlyUrl;
+                const elPdfBtn = fmCertContainer.querySelector('.fm-cert-pdf-btn');
+                if (elPdfBtn && fmCert.pdfUrl) elPdfBtn.href = fmCert.pdfUrl;
+                const elImgBtn = fmCertContainer.querySelector('.fm-cert-img-btn');
+                if (elImgBtn && fmCert.imageUrl) elImgBtn.href = fmCert.imageUrl;
+            } else if (fmCert && fmCert.showInWeb === false) {
+                fmCertContainer.style.display = 'none';
+            }
+        }
+
+        // 2. Lista General de Certificaciones en index.html (#display-certifications-container)
+        const displayCertsContainer = document.getElementById('display-certifications-container');
+        if (displayCertsContainer) {
+            const webCerts = certs.filter(c => c.showInWeb !== false);
+            if (webCerts.length === 0) {
+                displayCertsContainer.innerHTML = '<p class="text-muted text-center py-2">No hay certificaciones configuradas para la vista web.</p>';
+            } else {
+                let certHtml = '';
+                webCerts.forEach(cert => {
+                    certHtml += `
+                        <div class="card mb-3 p-3 shadow-sm" style="border: 1px solid rgba(248, 92, 112, 0.25); border-left: 4px solid #F85C70; background: #ffffff; border-radius: 8px;">
+                            <div class="d-flex align-items-center flex-wrap" style="gap: 12px;">
+                                ${cert.imageUrl ? `<img src="${escapeHtml(cert.imageUrl)}" alt="${escapeHtml(cert.title)}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 1px solid #e2e8f0; padding: 2px;">` : `<i class="ti-medall text-danger" style="font-size: 2rem;"></i>`}
+                                <div class="flex-fill" style="min-width: 220px;">
+                                    <div class="d-flex justify-content-between align-items-baseline flex-wrap">
+                                        <h6 class="font-weight-bold text-dark mb-0">${escapeHtml(cert.title)}</h6>
+                                        <span class="badge badge-light text-muted small"><i class="ti-calendar mr-1"></i>${escapeHtml(cert.date)}</span>
+                                    </div>
+                                    <div class="text-danger font-weight-bold small">${escapeHtml(cert.issuer)}</div>
+                                    <p class="subtitle mb-2 small text-muted">${escapeHtml(cert.desc)}</p>
+                                    <div class="d-flex flex-wrap" style="gap: 6px;">
+                                        ${cert.credlyUrl ? `<a href="${escapeHtml(cert.credlyUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-check-box mr-1"></i>Verificar en Credly</a>` : ''}
+                                        ${cert.pdfUrl ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download class="btn btn-outline-dark btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-download mr-1"></i>Descargar PDF</a>` : ''}
+                                        ${cert.imageUrl ? `<a href="${escapeHtml(cert.imageUrl)}" target="_blank" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-image mr-1"></i>Ver Diploma</a>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                displayCertsContainer.innerHTML = certHtml;
+            }
+        }
+
+        // 3. En resumen.html (#resume-certifications-container)
+        const resumeCertsContainer = document.getElementById('resume-certifications-container');
+        if (resumeCertsContainer) {
+            const resumeCerts = certs.filter(c => c.showInResume !== false);
+            if (resumeCerts.length === 0) {
+                resumeCertsContainer.innerHTML = '<p class="text-muted small">No hay certificaciones publicadas en el CV.</p>';
+            } else {
+                let resumeCertHtml = '';
+                resumeCerts.forEach(cert => {
+                    resumeCertHtml += `
+                        <div class="cv-card-box mb-2" style="border-left-color: #10b981; background: #ffffff;">
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <img src="${escapeHtml(cert.imageUrl || 'certificado.jpeg')}" alt="${escapeHtml(cert.title)}" class="cv-cert-badge-img">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px;">
+                                        <strong style="color: var(--dark); font-size: 12px;">${escapeHtml(cert.title)}</strong>
+                                        <span class="item-period" style="background: rgba(16, 185, 129, 0.12); color: #047857; font-weight: 700;">${escapeHtml(cert.date)}</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: #F85C70; font-weight: 700; margin: 2px 0;">${escapeHtml(cert.issuer)}</div>
+                                    <p style="margin: 0 0 5px; font-size: 11px; color: var(--text-muted); line-height: 1.35;">${escapeHtml(cert.desc)}</p>
+                                    <div class="no-print" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                        ${cert.pdfUrl ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #0f172a; text-decoration: none; background: #e2e8f0; padding: 2px 7px; border-radius: 4px;"><i class="ti-download text-danger"></i> Descargar PDF</a>` : ''}
+                                        ${cert.credlyUrl ? `<a href="${escapeHtml(cert.credlyUrl)}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #F85C70; text-decoration: none; background: rgba(248, 92, 112, 0.08); padding: 2px 7px; border-radius: 4px;"><i class="ti-check-box"></i> Verificar Credly</a>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                resumeCertsContainer.innerHTML = resumeCertHtml;
+            }
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -769,6 +887,9 @@
 
         // 5. Renderizar listado de experiencias CRUD
         renderAdminExpList();
+
+        // 6. Renderizar listado de certificaciones e insignias CRUD
+        renderAdminCertList();
     }
 
     function updateAvailabilityUI(isWorking) {
@@ -932,6 +1053,167 @@
         if (idInput) idInput.value = '';
     }
 
+    // -------------------------------------------------------------------------
+    // G. GESTOR CRUD DE CERTIFICACIONES & INSIGNIAS OFICIALES (ChrizDev)
+    // -------------------------------------------------------------------------
+    function renderAdminCertList() {
+        const container = document.getElementById('admin-cert-crud-list');
+        if (!container) return;
+
+        const certs = (activeCvData && Array.isArray(activeCvData.certifications)) ? activeCvData.certifications : [];
+
+        if (certs.length === 0) {
+            container.innerHTML = `
+                <div class="p-4 text-center text-muted rounded" style="background: rgba(255,255,255,0.02); border: 1px dashed #334155;">
+                    <i class="ti-medall mb-2" style="font-size: 1.8rem; color: #F85C70;"></i>
+                    <p class="mb-0">No hay certificaciones o insignias registradas. Pulsa en "Nueva Insignia / Certificación" para registrar la primera.</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        certs.forEach((cert, idx) => {
+            const isFirst = idx === 0;
+            const isLast = idx === certs.length - 1;
+
+            html += `
+                <div class="admin-cert-item" data-id="${escapeHtml(cert.id)}">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap" style="gap: 12px;">
+                        <div class="d-flex align-items-start flex-fill" style="gap: 12px; min-width: 240px;">
+                            <img src="${escapeHtml(cert.imageUrl || 'certificado.jpeg')}" alt="Badge" class="admin-cert-thumb">
+                            <div class="flex-fill">
+                                <div class="admin-cert-title">${escapeHtml(cert.title)}</div>
+                                <div class="admin-cert-issuer">${escapeHtml(cert.issuer)} <span class="admin-cert-meta ml-2"><i class="ti-calendar mr-1"></i>${escapeHtml(cert.date)}</span></div>
+                                <div class="mt-1 d-flex flex-wrap" style="gap: 4px;">
+                                    ${cert.badgeId ? `<span class="badge badge-info px-2 py-0" style="font-size: 0.68rem; background: #0284c7;">Credly ID: ${escapeHtml(cert.badgeId)}</span>` : ''}
+                                    <span class="badge ${cert.showInWeb !== false ? 'badge-success' : 'badge-secondary'} px-2 py-0" style="font-size: 0.68rem;">${cert.showInWeb !== false ? '<i class="ti-world mr-1"></i>Web' : 'Oculto Web'}</span>
+                                    <span class="badge ${cert.showInResume !== false ? 'badge-primary' : 'badge-secondary'} px-2 py-0" style="font-size: 0.68rem;">${cert.showInResume !== false ? '<i class="ti-file mr-1"></i>CV' : 'Oculto CV'}</span>
+                                </div>
+                                <div class="admin-cert-desc">${escapeHtml(cert.desc)}</div>
+                            </div>
+                        </div>
+                        <div class="admin-crud-actions d-flex align-items-center" style="gap: 5px;">
+                            <button type="button" class="btn btn-dark btn-sm admin-btn-move-cert" data-id="${escapeHtml(cert.id)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''} style="padding: 3px 8px; font-size: 0.72rem;">
+                                <i class="ti-arrow-up"></i>
+                            </button>
+                            <button type="button" class="btn btn-dark btn-sm admin-btn-move-cert" data-id="${escapeHtml(cert.id)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''} style="padding: 3px 8px; font-size: 0.72rem;">
+                                <i class="ti-arrow-down"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm admin-btn-edit-cert" data-id="${escapeHtml(cert.id)}" title="Editar" style="padding: 3px 8px; font-size: 0.72rem;">
+                                <i class="ti-pencil"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm admin-btn-delete-cert" data-id="${escapeHtml(cert.id)}" title="Eliminar" style="padding: 3px 8px; font-size: 0.72rem;">
+                                <i class="ti-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        attachCertListEvents();
+    }
+
+    function attachCertListEvents() {
+        document.querySelectorAll('.admin-btn-edit-cert').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const cert = activeCvData.certifications.find(c => c.id === id);
+                if (cert) showCertForm(cert);
+            });
+        });
+
+        document.querySelectorAll('.admin-btn-delete-cert').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const cert = activeCvData.certifications.find(c => c.id === id);
+                const title = cert ? cert.title : 'este certificado';
+
+                if (confirm(`¿Estás seguro de que deseas eliminar la certificación "${title}"?`)) {
+                    activeCvData.certifications = activeCvData.certifications.filter(c => c.id !== id);
+                    saveCvData(activeCvData);
+                    renderAdminCertList();
+                    applyCvDataToDOM(activeCvData);
+                    showToast('Certificación eliminada correctamente.', 'info');
+                }
+            });
+        });
+
+        document.querySelectorAll('.admin-btn-move-cert').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const dir = this.getAttribute('data-dir');
+                const idx = activeCvData.certifications.findIndex(c => c.id === id);
+                if (idx < 0) return;
+
+                if (dir === 'up' && idx > 0) {
+                    const temp = activeCvData.certifications[idx];
+                    activeCvData.certifications[idx] = activeCvData.certifications[idx - 1];
+                    activeCvData.certifications[idx - 1] = temp;
+                } else if (dir === 'down' && idx < activeCvData.certifications.length - 1) {
+                    const temp = activeCvData.certifications[idx];
+                    activeCvData.certifications[idx] = activeCvData.certifications[idx + 1];
+                    activeCvData.certifications[idx + 1] = temp;
+                }
+
+                saveCvData(activeCvData);
+                renderAdminCertList();
+                applyCvDataToDOM(activeCvData);
+            });
+        });
+    }
+
+    function showCertForm(cert = null) {
+        const formCard = document.getElementById('admin-cert-form-card');
+        const formTitle = document.getElementById('admin-cert-form-title');
+        if (!formCard) return;
+
+        formCard.style.display = 'block';
+
+        if (cert) {
+            formTitle.innerHTML = '<i class="ti-pencil-alt mr-1"></i> Editar Certificación o Insignia';
+            document.getElementById('admin-cert-id').value = cert.id;
+            document.getElementById('admin-cert-title').value = cert.title || '';
+            document.getElementById('admin-cert-issuer').value = cert.issuer || '';
+            document.getElementById('admin-cert-date').value = cert.date || '';
+            document.getElementById('admin-cert-credly-url').value = cert.credlyUrl || '';
+            document.getElementById('admin-cert-badge-id').value = cert.badgeId || '';
+            document.getElementById('admin-cert-pdf-url').value = cert.pdfUrl || '';
+            document.getElementById('admin-cert-image-url').value = cert.imageUrl || '';
+            document.getElementById('admin-cert-desc').value = cert.desc || '';
+            document.getElementById('admin-cert-skills').value = cert.skills || '';
+            document.getElementById('admin-cert-show-web').checked = cert.showInWeb !== false;
+            document.getElementById('admin-cert-show-resume').checked = cert.showInResume !== false;
+        } else {
+            formTitle.innerHTML = '<i class="ti-plus mr-1"></i> Añadir Nueva Certificación o Insignia';
+            document.getElementById('admin-cert-id').value = '';
+            document.getElementById('admin-cert-title').value = '';
+            document.getElementById('admin-cert-issuer').value = '';
+            document.getElementById('admin-cert-date').value = '';
+            document.getElementById('admin-cert-credly-url').value = '';
+            document.getElementById('admin-cert-badge-id').value = '';
+            document.getElementById('admin-cert-pdf-url').value = 'ClarisCertificate-Main20261013-21-sbjpms.pdf';
+            document.getElementById('admin-cert-image-url').value = 'certificado.jpeg';
+            document.getElementById('admin-cert-desc').value = '';
+            document.getElementById('admin-cert-skills').value = '';
+            document.getElementById('admin-cert-show-web').checked = true;
+            document.getElementById('admin-cert-show-resume').checked = true;
+        }
+
+        formCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function hideCertForm() {
+        const formCard = document.getElementById('admin-cert-form-card');
+        if (formCard) formCard.style.display = 'none';
+        const form = document.getElementById('form-admin-cert');
+        if (form) form.reset();
+        const idInput = document.getElementById('admin-cert-id');
+        if (idInput) idInput.value = '';
+    }
+
     function initCvManagerModal() {
         const btnNewExp = document.getElementById('admin-btn-new-exp');
         if (btnNewExp) btnNewExp.addEventListener('click', () => showExpForm(null));
@@ -973,6 +1255,74 @@
                 hideExpForm();
                 renderAdminExpList();
                 showToast('Experiencia laboral guardada y reflejada en el CV.', 'success');
+            });
+        }
+
+        // Setup Formulario de Certificaciones / Insignias (CRUD)
+        const btnNewCert = document.getElementById('admin-btn-new-cert');
+        if (btnNewCert) btnNewCert.addEventListener('click', () => showCertForm(null));
+
+        const btnCancelCert = document.getElementById('admin-btn-cancel-cert');
+        if (btnCancelCert) btnCancelCert.addEventListener('click', hideCertForm);
+
+        const formCert = document.getElementById('form-admin-cert');
+        if (formCert) {
+            formCert.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const certId = document.getElementById('admin-cert-id').value.trim();
+                const title = document.getElementById('admin-cert-title').value.trim();
+                const issuer = document.getElementById('admin-cert-issuer').value.trim();
+                const date = document.getElementById('admin-cert-date').value.trim();
+                const credlyUrl = document.getElementById('admin-cert-credly-url').value.trim();
+                const badgeId = document.getElementById('admin-cert-badge-id').value.trim();
+                const pdfUrl = document.getElementById('admin-cert-pdf-url').value.trim();
+                const imageUrl = document.getElementById('admin-cert-image-url').value.trim();
+                const desc = document.getElementById('admin-cert-desc').value.trim();
+                const skills = document.getElementById('admin-cert-skills').value.trim();
+                const showWebEl = document.getElementById('admin-cert-show-web');
+                const showResumeEl = document.getElementById('admin-cert-show-resume');
+                const showInWeb = showWebEl ? showWebEl.checked : true;
+                const showInResume = showResumeEl ? showResumeEl.checked : true;
+
+                if (!title || !issuer || !date) {
+                    showToast('Por favor completa los campos requeridos del certificado (*)', 'danger');
+                    return;
+                }
+
+                if (!activeCvData) activeCvData = getCvData();
+                if (!Array.isArray(activeCvData.certifications)) activeCvData.certifications = [];
+
+                const certItem = {
+                    id: certId || generateId('cert_'),
+                    title,
+                    issuer,
+                    date,
+                    credlyUrl,
+                    badgeId,
+                    pdfUrl: pdfUrl || 'ClarisCertificate-Main20261013-21-sbjpms.pdf',
+                    imageUrl: imageUrl || 'certificado.jpeg',
+                    desc,
+                    skills,
+                    showInWeb,
+                    showInResume
+                };
+
+                if (certId) {
+                    const idx = activeCvData.certifications.findIndex(c => c.id === certId);
+                    if (idx >= 0) {
+                        activeCvData.certifications[idx] = certItem;
+                    } else {
+                        activeCvData.certifications.push(certItem);
+                    }
+                } else {
+                    activeCvData.certifications.unshift(certItem);
+                }
+
+                saveCvData(activeCvData);
+                hideCertForm();
+                renderAdminCertList();
+                applyCvDataToDOM(activeCvData);
+                showToast('Insignia / Certificación guardada y sincronizada.', 'success');
             });
         }
 
