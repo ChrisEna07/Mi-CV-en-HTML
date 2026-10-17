@@ -171,8 +171,8 @@
                 'resume-section-profile',
                 'resume-section-experience',
                 'resume-section-projects',
-                'resume-section-education',
                 'resume-section-hardware',
+                'resume-section-education',
                 'resume-section-filemaker',
                 'resume-section-certifications',
                 'resume-section-skills',
@@ -298,6 +298,13 @@
                 if (!layout.sectionsVisibilityWeb) layout.sectionsVisibilityWeb = Object.assign({}, DEFAULT_CV_DATA.layout.sectionsVisibilityWeb);
                 if (!layout.sectionsOrderResume) layout.sectionsOrderResume = DEFAULT_CV_DATA.layout.sectionsOrderResume.slice();
                 if (!layout.sectionsVisibilityResume) layout.sectionsVisibilityResume = Object.assign({}, DEFAULT_CV_DATA.layout.sectionsVisibilityResume);
+
+                DEFAULT_CV_DATA.layout.sectionsOrderWeb.forEach(secId => {
+                    if (!layout.sectionsOrderWeb.includes(secId)) layout.sectionsOrderWeb.push(secId);
+                });
+                DEFAULT_CV_DATA.layout.sectionsOrderResume.forEach(secId => {
+                    if (!layout.sectionsOrderResume.includes(secId)) layout.sectionsOrderResume.push(secId);
+                });
 
                 return {
                     personal: personal,
@@ -481,15 +488,16 @@
         if (Array.isArray(layout.sectionsOrderResume)) {
             const colMain = document.getElementById('resume-col-main');
             const colSidebar = document.getElementById('resume-col-sidebar');
+            const mainSecIds = ['resume-section-profile', 'resume-section-experience', 'resume-section-projects', 'resume-section-hardware'];
 
             layout.sectionsOrderResume.forEach(secId => {
                 const el = document.getElementById(secId);
                 if (el) {
                     const isVisible = layout.sectionsVisibilityResume ? layout.sectionsVisibilityResume[secId] !== false : true;
                     el.style.display = isVisible ? '' : 'none';
-                    if (colMain && el.parentNode === colMain) {
+                    if (mainSecIds.includes(secId) && colMain) {
                         colMain.appendChild(el);
-                    } else if (colSidebar && el.parentNode === colSidebar) {
+                    } else if (colSidebar) {
                         colSidebar.appendChild(el);
                     }
                 }
@@ -811,23 +819,25 @@
                 let certHtml = '';
                 webCerts.forEach(cert => {
                     certHtml += `
-                        <div class="card mb-3 p-3 shadow-sm" style="border: 1px solid rgba(248, 92, 112, 0.25); border-left: 4px solid #F85C70; background: #ffffff; border-radius: 8px;">
-                            <div class="d-flex align-items-center flex-wrap" style="gap: 12px;">
-                                ${cert.imageUrl ? `<img src="${escapeHtml(cert.imageUrl)}" alt="${escapeHtml(cert.title)}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 1px solid #e2e8f0; padding: 2px;">` : `<i class="ti-medall text-danger" style="font-size: 2rem;"></i>`}
-                                <div class="flex-fill" style="min-width: 220px;">
-                                    <div class="d-flex justify-content-between align-items-baseline flex-wrap">
-                                        <h6 class="font-weight-bold text-dark mb-0">${escapeHtml(cert.title)}</h6>
-                                        <span class="badge badge-light text-muted small"><i class="ti-calendar mr-1"></i>${escapeHtml(cert.date)}</span>
-                                    </div>
-                                    <div class="text-danger font-weight-bold small">${escapeHtml(cert.issuer)}</div>
-                                    <p class="subtitle mb-2 small text-muted">${escapeHtml(cert.desc)}</p>
-                                    <div class="d-flex flex-wrap" style="gap: 6px;">
-                                        ${cert.credlyUrl ? `<a href="${escapeHtml(cert.credlyUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-check-box mr-1"></i>Verificar en Credly</a>` : ''}
-                                        ${cert.pdfUrl ? (isRecruiterMode 
-                                            ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download class="btn btn-outline-dark btn-sm py-0 px-2 recruiter-only-download" style="font-size: 0.72rem;"><i class="ti-download mr-1"></i>Descargar PDF</a>` 
-                                            : `<span class="badge badge-light border text-muted py-1 px-2 recruiter-lock-notice" style="font-size: 0.72rem;"><i class="ti-lock text-warning mr-1"></i>PDF (Modo Empresa)</span>`
-                                        ) : ''}
-                                        ${cert.imageUrl ? `<a href="${escapeHtml(cert.imageUrl)}" target="_blank" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-image mr-1"></i>Ver Diploma</a>` : ''}
+                        <div class="col-12 col-md-6 mb-3">
+                            <div class="card h-100 p-3 shadow-sm" style="border: 1px solid rgba(248, 92, 112, 0.25); border-left: 4px solid #F85C70; background: #ffffff; border-radius: 8px;">
+                                <div class="d-flex align-items-center flex-wrap" style="gap: 12px;">
+                                    ${cert.imageUrl ? `<img src="${escapeHtml(cert.imageUrl)}" alt="${escapeHtml(cert.title)}" style="width: 52px; height: 52px; object-fit: contain; border-radius: 6px; border: 1px solid #e2e8f0; padding: 2px; flex-shrink: 0;">` : `<i class="ti-medall text-danger" style="font-size: 2rem; flex-shrink: 0;"></i>`}
+                                    <div class="flex-fill" style="min-width: 200px;">
+                                        <div class="d-flex justify-content-between align-items-baseline flex-wrap">
+                                            <h6 class="font-weight-bold text-dark mb-0">${escapeHtml(cert.title)}</h6>
+                                            <span class="badge badge-light text-muted small"><i class="ti-calendar mr-1"></i>${escapeHtml(cert.date)}</span>
+                                        </div>
+                                        <div class="text-danger font-weight-bold small">${escapeHtml(cert.issuer)}</div>
+                                        <p class="subtitle mb-2 small text-muted">${escapeHtml(cert.desc)}</p>
+                                        <div class="d-flex flex-wrap" style="gap: 6px;">
+                                            ${cert.credlyUrl ? `<a href="${escapeHtml(cert.credlyUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-check-box mr-1"></i>Verificar en Credly</a>` : ''}
+                                            ${cert.pdfUrl ? (isRecruiterMode 
+                                                ? `<a href="${escapeHtml(cert.pdfUrl)}" target="_blank" download class="btn btn-outline-dark btn-sm py-0 px-2 recruiter-only-download" style="font-size: 0.72rem;"><i class="ti-download mr-1"></i>Descargar PDF</a>` 
+                                                : `<span class="badge badge-light border text-muted py-1 px-2 recruiter-lock-notice" style="font-size: 0.72rem;"><i class="ti-lock text-warning mr-1"></i>PDF (Modo Empresa)</span>`
+                                            ) : ''}
+                                            ${cert.imageUrl ? `<a href="${escapeHtml(cert.imageUrl)}" target="_blank" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.72rem;"><i class="ti-image mr-1"></i>Ver Diploma</a>` : ''}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1394,6 +1404,188 @@
         if (idInput) idInput.value = '';
     }
 
+    // -------------------------------------------------------------------------
+    // H. GESTIÓN DE DISPOSICIÓN & SECCIONES (TAB 6 LAYOUT MANAGER)
+    // -------------------------------------------------------------------------
+    const WEB_SECTION_LABELS = {
+        'about': { label: 'Perfil / Sobre Mí', icon: 'ti-user' },
+        'section-claris-specialization': { label: 'Especialización Claris FileMaker (Doble Certificación)', icon: 'ti-layers' },
+        'resume': { label: 'Currículum & Trayectoria Laboral', icon: 'ti-briefcase' },
+        'portfolio': { label: 'Portafolio de Proyectos Web & Móvil', icon: 'ti-layout-grid2' },
+        'service': { label: 'Servicios Empresariales & Soluciones', icon: 'ti-settings' },
+        'price': { label: 'Tarifas / Precios de Servicios', icon: 'ti-receipt' },
+        'blog': { label: 'Blog / Artículos Técnicos', icon: 'ti-notepad' },
+        'contact': { label: 'Contacto & Formulario Directo', icon: 'ti-email' }
+    };
+
+    const RESUME_SECTION_LABELS = {
+        'resume-section-profile': { label: 'Perfil Profesional (Bio Ejecutiva)', icon: 'ti-user' },
+        'resume-section-experience': { label: 'Experiencia Laboral (Celerix SAS / Freelance)', icon: 'ti-briefcase' },
+        'resume-section-projects': { label: 'Proyectos de Ingeniería Destacados', icon: 'ti-folder' },
+        'resume-section-hardware': { label: 'Arquitectura de Hardware & Ensambles', icon: 'ti-harddrives' },
+        'resume-section-education': { label: 'Educación Académica (SENA ADSO)', icon: 'ti-book' },
+        'resume-section-filemaker': { label: 'Claris FileMaker Pro & Server Enterprise', icon: 'ti-layers' },
+        'resume-section-certifications': { label: 'Certificaciones Oficiales Claris (Credly)', icon: 'ti-medall' },
+        'resume-section-skills': { label: 'Stack Tecnológico (Habilidades Técnicas)', icon: 'ti-widget' },
+        'resume-section-languages': { label: 'Idiomas (Español / Inglés)', icon: 'ti-world' }
+    };
+
+    function renderAdminLayoutManager() {
+        if (!activeCvData) activeCvData = getCvData();
+        if (!activeCvData.layout) activeCvData.layout = JSON.parse(JSON.stringify(DEFAULT_CV_DATA.layout));
+        const layout = activeCvData.layout;
+
+        const webContainer = document.getElementById('admin-layout-web-list');
+        const resumeContainer = document.getElementById('admin-layout-resume-list');
+
+        // 1. Renderizar Secciones Web
+        if (webContainer && Array.isArray(layout.sectionsOrderWeb)) {
+            let webHtml = '';
+            layout.sectionsOrderWeb.forEach((secId, idx) => {
+                const info = WEB_SECTION_LABELS[secId] || { label: secId, icon: 'ti-layout-width-default' };
+                const isVisible = layout.sectionsVisibilityWeb ? layout.sectionsVisibilityWeb[secId] !== false : true;
+                const isFirst = idx === 0;
+                const isLast = idx === layout.sectionsOrderWeb.length - 1;
+
+                webHtml += `
+                    <div class="admin-layout-item ${isVisible ? '' : 'is-hidden'}" data-id="${escapeHtml(secId)}">
+                        <div class="admin-layout-info">
+                            <span class="admin-layout-handle"><i class="${info.icon}"></i></span>
+                            <span class="admin-layout-title" title="${escapeHtml(info.label)}">${escapeHtml(info.label)}</span>
+                        </div>
+                        <div class="admin-layout-actions">
+                            <div class="custom-control custom-switch mr-1">
+                                <input type="checkbox" class="custom-control-input admin-toggle-web-sec" id="toggle-web-${escapeHtml(secId)}" data-id="${escapeHtml(secId)}" ${isVisible ? 'checked' : ''}>
+                                <label class="custom-control-label" for="toggle-web-${escapeHtml(secId)}" title="${isVisible ? 'Ocultar sección' : 'Mostrar sección'}"></label>
+                            </div>
+                            <button type="button" class="admin-layout-btn admin-btn-move-web" data-id="${escapeHtml(secId)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''}>
+                                <i class="ti-arrow-up"></i>
+                            </button>
+                            <button type="button" class="admin-layout-btn admin-btn-move-web" data-id="${escapeHtml(secId)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''}>
+                                <i class="ti-arrow-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            webContainer.innerHTML = webHtml;
+
+            // Listeners Web
+            webContainer.querySelectorAll('.admin-btn-move-web').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+                    const dir = this.getAttribute('data-dir');
+                    const arr = activeCvData.layout.sectionsOrderWeb;
+                    const idx = arr.indexOf(id);
+                    if (idx < 0) return;
+                    if (dir === 'up' && idx > 0) {
+                        const temp = arr[idx];
+                        arr[idx] = arr[idx - 1];
+                        arr[idx - 1] = temp;
+                    } else if (dir === 'down' && idx < arr.length - 1) {
+                        const temp = arr[idx];
+                        arr[idx] = arr[idx + 1];
+                        arr[idx + 1] = temp;
+                    }
+                    saveCvData(activeCvData);
+                    applyLayoutToDOM(activeCvData.layout);
+                    renderAdminLayoutManager();
+                });
+            });
+
+            webContainer.querySelectorAll('.admin-toggle-web-sec').forEach(chk => {
+                chk.addEventListener('change', function () {
+                    const id = this.getAttribute('data-id');
+                    if (!activeCvData.layout.sectionsVisibilityWeb) activeCvData.layout.sectionsVisibilityWeb = {};
+                    activeCvData.layout.sectionsVisibilityWeb[id] = this.checked;
+                    saveCvData(activeCvData);
+                    applyLayoutToDOM(activeCvData.layout);
+                    renderAdminLayoutManager();
+                });
+            });
+        }
+
+        // 2. Renderizar Secciones CV Imprimible
+        if (resumeContainer && Array.isArray(layout.sectionsOrderResume)) {
+            let resHtml = '';
+            layout.sectionsOrderResume.forEach((secId, idx) => {
+                const info = RESUME_SECTION_LABELS[secId] || { label: secId, icon: 'ti-layout-width-default' };
+                const isVisible = layout.sectionsVisibilityResume ? layout.sectionsVisibilityResume[secId] !== false : true;
+                const isFirst = idx === 0;
+                const isLast = idx === layout.sectionsOrderResume.length - 1;
+
+                resHtml += `
+                    <div class="admin-layout-item ${isVisible ? '' : 'is-hidden'}" data-id="${escapeHtml(secId)}">
+                        <div class="admin-layout-info">
+                            <span class="admin-layout-handle"><i class="${info.icon}"></i></span>
+                            <span class="admin-layout-title" title="${escapeHtml(info.label)}">${escapeHtml(info.label)}</span>
+                        </div>
+                        <div class="admin-layout-actions">
+                            <div class="custom-control custom-switch mr-1">
+                                <input type="checkbox" class="custom-control-input admin-toggle-resume-sec" id="toggle-res-${escapeHtml(secId)}" data-id="${escapeHtml(secId)}" ${isVisible ? 'checked' : ''}>
+                                <label class="custom-control-label" for="toggle-res-${escapeHtml(secId)}" title="${isVisible ? 'Ocultar sección' : 'Mostrar sección'}"></label>
+                            </div>
+                            <button type="button" class="admin-layout-btn admin-btn-move-resume" data-id="${escapeHtml(secId)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''}>
+                                <i class="ti-arrow-up"></i>
+                            </button>
+                            <button type="button" class="admin-layout-btn admin-btn-move-resume" data-id="${escapeHtml(secId)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''}>
+                                <i class="ti-arrow-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            resumeContainer.innerHTML = resHtml;
+
+            // Listeners Resume
+            resumeContainer.querySelectorAll('.admin-btn-move-resume').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+                    const dir = this.getAttribute('data-dir');
+                    const arr = activeCvData.layout.sectionsOrderResume;
+                    const idx = arr.indexOf(id);
+                    if (idx < 0) return;
+                    if (dir === 'up' && idx > 0) {
+                        const temp = arr[idx];
+                        arr[idx] = arr[idx - 1];
+                        arr[idx - 1] = temp;
+                    } else if (dir === 'down' && idx < arr.length - 1) {
+                        const temp = arr[idx];
+                        arr[idx] = arr[idx + 1];
+                        arr[idx + 1] = temp;
+                    }
+                    saveCvData(activeCvData);
+                    applyLayoutToDOM(activeCvData.layout);
+                    renderAdminLayoutManager();
+                });
+            });
+
+            resumeContainer.querySelectorAll('.admin-toggle-resume-sec').forEach(chk => {
+                chk.addEventListener('change', function () {
+                    const id = this.getAttribute('data-id');
+                    if (!activeCvData.layout.sectionsVisibilityResume) activeCvData.layout.sectionsVisibilityResume = {};
+                    activeCvData.layout.sectionsVisibilityResume[id] = this.checked;
+                    saveCvData(activeCvData);
+                    applyLayoutToDOM(activeCvData.layout);
+                    renderAdminLayoutManager();
+                });
+            });
+        }
+
+        // Listener Reset Layout
+        const btnResetLayout = document.getElementById('admin-btn-reset-layout');
+        if (btnResetLayout && !btnResetLayout.dataset.bound) {
+            btnResetLayout.dataset.bound = 'true';
+            btnResetLayout.addEventListener('click', function () {
+                activeCvData.layout = JSON.parse(JSON.stringify(DEFAULT_CV_DATA.layout));
+                saveCvData(activeCvData);
+                applyLayoutToDOM(activeCvData.layout);
+                renderAdminLayoutManager();
+                showToast('Estructura de secciones restablecida al orden inicial.', 'info');
+            });
+        }
+    }
+
     function initCvManagerModal() {
         const btnNewExp = document.getElementById('admin-btn-new-exp');
         if (btnNewExp) btnNewExp.addEventListener('click', () => showExpForm(null));
@@ -1506,187 +1698,7 @@
             });
         }
 
-        // ---------------------------------------------------------------------
-        // GESTIÓN DE DISPOSICIÓN & SECCIONES (TAB 6 LAYOUT MANAGER)
-        // ---------------------------------------------------------------------
-        const WEB_SECTION_LABELS = {
-            'about': { label: 'Perfil / Sobre Mí', icon: 'ti-user' },
-            'section-claris-specialization': { label: 'Especialización Claris FileMaker (Doble Certificación)', icon: 'ti-layers' },
-            'resume': { label: 'Currículum & Trayectoria Laboral', icon: 'ti-briefcase' },
-            'portfolio': { label: 'Portafolio de Proyectos Web & Móvil', icon: 'ti-layout-grid2' },
-            'service': { label: 'Servicios Empresariales & Soluciones', icon: 'ti-settings' },
-            'price': { label: 'Tarifas / Precios de Servicios', icon: 'ti-receipt' },
-            'blog': { label: 'Blog / Artículos Técnicos', icon: 'ti-notepad' },
-            'contact': { label: 'Contacto & Formulario Directo', icon: 'ti-email' }
-        };
 
-        const RESUME_SECTION_LABELS = {
-            'resume-section-profile': { label: 'Perfil Profesional (Bio Ejecutiva)', icon: 'ti-user' },
-            'resume-section-experience': { label: 'Experiencia Laboral (Celerix SAS / Freelance)', icon: 'ti-briefcase' },
-            'resume-section-projects': { label: 'Proyectos de Ingeniería Destacados', icon: 'ti-folder' },
-            'resume-section-education': { label: 'Educación Académica (SENA ADSO)', icon: 'ti-book' },
-            'resume-section-hardware': { label: 'Arquitectura de Hardware & Ensambles', icon: 'ti-harddrives' },
-            'resume-section-filemaker': { label: 'Claris FileMaker Pro & Server Enterprise', icon: 'ti-layers' },
-            'resume-section-certifications': { label: 'Certificaciones Oficiales Claris (Credly)', icon: 'ti-medall' },
-            'resume-section-skills': { label: 'Stack Tecnológico (Habilidades Técnicas)', icon: 'ti-widget' },
-            'resume-section-languages': { label: 'Idiomas (Español / Inglés)', icon: 'ti-world' }
-        };
-
-        function renderAdminLayoutManager() {
-            if (!activeCvData) activeCvData = getCvData();
-            if (!activeCvData.layout) activeCvData.layout = JSON.parse(JSON.stringify(DEFAULT_CV_DATA.layout));
-            const layout = activeCvData.layout;
-
-            const webContainer = document.getElementById('admin-layout-web-list');
-            const resumeContainer = document.getElementById('admin-layout-resume-list');
-
-            // 1. Renderizar Secciones Web
-            if (webContainer && Array.isArray(layout.sectionsOrderWeb)) {
-                let webHtml = '';
-                layout.sectionsOrderWeb.forEach((secId, idx) => {
-                    const info = WEB_SECTION_LABELS[secId] || { label: secId, icon: 'ti-layout-width-default' };
-                    const isVisible = layout.sectionsVisibilityWeb ? layout.sectionsVisibilityWeb[secId] !== false : true;
-                    const isFirst = idx === 0;
-                    const isLast = idx === layout.sectionsOrderWeb.length - 1;
-
-                    webHtml += `
-                        <div class="admin-layout-item ${isVisible ? '' : 'is-hidden'}" data-id="${escapeHtml(secId)}">
-                            <div class="admin-layout-info">
-                                <span class="admin-layout-handle"><i class="${info.icon}"></i></span>
-                                <span class="admin-layout-title" title="${escapeHtml(info.label)}">${escapeHtml(info.label)}</span>
-                            </div>
-                            <div class="admin-layout-actions">
-                                <div class="custom-control custom-switch mr-1">
-                                    <input type="checkbox" class="custom-control-input admin-toggle-web-sec" id="toggle-web-${escapeHtml(secId)}" data-id="${escapeHtml(secId)}" ${isVisible ? 'checked' : ''}>
-                                    <label class="custom-control-label" for="toggle-web-${escapeHtml(secId)}" title="${isVisible ? 'Ocultar sección' : 'Mostrar sección'}"></label>
-                                </div>
-                                <button type="button" class="admin-layout-btn admin-btn-move-web" data-id="${escapeHtml(secId)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''}>
-                                    <i class="ti-arrow-up"></i>
-                                </button>
-                                <button type="button" class="admin-layout-btn admin-btn-move-web" data-id="${escapeHtml(secId)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''}>
-                                    <i class="ti-arrow-down"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                webContainer.innerHTML = webHtml;
-
-                // Listeners Web
-                webContainer.querySelectorAll('.admin-btn-move-web').forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        const id = this.getAttribute('data-id');
-                        const dir = this.getAttribute('data-dir');
-                        const arr = activeCvData.layout.sectionsOrderWeb;
-                        const idx = arr.indexOf(id);
-                        if (idx < 0) return;
-                        if (dir === 'up' && idx > 0) {
-                            const temp = arr[idx];
-                            arr[idx] = arr[idx - 1];
-                            arr[idx - 1] = temp;
-                        } else if (dir === 'down' && idx < arr.length - 1) {
-                            const temp = arr[idx];
-                            arr[idx] = arr[idx + 1];
-                            arr[idx + 1] = temp;
-                        }
-                        saveCvData(activeCvData);
-                        applyLayoutToDOM(activeCvData.layout);
-                        renderAdminLayoutManager();
-                    });
-                });
-
-                webContainer.querySelectorAll('.admin-toggle-web-sec').forEach(chk => {
-                    chk.addEventListener('change', function () {
-                        const id = this.getAttribute('data-id');
-                        if (!activeCvData.layout.sectionsVisibilityWeb) activeCvData.layout.sectionsVisibilityWeb = {};
-                        activeCvData.layout.sectionsVisibilityWeb[id] = this.checked;
-                        saveCvData(activeCvData);
-                        applyLayoutToDOM(activeCvData.layout);
-                        renderAdminLayoutManager();
-                    });
-                });
-            }
-
-            // 2. Renderizar Secciones CV Imprimible
-            if (resumeContainer && Array.isArray(layout.sectionsOrderResume)) {
-                let resHtml = '';
-                layout.sectionsOrderResume.forEach((secId, idx) => {
-                    const info = RESUME_SECTION_LABELS[secId] || { label: secId, icon: 'ti-layout-width-default' };
-                    const isVisible = layout.sectionsVisibilityResume ? layout.sectionsVisibilityResume[secId] !== false : true;
-                    const isFirst = idx === 0;
-                    const isLast = idx === layout.sectionsOrderResume.length - 1;
-
-                    resHtml += `
-                        <div class="admin-layout-item ${isVisible ? '' : 'is-hidden'}" data-id="${escapeHtml(secId)}">
-                            <div class="admin-layout-info">
-                                <span class="admin-layout-handle"><i class="${info.icon}"></i></span>
-                                <span class="admin-layout-title" title="${escapeHtml(info.label)}">${escapeHtml(info.label)}</span>
-                            </div>
-                            <div class="admin-layout-actions">
-                                <div class="custom-control custom-switch mr-1">
-                                    <input type="checkbox" class="custom-control-input admin-toggle-resume-sec" id="toggle-res-${escapeHtml(secId)}" data-id="${escapeHtml(secId)}" ${isVisible ? 'checked' : ''}>
-                                    <label class="custom-control-label" for="toggle-res-${escapeHtml(secId)}" title="${isVisible ? 'Ocultar sección' : 'Mostrar sección'}"></label>
-                                </div>
-                                <button type="button" class="admin-layout-btn admin-btn-move-resume" data-id="${escapeHtml(secId)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''}>
-                                    <i class="ti-arrow-up"></i>
-                                </button>
-                                <button type="button" class="admin-layout-btn admin-btn-move-resume" data-id="${escapeHtml(secId)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''}>
-                                    <i class="ti-arrow-down"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                resumeContainer.innerHTML = resHtml;
-
-                // Listeners Resume
-                resumeContainer.querySelectorAll('.admin-btn-move-resume').forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        const id = this.getAttribute('data-id');
-                        const dir = this.getAttribute('data-dir');
-                        const arr = activeCvData.layout.sectionsOrderResume;
-                        const idx = arr.indexOf(id);
-                        if (idx < 0) return;
-                        if (dir === 'up' && idx > 0) {
-                            const temp = arr[idx];
-                            arr[idx] = arr[idx - 1];
-                            arr[idx - 1] = temp;
-                        } else if (dir === 'down' && idx < arr.length - 1) {
-                            const temp = arr[idx];
-                            arr[idx] = arr[idx + 1];
-                            arr[idx + 1] = temp;
-                        }
-                        saveCvData(activeCvData);
-                        applyLayoutToDOM(activeCvData.layout);
-                        renderAdminLayoutManager();
-                    });
-                });
-
-                resumeContainer.querySelectorAll('.admin-toggle-resume-sec').forEach(chk => {
-                    chk.addEventListener('change', function () {
-                        const id = this.getAttribute('data-id');
-                        if (!activeCvData.layout.sectionsVisibilityResume) activeCvData.layout.sectionsVisibilityResume = {};
-                        activeCvData.layout.sectionsVisibilityResume[id] = this.checked;
-                        saveCvData(activeCvData);
-                        applyLayoutToDOM(activeCvData.layout);
-                        renderAdminLayoutManager();
-                    });
-                });
-            }
-
-            // Listener Reset Layout
-            const btnResetLayout = document.getElementById('admin-btn-reset-layout');
-            if (btnResetLayout && !btnResetLayout.dataset.bound) {
-                btnResetLayout.dataset.bound = 'true';
-                btnResetLayout.addEventListener('click', function () {
-                    activeCvData.layout = JSON.parse(JSON.stringify(DEFAULT_CV_DATA.layout));
-                    saveCvData(activeCvData);
-                    applyLayoutToDOM(activeCvData.layout);
-                    renderAdminLayoutManager();
-                    showToast('Estructura de secciones restablecida al orden inicial.', 'info');
-                });
-            }
-        }
 
         // ---------------------------------------------------------------------
         // GESTIÓN DE IMÁGENES: PREVIEWS EN VIVO, LOCAL FILE PICKERS & PRESETS

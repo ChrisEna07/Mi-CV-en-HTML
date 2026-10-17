@@ -241,8 +241,11 @@
                             <p class="subtitle mb-0" id="display-edu-period"><i class="ti-calendar mr-1"></i> <span id="display-edu-date-text">Finalización estimada: Enero de 2027</span></p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="card">
+                <!-- Columna 2: Formación Continua, Habilidades Blandas e Idiomas -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card mb-4">
                         <div class="card-header">
                             <div class="mt-2">
                                 <h4>Formación Continua</h4>
@@ -262,21 +265,6 @@
                         </div>
                     </div>
 
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <div class="mt-2">
-                                <h4 data-i18n="cert-section-title">Certificaciones & Insignias</h4>
-                                <span class="line"></span>
-                            </div>
-                        </div>
-                        <div class="card-body py-3" id="display-certifications-container">
-                            <!-- Renderizado dinámico desde view-controller.js -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna 2: Habilidades Blandas e Idiomas -->
-                <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card mb-4">
                         <div class="card-header">
                             <div class="pull-left">
@@ -461,6 +449,32 @@
                                 <span class="interest-tag"><i class="ti-cup text-danger mr-1"></i> Cocina</span>
                                 <span class="interest-tag"><i class="ti-light-bulb text-danger mr-1"></i> IA Aplicada</span>
                                 <span class="interest-tag"><i class="ti-layout-grid2 text-danger mr-1"></i> UI/UX Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila Completa de Certificaciones Oficiales Claris & Insignias (2 Columnas Armónicas) -->
+            <div class="row mt-2">
+                <div class="col-12 mb-4">
+                    <div class="card shadow-sm" style="border: 1px solid rgba(248, 92, 112, 0.2); border-radius: 10px;">
+                        <div class="card-header bg-white py-3">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                <div>
+                                    <h4 class="mb-0 text-dark font-weight-bold" data-i18n="cert-section-title">
+                                        <i class="ti-medall text-danger mr-2"></i>Certificaciones & Insignias Oficiales
+                                    </h4>
+                                    <span class="line mb-0 mt-2"></span>
+                                </div>
+                                <span class="badge badge-light border text-muted px-2 py-1 mt-2 mt-md-0" style="font-size: 0.8rem;">
+                                    Acreditaciones verificadas en Credly
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row" id="display-certifications-container">
+                                <!-- Renderizado dinámico en 2 columnas (col-12 col-md-6) desde view-controller.js -->
                             </div>
                         </div>
                     </div>

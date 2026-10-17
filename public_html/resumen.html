@@ -38,16 +38,19 @@
         }
 
         .cv-top-bar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+            position: sticky;
+            top: 0;
             z-index: 1000;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 10px;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+            background: #ffffff;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            width: 100%;
         }
 
         @media print {
@@ -534,6 +537,20 @@
                         <strong>DeepFace AI (Python):</strong> Pipeline de visión por computador y clasificación biométrica para análisis de expresiones faciales.
                     </div>
                 </section>
+
+                <!-- Arquitectura de Hardware & Ensambles -->
+                <section class="cv-section" id="resume-section-hardware">
+                    <h3 class="cv-section-title"><i class="ti-harddrives"></i> Arquitectura de Hardware</h3>
+                    <div class="cv-card-box" style="border-left-color: #0f172a; background: #ffffff;">
+                        <div style="font-weight: 700; color: var(--primary-dark); font-size: 11.5px; margin-bottom: 5px;">Ensambles & Cómputo de Alto Desempeño</div>
+                        <ul style="margin: 0; padding-left: 18px; font-size: 11.5px; color: var(--text-muted); line-height: 1.45;">
+                            <li><strong>Ensambles Pro:</strong> Montaje, calibración y benchmarking de Workstations y PCs Gaming optimizados por caso de uso.</li>
+                            <li><strong>Diagnóstico & Térmica:</strong> Reparación a nivel de componentes y optimización de curvas de ventilación.</li>
+                            <li><strong>Sistemas & Drivers:</strong> Despliegue limpio de SO, particionamiento avanzado y aseguramiento de controladores.</li>
+                            <li><strong>Asesoría Estratégica:</strong> Compatibilidad rigurosa de partes y presupuesto.</li>
+                        </ul>
+                    </div>
+                </section>
             </div>
 
             <!-- COLUMNA LATERAL (DERECHA) -->
@@ -547,20 +564,6 @@
                         </div>
                         <div class="item-sub" id="cv-resume-edu-institution">SENA (Servicio Nacional de Aprendizaje)</div>
                         <div class="item-period mt-1" id="cv-resume-edu-status">En formación / Estudiante (Finalización estimada: Enero de 2027)</div>
-                    </div>
-                </section>
-
-                <!-- CONSULTORÍA & ARQUITECTURA DE HARDWARE (TALENTO FORMAL) -->
-                <section class="cv-section" id="resume-section-hardware">
-                    <div class="cv-card-box">
-                        <h4><i class="ti-harddrives"></i> Arquitectura de Hardware</h4>
-                        <div style="font-weight: 600; color: var(--primary-dark); font-size: 11px; margin-bottom: 5px;">Ensambles & Cómputo de Alto Desempeño</div>
-                        <ul>
-                            <li><strong>Ensambles Pro:</strong> Montaje, calibración y benchmarking de Workstations y PCs Gaming optimizados por caso de uso.</li>
-                            <li><strong>Diagnóstico & Térmica:</strong> Reparación a nivel de componentes y optimización de curvas de ventilación.</li>
-                            <li><strong>Sistemas & Drivers:</strong> Despliegue limpio de SO, particionamiento avanzado y aseguramiento de controladores.</li>
-                            <li><strong>Asesoría Estratégica:</strong> Compatibilidad rigurosa de partes y presupuesto.</li>
-                        </ul>
                     </div>
                 </section>
 
