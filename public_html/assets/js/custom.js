@@ -428,7 +428,7 @@ if (typeof gsap !== 'undefined') {
             opacity: 0,
             duration: 0.8
         }, '-=0.6')
-        .from('.portfolio-header-link', {
+        .from('.header .btn-outline-light', {
             scale: 0.8,
             opacity: 0,
             duration: 0.8,

@@ -731,9 +731,47 @@ body.mode-public .portfolio-col-apps {
 /* Estilos de imagen de Portada / Muro en Hero */
 .header#display-header-bg {
     background-size: cover !important;
-    background-position: center center !important;
     background-repeat: no-repeat !important;
     transition: background-image 0.4s ease-in-out;
+}
+
+/* Avatar de Presentación Web: Círculo perfecto y soporte de object-position vertical */
+.navbar .brand .brand-img,
+#display-avatar-img {
+    width: 170px !important;
+    height: 170px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    transition: object-position 0.2s ease, opacity 0.3s ease;
+}
+
+/* Foto del CV imprimible / Resume Avatar: Círculo y soporte de object-position vertical */
+#display-resume-avatar,
+.profile-img-resume {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    transition: object-position 0.2s ease;
+}
+
+/* Previsualizadores en el modal ChrizDev */
+#admin-banner-preview {
+    object-fit: cover !important;
+    transition: object-position 0.1s ease;
+}
+
+#admin-avatar-web-preview,
+#admin-avatar-resume-preview {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    transition: object-position 0.1s ease;
+}
+
+.header#display-header-bg {
+    background-attachment: scroll !important;
 }
 
 @media (max-width: 768px) {

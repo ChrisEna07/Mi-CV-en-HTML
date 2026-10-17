@@ -386,27 +386,29 @@
         const headerBg = document.getElementById('display-header-bg') || document.querySelector('header.header');
         if (!headerBg) return;
 
-        headerBg.style.backgroundAttachment = 'scroll';
+        headerBg.style.setProperty('background-attachment', 'scroll', 'important');
 
         const defaultUrl = DEFAULT_CV_DATA.personal.bannerUrl || 'assets/imgs/header.jpg';
         let cleanUrl = (url && typeof url === 'string') ? url.trim().replace(/\\/g, '/') : '';
         if (!cleanUrl) cleanUrl = defaultUrl;
         const bgPos = (pos && typeof pos === 'string') ? (pos.includes('%') ? pos : pos + '%') : '50%';
 
+        headerBg.style.setProperty('background-position', `center ${bgPos}`, 'important');
+
         const imgTester = new Image();
         imgTester.onload = function () {
             headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${cleanUrl}")`;
             headerBg.style.backgroundSize = 'cover';
-            headerBg.style.backgroundPosition = `center ${bgPos}`;
-            headerBg.style.backgroundAttachment = 'scroll';
+            headerBg.style.setProperty('background-position', `center ${bgPos}`, 'important');
+            headerBg.style.setProperty('background-attachment', 'scroll', 'important');
             headerBg.style.backgroundRepeat = 'no-repeat';
         };
         imgTester.onerror = function () {
             console.warn('Imagen de portada no accesible:', cleanUrl, '. Usando imagen por defecto.');
             headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${defaultUrl}")`;
             headerBg.style.backgroundSize = 'cover';
-            headerBg.style.backgroundPosition = `center ${bgPos}`;
-            headerBg.style.backgroundAttachment = 'scroll';
+            headerBg.style.setProperty('background-position', `center ${bgPos}`, 'important');
+            headerBg.style.setProperty('background-attachment', 'scroll', 'important');
             headerBg.style.backgroundRepeat = 'no-repeat';
         };
         imgTester.src = cleanUrl;
@@ -551,11 +553,13 @@
         const webAvatarImg = document.getElementById('display-avatar-img');
         if (webAvatarImg) {
             webAvatarImg.src = avatarWebUrl;
-            webAvatarImg.style.objectPosition = `center ${webPos}`;
+            webAvatarImg.style.setProperty('object-fit', 'cover', 'important');
+            webAvatarImg.style.setProperty('object-position', `center ${webPos}`, 'important');
         }
         document.querySelectorAll('.brand-img').forEach(img => {
             img.src = avatarWebUrl;
-            img.style.objectPosition = `center ${webPos}`;
+            img.style.setProperty('object-fit', 'cover', 'important');
+            img.style.setProperty('object-position', `center ${webPos}`, 'important');
         });
 
         // 3. Foto del CV Imprimible (Ejecutiva) con enfoque vertical (rostro)
@@ -564,11 +568,13 @@
         const resumeAvatarImg = document.getElementById('display-resume-avatar');
         if (resumeAvatarImg) {
             resumeAvatarImg.src = avatarResumeUrl;
-            resumeAvatarImg.style.objectPosition = `center ${resumePos}`;
+            resumeAvatarImg.style.setProperty('object-fit', 'cover', 'important');
+            resumeAvatarImg.style.setProperty('object-position', `center ${resumePos}`, 'important');
         }
         document.querySelectorAll('.profile-img-resume').forEach(img => {
             img.src = avatarResumeUrl;
-            img.style.objectPosition = `center ${resumePos}`;
+            img.style.setProperty('object-fit', 'cover', 'important');
+            img.style.setProperty('object-position', `center ${resumePos}`, 'important');
         });
 
         // ---------------------------------------------------------------------
@@ -1013,19 +1019,22 @@
         const bannerPrev = document.getElementById('admin-banner-preview');
         if (bannerPrev) {
             bannerPrev.src = p.bannerUrl || DEFAULT_CV_DATA.personal.bannerUrl;
-            bannerPrev.style.objectPosition = `center ${bannerPosNum}%`;
+            bannerPrev.style.setProperty('object-fit', 'cover', 'important');
+            bannerPrev.style.setProperty('object-position', `center ${bannerPosNum}%`, 'important');
         }
 
         const avatarWebPrev = document.getElementById('admin-avatar-web-preview');
         if (avatarWebPrev) {
             avatarWebPrev.src = p.avatarWebUrl || DEFAULT_CV_DATA.personal.avatarWebUrl;
-            avatarWebPrev.style.objectPosition = `center ${webPosNum}%`;
+            avatarWebPrev.style.setProperty('object-fit', 'cover', 'important');
+            avatarWebPrev.style.setProperty('object-position', `center ${webPosNum}%`, 'important');
         }
 
         const avatarResumePrev = document.getElementById('admin-avatar-resume-preview');
         if (avatarResumePrev) {
             avatarResumePrev.src = p.avatarResumeUrl || DEFAULT_CV_DATA.personal.avatarResumeUrl;
-            avatarResumePrev.style.objectPosition = `center ${resumePosNum}%`;
+            avatarResumePrev.style.setProperty('object-fit', 'cover', 'important');
+            avatarResumePrev.style.setProperty('object-position', `center ${resumePosNum}%`, 'important');
         }
 
         // 2. Switch de Disponibilidad
@@ -1740,6 +1749,7 @@
                 btnReset.addEventListener('click', () => {
                     inputEl.value = defaultUrl;
                     previewEl.src = defaultUrl;
+                    previewEl.style.setProperty('object-fit', 'cover', 'important');
                     if (typeof liveUpdateFn === 'function') {
                         liveUpdateFn(defaultUrl);
                     }
@@ -1748,8 +1758,59 @@
             }
         };
 
-        // Helper para conectar input type="file" local con lectura en Base64 DataURL
-        const bindFileInput = (fileInputId, textInputId, previewImgId, liveUpdateFn) => {
+        // Helper para comprimir y redimensionar imágenes client-side en Canvas HTML5
+        // Evita el QuotaExceededError de localStorage asegurando fotos livianas (<80KB)
+        function compressAndReadImage(file, maxWidth, maxHeight, quality, onDone, onError) {
+            if (!file || !file.type.startsWith('image/')) {
+                if (typeof onError === 'function') onError(new Error('Archivo no válido. Solo se admiten imágenes.'));
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (readerEvent) {
+                const rawDataUrl = readerEvent.target.result;
+                const img = new Image();
+                img.onload = function () {
+                    let width = img.naturalWidth || img.width;
+                    let height = img.naturalHeight || img.height;
+
+                    if (width > maxWidth || height > maxHeight) {
+                        const ratio = Math.min(maxWidth / width, maxHeight / height);
+                        width = Math.round(width * ratio);
+                        height = Math.round(height * ratio);
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) {
+                        onDone(rawDataUrl, Math.round((rawDataUrl.length * 0.75) / 1024));
+                        return;
+                    }
+
+                    // Fondo neutro y suavizado de alta calidad
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', quality || 0.82);
+                    const kb = Math.round((compressedDataUrl.length * 0.75) / 1024);
+                    onDone(compressedDataUrl, kb);
+                };
+                img.onerror = function (err) {
+                    if (typeof onError === 'function') onError(err || new Error('No se pudo decodificar la imagen'));
+                };
+                img.src = rawDataUrl;
+            };
+            reader.onerror = function (err) {
+                if (typeof onError === 'function') onError(err);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Helper para conectar input type="file" local con compresión automática
+        const bindFileInput = (fileInputId, textInputId, previewImgId, maxWidth, maxHeight, quality, liveUpdateFn) => {
             const fileInput = document.getElementById(fileInputId);
             const textInput = document.getElementById(textInputId);
             const previewImg = document.getElementById(previewImgId);
@@ -1763,20 +1824,29 @@
                     return;
                 }
 
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const dataUrl = e.target.result;
-                    if (textInput) textInput.value = dataUrl;
-                    if (previewImg) previewImg.src = dataUrl;
-                    if (typeof liveUpdateFn === 'function') {
-                        liveUpdateFn(dataUrl);
+                showToast(`Optimizando y cargando ${file.name}...`, 'info', 2000);
+
+                compressAndReadImage(
+                    file, 
+                    maxWidth, 
+                    maxHeight, 
+                    quality, 
+                    (compressedDataUrl, kb) => {
+                        if (textInput) textInput.value = compressedDataUrl;
+                        if (previewImg) {
+                            previewImg.src = compressedDataUrl;
+                            previewImg.style.setProperty('object-fit', 'cover', 'important');
+                        }
+                        if (typeof liveUpdateFn === 'function') {
+                            liveUpdateFn(compressedDataUrl);
+                        }
+                        showToast(`Imagen optimizada cargada (${kb} KB). Haz clic en "Guardar Cambios" para confirmar.`, 'success', 3500);
+                    },
+                    (err) => {
+                        console.error('Error al procesar imagen:', err);
+                        showToast('Error al procesar o comprimir la imagen.', 'danger');
                     }
-                    showToast(`Imagen local cargada con éxito: ${file.name}`, 'success');
-                };
-                reader.onerror = function () {
-                    showToast('Error al leer el archivo local.', 'danger');
-                };
-                reader.readAsDataURL(file);
+                );
             });
         };
 
@@ -1788,7 +1858,7 @@
             }
         };
 
-        // 1. Portada / Banner (Muro)
+        // 1. Portada / Banner (Muro) - Max 1400x700 a 80% calidad (~80-110KB)
         setupImagePreview(
             'admin-input-banner-url', 
             'admin-banner-preview', 
@@ -1801,12 +1871,12 @@
             }
         );
         bindUploadBtn('admin-btn-upload-banner', 'admin-file-banner');
-        bindFileInput('admin-file-banner', 'admin-input-banner-url', 'admin-banner-preview', (url) => {
+        bindFileInput('admin-file-banner', 'admin-input-banner-url', 'admin-banner-preview', 1400, 700, 0.80, (url) => {
             const pos = (document.getElementById('admin-input-banner-pos')?.value || '50') + '%';
             applyHeroCoverImage(url, pos);
         });
 
-        // 2. Avatar Web
+        // 2. Avatar Web - Max 500x500 a 82% calidad (~35-50KB)
         setupImagePreview(
             'admin-input-avatar-web-url', 
             'admin-avatar-web-preview', 
@@ -1817,20 +1887,22 @@
                 const pos = (document.getElementById('admin-input-avatar-web-pos')?.value || '20') + '%';
                 document.querySelectorAll('#display-avatar-img, .brand-img').forEach(img => {
                     img.src = url;
-                    img.style.objectPosition = `center ${pos}`;
+                    img.style.setProperty('object-fit', 'cover', 'important');
+                    img.style.setProperty('object-position', `center ${pos}`, 'important');
                 });
             }
         );
         bindUploadBtn('admin-btn-upload-avatar-web', 'admin-file-avatar-web');
-        bindFileInput('admin-file-avatar-web', 'admin-input-avatar-web-url', 'admin-avatar-web-preview', (url) => {
+        bindFileInput('admin-file-avatar-web', 'admin-input-avatar-web-url', 'admin-avatar-web-preview', 500, 500, 0.82, (url) => {
             const pos = (document.getElementById('admin-input-avatar-web-pos')?.value || '20') + '%';
             document.querySelectorAll('#display-avatar-img, .brand-img').forEach(img => {
                 img.src = url;
-                img.style.objectPosition = `center ${pos}`;
+                img.style.setProperty('object-fit', 'cover', 'important');
+                img.style.setProperty('object-position', `center ${pos}`, 'important');
             });
         });
 
-        // 3. Avatar CV Imprimible
+        // 3. Avatar CV Imprimible - Max 500x500 a 82% calidad (~35-50KB)
         setupImagePreview(
             'admin-input-avatar-resume-url', 
             'admin-avatar-resume-preview', 
@@ -1841,16 +1913,18 @@
                 const pos = (document.getElementById('admin-input-avatar-resume-pos')?.value || '15') + '%';
                 document.querySelectorAll('#display-resume-avatar, .profile-img-resume').forEach(img => {
                     img.src = url;
-                    img.style.objectPosition = `center ${pos}`;
+                    img.style.setProperty('object-fit', 'cover', 'important');
+                    img.style.setProperty('object-position', `center ${pos}`, 'important');
                 });
             }
         );
         bindUploadBtn('admin-btn-upload-avatar-resume', 'admin-file-avatar-resume');
-        bindFileInput('admin-file-avatar-resume', 'admin-input-avatar-resume-url', 'admin-avatar-resume-preview', (url) => {
+        bindFileInput('admin-file-avatar-resume', 'admin-input-avatar-resume-url', 'admin-avatar-resume-preview', 500, 500, 0.82, (url) => {
             const pos = (document.getElementById('admin-input-avatar-resume-pos')?.value || '15') + '%';
             document.querySelectorAll('#display-resume-avatar, .profile-img-resume').forEach(img => {
                 img.src = url;
-                img.style.objectPosition = `center ${pos}`;
+                img.style.setProperty('object-fit', 'cover', 'important');
+                img.style.setProperty('object-position', `center ${pos}`, 'important');
             });
         });
 
@@ -1861,7 +1935,10 @@
                 const input = document.getElementById('admin-input-banner-url');
                 const prev = document.getElementById('admin-banner-preview');
                 if (input) input.value = url;
-                if (prev) prev.src = url;
+                if (prev) {
+                    prev.src = url;
+                    prev.style.setProperty('object-fit', 'cover', 'important');
+                }
                 const pos = (document.getElementById('admin-input-banner-pos')?.value || '50') + '%';
                 applyHeroCoverImage(url, pos);
                 showToast('Preset de portada aplicado.', 'info');
@@ -1874,11 +1951,15 @@
                 const input = document.getElementById('admin-input-avatar-web-url');
                 const prev = document.getElementById('admin-avatar-web-preview');
                 if (input) input.value = url;
-                if (prev) prev.src = url;
+                if (prev) {
+                    prev.src = url;
+                    prev.style.setProperty('object-fit', 'cover', 'important');
+                }
                 const pos = (document.getElementById('admin-input-avatar-web-pos')?.value || '20') + '%';
                 document.querySelectorAll('#display-avatar-img, .brand-img').forEach(img => {
                     img.src = url;
-                    img.style.objectPosition = `center ${pos}`;
+                    img.style.setProperty('object-fit', 'cover', 'important');
+                    img.style.setProperty('object-position', `center ${pos}`, 'important');
                 });
                 showToast('Preset de avatar web aplicado.', 'info');
             });
@@ -1890,39 +1971,50 @@
                 const input = document.getElementById('admin-input-avatar-resume-url');
                 const prev = document.getElementById('admin-avatar-resume-preview');
                 if (input) input.value = url;
-                if (prev) prev.src = url;
+                if (prev) {
+                    prev.src = url;
+                    prev.style.setProperty('object-fit', 'cover', 'important');
+                }
                 const pos = (document.getElementById('admin-input-avatar-resume-pos')?.value || '15') + '%';
                 document.querySelectorAll('#display-resume-avatar, .profile-img-resume').forEach(img => {
                     img.src = url;
-                    img.style.objectPosition = `center ${pos}`;
+                    img.style.setProperty('object-fit', 'cover', 'important');
+                    img.style.setProperty('object-position', `center ${pos}`, 'important');
                 });
                 showToast('Preset de foto CV aplicado.', 'info');
             });
         });
 
-        // Sliders de Enfoque y Posición Vertical con previsualización en vivo
+        // Sliders de Enfoque y Posición Vertical con previsualización en vivo inmediata
         const bindPosSlider = (sliderId, labelId, previewId, liveTargetSelector, isBg = false) => {
             const slider = document.getElementById(sliderId);
             const label = document.getElementById(labelId);
             const preview = document.getElementById(previewId);
             if (!slider) return;
 
-            slider.addEventListener('input', function () {
-                const val = this.value + '%';
+            const handlePos = function () {
+                const val = (parseInt(this.value, 10) || 0) + '%';
                 if (label) label.textContent = val;
                 if (preview) {
-                    preview.style.objectPosition = `center ${val}`;
+                    preview.style.setProperty('object-fit', 'cover', 'important');
+                    preview.style.setProperty('object-position', `center ${val}`, 'important');
                 }
                 if (liveTargetSelector) {
                     document.querySelectorAll(liveTargetSelector).forEach(el => {
                         if (isBg) {
-                            el.style.backgroundPosition = `center ${val}`;
+                            el.style.setProperty('background-attachment', 'scroll', 'important');
+                            el.style.setProperty('background-size', 'cover', 'important');
+                            el.style.setProperty('background-position', `center ${val}`, 'important');
                         } else {
-                            el.style.objectPosition = `center ${val}`;
+                            el.style.setProperty('object-fit', 'cover', 'important');
+                            el.style.setProperty('object-position', `center ${val}`, 'important');
                         }
                     });
                 }
-            });
+            };
+
+            slider.addEventListener('input', handlePos);
+            slider.addEventListener('change', handlePos);
         };
 
         bindPosSlider('admin-input-banner-pos', 'admin-val-banner-pos', 'admin-banner-preview', '#display-header-bg, header.header', true);
@@ -1961,9 +2053,9 @@
                 const locationEs = getVal('admin-input-location-es') || getVal('admin-input-location') || DEFAULT_CV_DATA.personal.location_es;
                 const locationEn = getVal('admin-input-location-en') || DEFAULT_CV_DATA.personal.location_en;
 
-                const bannerPosVal = (getVal('admin-input-banner-pos') || '50') + '%';
-                const avatarWebPosVal = (getVal('admin-input-avatar-web-pos') || '20') + '%';
-                const avatarResumePosVal = (getVal('admin-input-avatar-resume-pos') || '15') + '%';
+                const bannerPosVal = (parseInt(getVal('admin-input-banner-pos'), 10) || 50) + '%';
+                const avatarWebPosVal = (parseInt(getVal('admin-input-avatar-web-pos'), 10) || 20) + '%';
+                const avatarResumePosVal = (parseInt(getVal('admin-input-avatar-resume-pos'), 10) || 15) + '%';
 
                 activeCvData.personal = {
                     fullname: getVal('admin-input-fullname', DEFAULT_CV_DATA.personal.fullname),
@@ -2021,9 +2113,19 @@
                     date: getVal('admin-input-edudate', DEFAULT_CV_DATA.education.date)
                 };
 
-                saveCvData(activeCvData);
+                const saved = saveCvData(activeCvData);
 
                 const feedback = document.getElementById('admin-modal-feedback');
+                if (!saved) {
+                    if (feedback) {
+                        feedback.className = 'alert alert-danger mt-3 py-2 small';
+                        feedback.innerHTML = '<i class="ti-alert mr-1"></i> No se pudo guardar la configuración. La memoria local excedió la cuota permitida.';
+                        feedback.style.display = 'block';
+                    }
+                    showToast('Error al guardar en el almacenamiento local.', 'danger', 5000);
+                    return;
+                }
+
                 if (feedback) {
                     feedback.className = 'alert alert-success mt-3 py-2 small';
                     feedback.innerHTML = '<i class="ti-check mr-1"></i> ¡Todos los cambios han sido guardados en localStorage y aplicados en vivo en el sitio y el CV!';
