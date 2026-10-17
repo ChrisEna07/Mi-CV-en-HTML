@@ -118,20 +118,78 @@
         ],
         certifications: [
             {
-                id: 'cert_claris_filemaker_2026',
+                id: 'cert_claris_filemaker_specialist_2026',
+                title: 'App Developer for Claris FileMaker Pro Specialist',
+                issuer: 'Claris International Inc. (An Apple Company) & Credly',
+                date: '14 de Octubre de 2026',
+                credlyUrl: 'https://www.credly.com/badges/7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31/public_url',
+                badgeId: '7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31',
+                pdfUrl: 'ClarisCertificate-Specialist20261014.pdf',
+                imageUrl: 'claris-specialist-badge.png',
+                desc: 'Acreditación profesional oficial de nivel Especialista (2 estrellas) otorgada por Claris International Inc. Certifica competencias avanzadas en ingeniería de software con Claris FileMaker Pro, desarrollo de soluciones empresariales escalables, optimización de rendimiento, seguridad avanzada, integración de APIs REST y modelado de arquitecturas relacionales complejas.',
+                skills: 'Claris FileMaker Pro, Specialist Scripting, REST Data APIs, Relational Architecture, Enterprise Security & Performance',
+                showInWeb: true,
+                showInResume: true
+            },
+            {
+                id: 'cert_claris_filemaker_associate_2026',
                 title: 'App Developer for Claris FileMaker Pro Associate',
                 issuer: 'Claris International Inc. (An Apple Company) & Credly',
-                date: 'Octubre 2026',
+                date: '13 de Octubre de 2026',
                 credlyUrl: 'https://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url',
                 badgeId: 'd8c70883-218b-46e7-a89b-5b459d53a20a',
                 pdfUrl: 'ClarisCertificate-Main20261013-21-sbjpms.pdf',
                 imageUrl: 'certificado.jpeg',
-                desc: 'Acreditación internacional oficial que certifica competencias avanzadas en el diseño de arquitectura relacional, desarrollo de soluciones empresariales modulares, creación de flujos automatizados con scripting complejo y diseño de interfaces optimizadas bajo el ecosistema Claris FileMaker Pro.',
+                desc: 'Acreditación internacional oficial que certifica competencias sólidas en el diseño de arquitectura relacional, desarrollo de soluciones modulares, creación de flujos automatizados con scripting y diseño de interfaces optimizadas bajo el ecosistema Claris FileMaker Pro.',
                 skills: 'Claris FileMaker Pro, Scripting, Relational Architecture, Data APIs, Enterprise Solutions',
                 showInWeb: true,
                 showInResume: true
             }
-        ]
+        ],
+        layout: {
+            sectionsOrderWeb: [
+                'about',
+                'section-claris-specialization',
+                'resume',
+                'portfolio',
+                'service',
+                'price',
+                'blog',
+                'contact'
+            ],
+            sectionsVisibilityWeb: {
+                'about': true,
+                'section-claris-specialization': true,
+                'resume': true,
+                'portfolio': true,
+                'service': true,
+                'price': true,
+                'blog': true,
+                'contact': true
+            },
+            sectionsOrderResume: [
+                'resume-section-profile',
+                'resume-section-experience',
+                'resume-section-projects',
+                'resume-section-education',
+                'resume-section-hardware',
+                'resume-section-filemaker',
+                'resume-section-certifications',
+                'resume-section-skills',
+                'resume-section-languages'
+            ],
+            sectionsVisibilityResume: {
+                'resume-section-profile': true,
+                'resume-section-experience': true,
+                'resume-section-projects': true,
+                'resume-section-education': true,
+                'resume-section-hardware': true,
+                'resume-section-filemaker': true,
+                'resume-section-certifications': true,
+                'resume-section-skills': true,
+                'resume-section-languages': true
+            }
+        }
     };
 
     let activeCvData = null;
@@ -224,6 +282,23 @@
                 if (!availability.standardBtnText_es) availability.standardBtnText_es = availability.standardBtnText || DEFAULT_CV_DATA.availability.standardBtnText_es;
                 if (!availability.standardBtnText_en) availability.standardBtnText_en = DEFAULT_CV_DATA.availability.standardBtnText_en;
 
+                let certs = Array.isArray(parsed.certifications) && parsed.certifications.length > 0
+                    ? parsed.certifications
+                    : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.certifications));
+
+                // Asegurar que el nuevo certificado Specialist esté presente de forma automática
+                const hasSpecialist = certs.some(c => c.badgeId === '7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31' || (c.title && c.title.toLowerCase().includes('specialist')));
+                if (!hasSpecialist) {
+                    certs.unshift(JSON.parse(JSON.stringify(DEFAULT_CV_DATA.certifications[0])));
+                }
+
+                // Normalización de layout dinámico
+                const layout = Object.assign({}, DEFAULT_CV_DATA.layout, parsed.layout || {});
+                if (!layout.sectionsOrderWeb) layout.sectionsOrderWeb = DEFAULT_CV_DATA.layout.sectionsOrderWeb.slice();
+                if (!layout.sectionsVisibilityWeb) layout.sectionsVisibilityWeb = Object.assign({}, DEFAULT_CV_DATA.layout.sectionsVisibilityWeb);
+                if (!layout.sectionsOrderResume) layout.sectionsOrderResume = DEFAULT_CV_DATA.layout.sectionsOrderResume.slice();
+                if (!layout.sectionsVisibilityResume) layout.sectionsVisibilityResume = Object.assign({}, DEFAULT_CV_DATA.layout.sectionsVisibilityResume);
+
                 return {
                     personal: personal,
                     availability: availability,
@@ -231,9 +306,8 @@
                     experiences: Array.isArray(parsed.experiences) && parsed.experiences.length > 0 
                         ? parsed.experiences 
                         : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.experiences)),
-                    certifications: Array.isArray(parsed.certifications) && parsed.certifications.length > 0
-                        ? parsed.certifications
-                        : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.certifications))
+                    certifications: certs,
+                    layout: layout
                 };
             }
 
@@ -305,6 +379,8 @@
         const headerBg = document.getElementById('display-header-bg') || document.querySelector('header.header');
         if (!headerBg) return;
 
+        headerBg.style.backgroundAttachment = 'scroll';
+
         const defaultUrl = DEFAULT_CV_DATA.personal.bannerUrl || 'assets/imgs/header.jpg';
         let cleanUrl = (url && typeof url === 'string') ? url.trim().replace(/\\/g, '/') : '';
         if (!cleanUrl) cleanUrl = defaultUrl;
@@ -315,6 +391,7 @@
             headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${cleanUrl}")`;
             headerBg.style.backgroundSize = 'cover';
             headerBg.style.backgroundPosition = `center ${bgPos}`;
+            headerBg.style.backgroundAttachment = 'scroll';
             headerBg.style.backgroundRepeat = 'no-repeat';
         };
         imgTester.onerror = function () {
@@ -322,6 +399,7 @@
             headerBg.style.backgroundImage = `linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("${defaultUrl}")`;
             headerBg.style.backgroundSize = 'cover';
             headerBg.style.backgroundPosition = `center ${bgPos}`;
+            headerBg.style.backgroundAttachment = 'scroll';
             headerBg.style.backgroundRepeat = 'no-repeat';
         };
         imgTester.src = cleanUrl;
@@ -378,6 +456,44 @@
         }
         if (heroBtnTextEl) {
             heroBtnTextEl.textContent = item.heroBtn;
+        }
+    }
+
+    function applyLayoutToDOM(layout) {
+        if (!layout) layout = (activeCvData && activeCvData.layout) ? activeCvData.layout : DEFAULT_CV_DATA.layout;
+
+        // 1. Reordenamiento y visibilidad en index.html
+        if (Array.isArray(layout.sectionsOrderWeb)) {
+            const containerFluid = document.querySelector('body > .container-fluid') || document.body;
+            layout.sectionsOrderWeb.forEach(secId => {
+                const el = document.getElementById(secId);
+                if (el) {
+                    const isVisible = layout.sectionsVisibilityWeb ? layout.sectionsVisibilityWeb[secId] !== false : true;
+                    el.style.display = isVisible ? '' : 'none';
+                    if (el.parentNode === containerFluid) {
+                        containerFluid.appendChild(el);
+                    }
+                }
+            });
+        }
+
+        // 2. Reordenamiento y visibilidad en resumen.html
+        if (Array.isArray(layout.sectionsOrderResume)) {
+            const colMain = document.getElementById('resume-col-main');
+            const colSidebar = document.getElementById('resume-col-sidebar');
+
+            layout.sectionsOrderResume.forEach(secId => {
+                const el = document.getElementById(secId);
+                if (el) {
+                    const isVisible = layout.sectionsVisibilityResume ? layout.sectionsVisibilityResume[secId] !== false : true;
+                    el.style.display = isVisible ? '' : 'none';
+                    if (colMain && el.parentNode === colMain) {
+                        colMain.appendChild(el);
+                    } else if (colSidebar && el.parentNode === colSidebar) {
+                        colSidebar.appendChild(el);
+                    }
+                }
+            });
         }
     }
 
@@ -757,6 +873,13 @@
                 resumeCertsContainer.innerHTML = resumeCertHtml;
             }
         }
+
+        // ---------------------------------------------------------------------
+        // G. DISPOSICIÓN & REORDENAMIENTO DE SECCIONES (LAYOUT MANAGER)
+        // ---------------------------------------------------------------------
+        if (data && data.layout) {
+            applyLayoutToDOM(data.layout);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -944,6 +1067,9 @@
 
         // 6. Renderizar listado de certificaciones e insignias CRUD
         renderAdminCertList();
+
+        // 7. Renderizar administrador de disposición y orden de secciones
+        renderAdminLayoutManager();
     }
 
     function updateAvailabilityUI(isWorking) {
@@ -1380,8 +1506,192 @@
             });
         }
 
-        // Setup Live Previews para las 3 Imágenes Desacopladas
-        const setupImagePreview = (inputId, previewId, btnPreviewId, btnResetId, defaultUrl) => {
+        // ---------------------------------------------------------------------
+        // GESTIÓN DE DISPOSICIÓN & SECCIONES (TAB 6 LAYOUT MANAGER)
+        // ---------------------------------------------------------------------
+        const WEB_SECTION_LABELS = {
+            'about': { label: 'Perfil / Sobre Mí', icon: 'ti-user' },
+            'section-claris-specialization': { label: 'Especialización Claris FileMaker (Doble Certificación)', icon: 'ti-layers' },
+            'resume': { label: 'Currículum & Trayectoria Laboral', icon: 'ti-briefcase' },
+            'portfolio': { label: 'Portafolio de Proyectos Web & Móvil', icon: 'ti-layout-grid2' },
+            'service': { label: 'Servicios Empresariales & Soluciones', icon: 'ti-settings' },
+            'price': { label: 'Tarifas / Precios de Servicios', icon: 'ti-receipt' },
+            'blog': { label: 'Blog / Artículos Técnicos', icon: 'ti-notepad' },
+            'contact': { label: 'Contacto & Formulario Directo', icon: 'ti-email' }
+        };
+
+        const RESUME_SECTION_LABELS = {
+            'resume-section-profile': { label: 'Perfil Profesional (Bio Ejecutiva)', icon: 'ti-user' },
+            'resume-section-experience': { label: 'Experiencia Laboral (Celerix SAS / Freelance)', icon: 'ti-briefcase' },
+            'resume-section-projects': { label: 'Proyectos de Ingeniería Destacados', icon: 'ti-folder' },
+            'resume-section-education': { label: 'Educación Académica (SENA ADSO)', icon: 'ti-book' },
+            'resume-section-hardware': { label: 'Arquitectura de Hardware & Ensambles', icon: 'ti-harddrives' },
+            'resume-section-filemaker': { label: 'Claris FileMaker Pro & Server Enterprise', icon: 'ti-layers' },
+            'resume-section-certifications': { label: 'Certificaciones Oficiales Claris (Credly)', icon: 'ti-medall' },
+            'resume-section-skills': { label: 'Stack Tecnológico (Habilidades Técnicas)', icon: 'ti-widget' },
+            'resume-section-languages': { label: 'Idiomas (Español / Inglés)', icon: 'ti-world' }
+        };
+
+        function renderAdminLayoutManager() {
+            if (!activeCvData) activeCvData = getCvData();
+            if (!activeCvData.layout) activeCvData.layout = JSON.parse(JSON.stringify(DEFAULT_CV_DATA.layout));
+            const layout = activeCvData.layout;
+
+            const webContainer = document.getElementById('admin-layout-web-list');
+            const resumeContainer = document.getElementById('admin-layout-resume-list');
+
+            // 1. Renderizar Secciones Web
+            if (webContainer && Array.isArray(layout.sectionsOrderWeb)) {
+                let webHtml = '';
+                layout.sectionsOrderWeb.forEach((secId, idx) => {
+                    const info = WEB_SECTION_LABELS[secId] || { label: secId, icon: 'ti-layout-width-default' };
+                    const isVisible = layout.sectionsVisibilityWeb ? layout.sectionsVisibilityWeb[secId] !== false : true;
+                    const isFirst = idx === 0;
+                    const isLast = idx === layout.sectionsOrderWeb.length - 1;
+
+                    webHtml += `
+                        <div class="admin-layout-item ${isVisible ? '' : 'is-hidden'}" data-id="${escapeHtml(secId)}">
+                            <div class="admin-layout-info">
+                                <span class="admin-layout-handle"><i class="${info.icon}"></i></span>
+                                <span class="admin-layout-title" title="${escapeHtml(info.label)}">${escapeHtml(info.label)}</span>
+                            </div>
+                            <div class="admin-layout-actions">
+                                <div class="custom-control custom-switch mr-1">
+                                    <input type="checkbox" class="custom-control-input admin-toggle-web-sec" id="toggle-web-${escapeHtml(secId)}" data-id="${escapeHtml(secId)}" ${isVisible ? 'checked' : ''}>
+                                    <label class="custom-control-label" for="toggle-web-${escapeHtml(secId)}" title="${isVisible ? 'Ocultar sección' : 'Mostrar sección'}"></label>
+                                </div>
+                                <button type="button" class="admin-layout-btn admin-btn-move-web" data-id="${escapeHtml(secId)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''}>
+                                    <i class="ti-arrow-up"></i>
+                                </button>
+                                <button type="button" class="admin-layout-btn admin-btn-move-web" data-id="${escapeHtml(secId)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''}>
+                                    <i class="ti-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                webContainer.innerHTML = webHtml;
+
+                // Listeners Web
+                webContainer.querySelectorAll('.admin-btn-move-web').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const id = this.getAttribute('data-id');
+                        const dir = this.getAttribute('data-dir');
+                        const arr = activeCvData.layout.sectionsOrderWeb;
+                        const idx = arr.indexOf(id);
+                        if (idx < 0) return;
+                        if (dir === 'up' && idx > 0) {
+                            const temp = arr[idx];
+                            arr[idx] = arr[idx - 1];
+                            arr[idx - 1] = temp;
+                        } else if (dir === 'down' && idx < arr.length - 1) {
+                            const temp = arr[idx];
+                            arr[idx] = arr[idx + 1];
+                            arr[idx + 1] = temp;
+                        }
+                        saveCvData(activeCvData);
+                        applyLayoutToDOM(activeCvData.layout);
+                        renderAdminLayoutManager();
+                    });
+                });
+
+                webContainer.querySelectorAll('.admin-toggle-web-sec').forEach(chk => {
+                    chk.addEventListener('change', function () {
+                        const id = this.getAttribute('data-id');
+                        if (!activeCvData.layout.sectionsVisibilityWeb) activeCvData.layout.sectionsVisibilityWeb = {};
+                        activeCvData.layout.sectionsVisibilityWeb[id] = this.checked;
+                        saveCvData(activeCvData);
+                        applyLayoutToDOM(activeCvData.layout);
+                        renderAdminLayoutManager();
+                    });
+                });
+            }
+
+            // 2. Renderizar Secciones CV Imprimible
+            if (resumeContainer && Array.isArray(layout.sectionsOrderResume)) {
+                let resHtml = '';
+                layout.sectionsOrderResume.forEach((secId, idx) => {
+                    const info = RESUME_SECTION_LABELS[secId] || { label: secId, icon: 'ti-layout-width-default' };
+                    const isVisible = layout.sectionsVisibilityResume ? layout.sectionsVisibilityResume[secId] !== false : true;
+                    const isFirst = idx === 0;
+                    const isLast = idx === layout.sectionsOrderResume.length - 1;
+
+                    resHtml += `
+                        <div class="admin-layout-item ${isVisible ? '' : 'is-hidden'}" data-id="${escapeHtml(secId)}">
+                            <div class="admin-layout-info">
+                                <span class="admin-layout-handle"><i class="${info.icon}"></i></span>
+                                <span class="admin-layout-title" title="${escapeHtml(info.label)}">${escapeHtml(info.label)}</span>
+                            </div>
+                            <div class="admin-layout-actions">
+                                <div class="custom-control custom-switch mr-1">
+                                    <input type="checkbox" class="custom-control-input admin-toggle-resume-sec" id="toggle-res-${escapeHtml(secId)}" data-id="${escapeHtml(secId)}" ${isVisible ? 'checked' : ''}>
+                                    <label class="custom-control-label" for="toggle-res-${escapeHtml(secId)}" title="${isVisible ? 'Ocultar sección' : 'Mostrar sección'}"></label>
+                                </div>
+                                <button type="button" class="admin-layout-btn admin-btn-move-resume" data-id="${escapeHtml(secId)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''}>
+                                    <i class="ti-arrow-up"></i>
+                                </button>
+                                <button type="button" class="admin-layout-btn admin-btn-move-resume" data-id="${escapeHtml(secId)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''}>
+                                    <i class="ti-arrow-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                resumeContainer.innerHTML = resHtml;
+
+                // Listeners Resume
+                resumeContainer.querySelectorAll('.admin-btn-move-resume').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const id = this.getAttribute('data-id');
+                        const dir = this.getAttribute('data-dir');
+                        const arr = activeCvData.layout.sectionsOrderResume;
+                        const idx = arr.indexOf(id);
+                        if (idx < 0) return;
+                        if (dir === 'up' && idx > 0) {
+                            const temp = arr[idx];
+                            arr[idx] = arr[idx - 1];
+                            arr[idx - 1] = temp;
+                        } else if (dir === 'down' && idx < arr.length - 1) {
+                            const temp = arr[idx];
+                            arr[idx] = arr[idx + 1];
+                            arr[idx + 1] = temp;
+                        }
+                        saveCvData(activeCvData);
+                        applyLayoutToDOM(activeCvData.layout);
+                        renderAdminLayoutManager();
+                    });
+                });
+
+                resumeContainer.querySelectorAll('.admin-toggle-resume-sec').forEach(chk => {
+                    chk.addEventListener('change', function () {
+                        const id = this.getAttribute('data-id');
+                        if (!activeCvData.layout.sectionsVisibilityResume) activeCvData.layout.sectionsVisibilityResume = {};
+                        activeCvData.layout.sectionsVisibilityResume[id] = this.checked;
+                        saveCvData(activeCvData);
+                        applyLayoutToDOM(activeCvData.layout);
+                        renderAdminLayoutManager();
+                    });
+                });
+            }
+
+            // Listener Reset Layout
+            const btnResetLayout = document.getElementById('admin-btn-reset-layout');
+            if (btnResetLayout && !btnResetLayout.dataset.bound) {
+                btnResetLayout.dataset.bound = 'true';
+                btnResetLayout.addEventListener('click', function () {
+                    activeCvData.layout = JSON.parse(JSON.stringify(DEFAULT_CV_DATA.layout));
+                    saveCvData(activeCvData);
+                    applyLayoutToDOM(activeCvData.layout);
+                    renderAdminLayoutManager();
+                    showToast('Estructura de secciones restablecida al orden inicial.', 'info');
+                });
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // GESTIÓN DE IMÁGENES: PREVIEWS EN VIVO, LOCAL FILE PICKERS & PRESETS
+        // ---------------------------------------------------------------------
+        const setupImagePreview = (inputId, previewId, btnPreviewId, btnResetId, defaultUrl, liveUpdateFn) => {
             const inputEl = document.getElementById(inputId);
             const previewEl = document.getElementById(previewId);
             const btnPrev = document.getElementById(btnPreviewId);
@@ -1391,9 +1701,10 @@
 
             const update = () => {
                 const url = inputEl.value.trim();
-                previewEl.src = url || defaultUrl;
-                if (inputId === 'admin-input-banner-url') {
-                    applyHeroCoverImage(url);
+                const targetUrl = url || defaultUrl;
+                previewEl.src = targetUrl;
+                if (typeof liveUpdateFn === 'function') {
+                    liveUpdateFn(targetUrl);
                 }
             };
 
@@ -1401,14 +1712,15 @@
             inputEl.addEventListener('change', update);
 
             previewEl.addEventListener('error', function () {
-                this.src = defaultUrl;
-                showToast('No se pudo cargar la imagen desde esa URL. Se restauró el valor previo.', 'danger');
+                if (!inputEl.value.trim()) {
+                    this.src = defaultUrl;
+                }
             });
 
             if (btnPrev) {
                 btnPrev.addEventListener('click', () => {
                     update();
-                    showToast('Previsualización actualizada.', 'info');
+                    showToast('Previsualización actualizada en el sitio.', 'info');
                 });
             }
 
@@ -1416,37 +1728,165 @@
                 btnReset.addEventListener('click', () => {
                     inputEl.value = defaultUrl;
                     previewEl.src = defaultUrl;
-                    if (inputId === 'admin-input-banner-url') {
-                        applyHeroCoverImage(defaultUrl);
+                    if (typeof liveUpdateFn === 'function') {
+                        liveUpdateFn(defaultUrl);
                     }
                     showToast('Imagen restaurada a la original por defecto.', 'info');
                 });
             }
         };
 
+        // Helper para conectar input type="file" local con lectura en Base64 DataURL
+        const bindFileInput = (fileInputId, textInputId, previewImgId, liveUpdateFn) => {
+            const fileInput = document.getElementById(fileInputId);
+            const textInput = document.getElementById(textInputId);
+            const previewImg = document.getElementById(previewImgId);
+            if (!fileInput) return;
+
+            fileInput.addEventListener('change', function () {
+                if (!this.files || !this.files[0]) return;
+                const file = this.files[0];
+                if (!file.type.startsWith('image/')) {
+                    showToast('Por favor selecciona un archivo de imagen válido (.jpg, .png, .webp).', 'danger');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const dataUrl = e.target.result;
+                    if (textInput) textInput.value = dataUrl;
+                    if (previewImg) previewImg.src = dataUrl;
+                    if (typeof liveUpdateFn === 'function') {
+                        liveUpdateFn(dataUrl);
+                    }
+                    showToast(`Imagen local cargada con éxito: ${file.name}`, 'success');
+                };
+                reader.onerror = function () {
+                    showToast('Error al leer el archivo local.', 'danger');
+                };
+                reader.readAsDataURL(file);
+            });
+        };
+
+        const bindUploadBtn = (btnId, fileInputId) => {
+            const btn = document.getElementById(btnId);
+            const fileInput = document.getElementById(fileInputId);
+            if (btn && fileInput) {
+                btn.addEventListener('click', () => fileInput.click());
+            }
+        };
+
+        // 1. Portada / Banner (Muro)
         setupImagePreview(
             'admin-input-banner-url', 
             'admin-banner-preview', 
             'admin-btn-preview-banner', 
             'admin-btn-reset-banner', 
-            DEFAULT_CV_DATA.personal.bannerUrl
+            DEFAULT_CV_DATA.personal.bannerUrl,
+            (url) => {
+                const pos = (document.getElementById('admin-input-banner-pos')?.value || '50') + '%';
+                applyHeroCoverImage(url, pos);
+            }
         );
+        bindUploadBtn('admin-btn-upload-banner', 'admin-file-banner');
+        bindFileInput('admin-file-banner', 'admin-input-banner-url', 'admin-banner-preview', (url) => {
+            const pos = (document.getElementById('admin-input-banner-pos')?.value || '50') + '%';
+            applyHeroCoverImage(url, pos);
+        });
 
+        // 2. Avatar Web
         setupImagePreview(
             'admin-input-avatar-web-url', 
             'admin-avatar-web-preview', 
             'admin-btn-preview-avatar-web', 
             'admin-btn-reset-avatar-web', 
-            DEFAULT_CV_DATA.personal.avatarWebUrl
+            DEFAULT_CV_DATA.personal.avatarWebUrl,
+            (url) => {
+                const pos = (document.getElementById('admin-input-avatar-web-pos')?.value || '20') + '%';
+                document.querySelectorAll('#display-avatar-img, .brand-img').forEach(img => {
+                    img.src = url;
+                    img.style.objectPosition = `center ${pos}`;
+                });
+            }
         );
+        bindUploadBtn('admin-btn-upload-avatar-web', 'admin-file-avatar-web');
+        bindFileInput('admin-file-avatar-web', 'admin-input-avatar-web-url', 'admin-avatar-web-preview', (url) => {
+            const pos = (document.getElementById('admin-input-avatar-web-pos')?.value || '20') + '%';
+            document.querySelectorAll('#display-avatar-img, .brand-img').forEach(img => {
+                img.src = url;
+                img.style.objectPosition = `center ${pos}`;
+            });
+        });
 
+        // 3. Avatar CV Imprimible
         setupImagePreview(
             'admin-input-avatar-resume-url', 
             'admin-avatar-resume-preview', 
             'admin-btn-preview-avatar-resume', 
             'admin-btn-reset-avatar-resume', 
-            DEFAULT_CV_DATA.personal.avatarResumeUrl
+            DEFAULT_CV_DATA.personal.avatarResumeUrl,
+            (url) => {
+                const pos = (document.getElementById('admin-input-avatar-resume-pos')?.value || '15') + '%';
+                document.querySelectorAll('#display-resume-avatar, .profile-img-resume').forEach(img => {
+                    img.src = url;
+                    img.style.objectPosition = `center ${pos}`;
+                });
+            }
         );
+        bindUploadBtn('admin-btn-upload-avatar-resume', 'admin-file-avatar-resume');
+        bindFileInput('admin-file-avatar-resume', 'admin-input-avatar-resume-url', 'admin-avatar-resume-preview', (url) => {
+            const pos = (document.getElementById('admin-input-avatar-resume-pos')?.value || '15') + '%';
+            document.querySelectorAll('#display-resume-avatar, .profile-img-resume').forEach(img => {
+                img.src = url;
+                img.style.objectPosition = `center ${pos}`;
+            });
+        });
+
+        // Presets Rápidos
+        document.querySelectorAll('.preset-banner-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+                const input = document.getElementById('admin-input-banner-url');
+                const prev = document.getElementById('admin-banner-preview');
+                if (input) input.value = url;
+                if (prev) prev.src = url;
+                const pos = (document.getElementById('admin-input-banner-pos')?.value || '50') + '%';
+                applyHeroCoverImage(url, pos);
+                showToast('Preset de portada aplicado.', 'info');
+            });
+        });
+
+        document.querySelectorAll('.preset-avatar-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+                const input = document.getElementById('admin-input-avatar-web-url');
+                const prev = document.getElementById('admin-avatar-web-preview');
+                if (input) input.value = url;
+                if (prev) prev.src = url;
+                const pos = (document.getElementById('admin-input-avatar-web-pos')?.value || '20') + '%';
+                document.querySelectorAll('#display-avatar-img, .brand-img').forEach(img => {
+                    img.src = url;
+                    img.style.objectPosition = `center ${pos}`;
+                });
+                showToast('Preset de avatar web aplicado.', 'info');
+            });
+        });
+
+        document.querySelectorAll('.preset-resume-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+                const input = document.getElementById('admin-input-avatar-resume-url');
+                const prev = document.getElementById('admin-avatar-resume-preview');
+                if (input) input.value = url;
+                if (prev) prev.src = url;
+                const pos = (document.getElementById('admin-input-avatar-resume-pos')?.value || '15') + '%';
+                document.querySelectorAll('#display-resume-avatar, .profile-img-resume').forEach(img => {
+                    img.src = url;
+                    img.style.objectPosition = `center ${pos}`;
+                });
+                showToast('Preset de foto CV aplicado.', 'info');
+            });
+        });
 
         // Sliders de Enfoque y Posición Vertical con previsualización en vivo
         const bindPosSlider = (sliderId, labelId, previewId, liveTargetSelector, isBg = false) => {
@@ -2084,13 +2524,158 @@
                 openRecruiterModal();
             });
         }
+
+        setupSendCvEmailModal();
     }
 
     // -------------------------------------------------------------------------
-    // 11. Protección y Render Dinámico en resumen.html (CV Imprimible)
+    // 11. Modal de Envío de CV por Correo (Reclutadores & Empresas)
+    // -------------------------------------------------------------------------
+    function setupSendCvEmailModal() {
+        const modal = document.getElementById('sendCvEmailModal');
+        if (!modal) return;
+
+        const btnOpenBanner = document.getElementById('btn-banner-email-cv');
+        const btnOpenTop = document.getElementById('btn-top-email-cv');
+        const btnClose = document.getElementById('btn-close-send-email');
+        const form = document.getElementById('form-send-cv-email');
+        const feedback = document.getElementById('send-cv-feedback');
+        const btnMailto = document.getElementById('btn-mailto-fallback');
+
+        const openModal = () => {
+            modal.style.display = 'flex';
+            if (feedback) feedback.style.display = 'none';
+            const recEmail = document.getElementById('send-cv-recipient-email');
+            if (recEmail) setTimeout(() => recEmail.focus(), 100);
+        };
+
+        const closeModal = () => {
+            modal.style.display = 'none';
+        };
+
+        if (btnOpenBanner && !btnOpenBanner.dataset.bound) {
+            btnOpenBanner.dataset.bound = 'true';
+            btnOpenBanner.addEventListener('click', openModal);
+        }
+        if (btnOpenTop && !btnOpenTop.dataset.bound) {
+            btnOpenTop.dataset.bound = 'true';
+            btnOpenTop.addEventListener('click', openModal);
+        }
+        if (btnClose && !btnClose.dataset.bound) {
+            btnClose.dataset.bound = 'true';
+            btnClose.addEventListener('click', closeModal);
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        const getEmailData = () => {
+            const recipient = document.getElementById('send-cv-recipient-email')?.value.trim() || '';
+            const recruiter = document.getElementById('send-cv-recruiter-name')?.value.trim() || 'Reclutador / Empresa';
+            const note = document.getElementById('send-cv-note')?.value.trim() || '';
+
+            const subject = `Curriculum Vitae Autorizado - Christian Romero (ChrizDev)`;
+            const resumeUrl = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}/resumen.html?mode=empresa&token=${getRecruiterToken()}`;
+            const portfolioUrl = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}/index.html?mode=empresa&token=${getRecruiterToken()}`;
+
+            const body = `Hola ${recruiter},\n\nTe comparto el Currículum Vitae oficial y credenciales autorizadas de Christian Romero (ChrizDev) - Desarrollador de Software enfocado en IA y Automatización.\n\n` +
+                `🔗 CV Interactivo y Acreditado (Modo Empresa):\n${resumeUrl}\n\n` +
+                `🌐 Portafolio Profesional Completo:\n${portfolioUrl}\n\n` +
+                `🏆 Certificaciones Oficiales Claris FileMaker (Apple Company):\n` +
+                `1. App Developer for Claris FileMaker Pro Specialist (★★ Specialist - Octubre 2026):\nhttps://www.credly.com/badges/7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31/public_url\n\n` +
+                `2. App Developer for Claris FileMaker Pro Associate (★ Associate - Octubre 2026):\nhttps://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url\n\n` +
+                (note ? `📝 Mensaje del Reclutador:\n"${note}"\n\n` : '') +
+                `Contacto directo: christianjoroce@gmail.com | Tel: 3183517802\nMedellín, Antioquia, Colombia`;
+
+            return { recipient, recruiter, note, subject, body, resumeUrl, portfolioUrl };
+        };
+
+        if (btnMailto && !btnMailto.dataset.bound) {
+            btnMailto.dataset.bound = 'true';
+            btnMailto.addEventListener('click', () => {
+                const data = getEmailData();
+                if (!data.recipient) {
+                    showToast('Ingresa el correo destinatario antes de abrir tu cliente.', 'warning');
+                    document.getElementById('send-cv-recipient-email')?.focus();
+                    return;
+                }
+                const mailtoUrl = `mailto:${encodeURIComponent(data.recipient)}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+                window.open(mailtoUrl, '_blank');
+                showToast('Abriendo tu cliente de correo...', 'info');
+            });
+        }
+
+        if (form && !form.dataset.bound) {
+            form.dataset.bound = 'true';
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const data = getEmailData();
+                if (!data.recipient) return;
+
+                const submitBtn = document.getElementById('btn-submit-send-email');
+                const originalBtnHtml = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="ti-reload mr-1"></i> Enviando...';
+
+                if (feedback) {
+                    feedback.className = 'alert alert-info small py-2 mb-3';
+                    feedback.innerHTML = '<i class="ti-reload mr-1"></i> Transmitiendo CV y credenciales autorizadas...';
+                    feedback.style.display = 'block';
+                }
+
+                try {
+                    const response = await fetch('https://formspree.io/f/xrejgnla', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            destinatario: data.recipient,
+                            solicitante: data.recruiter,
+                            mensaje: data.note,
+                            enlace_cv: data.resumeUrl,
+                            enlace_portafolio: data.portfolioUrl,
+                            _subject: data.subject,
+                            _replyto: data.recipient
+                        })
+                    });
+
+                    if (response.ok) {
+                        if (feedback) {
+                            feedback.className = 'alert alert-success small py-2 mb-3';
+                            feedback.innerHTML = '<i class="ti-check mr-1"></i> ¡El CV oficial y los enlaces de verificación fueron enviados exitosamente!';
+                        }
+                        showToast(`CV enviado con éxito a ${data.recipient}`, 'success');
+                        setTimeout(() => {
+                            closeModal();
+                            form.reset();
+                        }, 2200);
+                    } else {
+                        throw new Error('Servicio de envío ocupado');
+                    }
+                } catch (err) {
+                    if (feedback) {
+                        feedback.className = 'alert alert-warning small py-2 mb-3';
+                        feedback.innerHTML = '<i class="ti-info-alt mr-1"></i> Abriendo tu cliente de correo predeterminado para garantizar la entrega directa.';
+                    }
+                    const mailtoUrl = `mailto:${encodeURIComponent(data.recipient)}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+                    window.open(mailtoUrl, '_blank');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+            });
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // 12. Protección y Render Dinámico en resumen.html (CV Imprimible)
     // -------------------------------------------------------------------------
     function initResumePage() {
         applyCvDataToDOM(getCvData());
+        setupSendCvEmailModal();
 
         const urlParams = new URLSearchParams(window.location.search);
         const tokenParam = urlParams.get('token');
@@ -2104,20 +2689,26 @@
             sessionStorage.setItem(STORAGE_KEYS.RECRUITER_SESSION, 'true');
         }
 
+        const updateResumeButtons = (authorized) => {
+            const topSpecialist = document.getElementById('resume-top-claris-specialist-btn');
+            const topAssociate = document.getElementById('resume-top-claris-associate-btn');
+            const topEmailBtn = document.getElementById('btn-top-email-cv');
+            const topLock = document.getElementById('resume-top-claris-lock');
+
+            if (topSpecialist) topSpecialist.style.display = authorized ? 'inline-flex' : 'none';
+            if (topAssociate) topAssociate.style.display = authorized ? 'inline-flex' : 'none';
+            if (topEmailBtn) topEmailBtn.style.display = authorized ? 'inline-flex' : 'none';
+            if (topLock) topLock.style.display = authorized ? 'none' : 'inline-flex';
+        };
+
         if (isAuthorized) {
             document.body.classList.remove('mode-public');
             document.body.classList.add('mode-recruiter');
-            const topClarisBtn = document.getElementById('resume-top-claris-btn');
-            if (topClarisBtn) topClarisBtn.style.display = 'inline-flex';
-            const topClarisLock = document.getElementById('resume-top-claris-lock');
-            if (topClarisLock) topClarisLock.style.display = 'none';
+            updateResumeButtons(true);
         } else {
             document.body.classList.remove('mode-recruiter');
             document.body.classList.add('mode-public');
-            const topClarisBtn = document.getElementById('resume-top-claris-btn');
-            if (topClarisBtn) topClarisBtn.style.display = 'none';
-            const topClarisLock = document.getElementById('resume-top-claris-lock');
-            if (topClarisLock) topClarisLock.style.display = 'inline-flex';
+            updateResumeButtons(false);
 
             const pages = document.querySelectorAll('.cv-page, .page');
             pages.forEach(p => p.style.display = 'none');
@@ -2166,11 +2757,9 @@
                         lockOverlay.remove();
                         pages.forEach(p => p.style.display = '');
                         topBars.forEach(np => np.style.display = '');
-                        const topBtn = document.getElementById('resume-top-claris-btn');
-                        if (topBtn) topBtn.style.display = 'inline-flex';
-                        const topLock = document.getElementById('resume-top-claris-lock');
-                        if (topLock) topLock.style.display = 'none';
+                        updateResumeButtons(true);
                         applyCvDataToDOM(getCvData());
+                        showToast('CV desbloqueado. Modo Empresa habilitado.', 'success');
                     } else {
                         err.innerText = 'Token incorrecto. Solicita acceso al propietario.';
                         err.style.display = 'block';

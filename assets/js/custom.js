@@ -35,6 +35,7 @@ const translations = {
         // Banner Reclutador / Empresa
         'recruiter-banner-badge': 'Modo Empresa',
         'recruiter-banner-text': 'Visualizando experiencia laboral completa, enlaces a repositorios y descarga de CV.',
+        'recruiter-btn-email': 'Enviar CV por Correo',
         'recruiter-btn-public': 'Vista Pública',
 
         // Sobre mí & Información Personal
@@ -154,6 +155,7 @@ const translations = {
         // Recruiter Banner
         'recruiter-banner-badge': 'Company Mode',
         'recruiter-banner-text': 'Viewing complete work experience, repository links, and downloadable CV.',
+        'recruiter-btn-email': 'Send CV via Email',
         'recruiter-btn-public': 'Public View',
 
         // About & Personal Information

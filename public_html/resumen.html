@@ -349,6 +349,18 @@
             color: var(--dark);
         }
 
+        .cv-cert-badge-img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            padding: 2px;
+            background: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
         /* Optimización @media print */
         @media print {
             .no-print { display: none !important; }
@@ -415,11 +427,17 @@
         <button class="btn-print" onclick="window.print()">
             <i class="ti-printer"></i> Imprimir / Guardar como PDF
         </button>
-        <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Certificate.pdf" class="btn-back recruiter-only-download" id="resume-top-claris-btn" style="color: #F85C70; border-color: #F85C70; font-weight: 600;">
-            <i class="ti-medall"></i> Certificado Claris (PDF)
+        <button type="button" class="btn-back recruiter-only-inline" id="btn-top-email-cv" style="color: #0284c7; border-color: #38bdf8; font-weight: 600; cursor: pointer; background: #f0f9ff; display: inline-flex;" title="Enviar este CV directamente a un reclutador o empresa por correo">
+            <i class="ti-email"></i> Enviar CV por Correo
+        </button>
+        <a href="ClarisCertificate-Specialist20261014.pdf" target="_blank" download="Christian_Romero_Claris_Specialist_Certificate.pdf" class="btn-back recruiter-only-download" id="resume-top-claris-specialist-btn" style="color: #F85C70; border-color: #F85C70; font-weight: 600;">
+            <i class="ti-medall"></i> Certificado Specialist (PDF)
+        </a>
+        <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Associate_Certificate.pdf" class="btn-back recruiter-only-download" id="resume-top-claris-associate-btn" style="color: #0f172a; border-color: #cbd5e1; font-weight: 600;">
+            <i class="ti-medall-alt"></i> Certificado Associate (PDF)
         </a>
         <span class="btn-back recruiter-lock-notice" id="resume-top-claris-lock" style="color: #64748b; border-color: #cbd5e1; font-weight: 500; display: none; cursor: not-allowed;" title="Descarga de certificados reservada para reclutadores autorizados">
-            <i class="ti-lock text-warning"></i> Certificado (Modo Empresa)
+            <i class="ti-lock text-warning"></i> Certificados (Modo Empresa)
         </span>
         <a href="index.html" class="btn-back">
             <i class="ti-arrow-left"></i> Volver al Portafolio
@@ -455,9 +473,9 @@
         <!-- 2. CUERPO MODULAR EN 2 COLUMNAS EQUILIBRADAS -->
         <div class="cv-grid">
             <!-- COLUMNA PRINCIPAL (IZQUIERDA) -->
-            <div class="cv-col-main">
+            <div class="cv-col-main" id="resume-col-main">
                 <!-- Perfil Profesional -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-profile">
                     <h3 class="cv-section-title"><i class="ti-user"></i> Perfil Profesional</h3>
                     <p style="margin: 0 0 6px; font-size: 12.5px; line-height: 1.45; text-align: justify;" id="display-resume-bio">
                         Desarrollador de Software enfocado en la transformación de procesos complejos en soluciones digitales eficientes. Especialista en orquestación de Inteligencia Artificial aplicada (LLMs, OCR multimodal), arquitectura Full Stack resiliente y consultoría de infraestructura física de cómputo.
@@ -470,7 +488,7 @@
                 </section>
 
                 <!-- Experiencias Laborales (Render Dinámico CRUD) -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-experience">
                     <h3 class="cv-section-title"><i class="ti-briefcase"></i> Experiencia Laboral</h3>
                     <div id="resume-experience-container">
                         <div class="exp-item">
@@ -501,7 +519,7 @@
                 </section>
 
                 <!-- Proyectos Destacados de Ingeniería -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-projects">
                     <h3 class="cv-section-title"><i class="ti-folder"></i> Proyectos de Ingeniería</h3>
                     <div class="project-item">
                         <strong>DataExPY (Python & IA):</strong> Extractor de datos estructurados de fuentes no estructuradas (PDFs, imágenes) con orquestación asíncrona y manejo de resiliencia ante errores 429.
@@ -519,9 +537,9 @@
             </div>
 
             <!-- COLUMNA LATERAL (DERECHA) -->
-            <div class="cv-col-sidebar">
+            <div class="cv-col-sidebar" id="resume-col-sidebar">
                 <!-- Formación Académica -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-education">
                     <h3 class="cv-section-title"><i class="ti-book"></i> Educación</h3>
                     <div class="edu-item">
                         <div class="item-header">
@@ -533,7 +551,7 @@
                 </section>
 
                 <!-- CONSULTORÍA & ARQUITECTURA DE HARDWARE (TALENTO FORMAL) -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-hardware">
                     <div class="cv-card-box">
                         <h4><i class="ti-harddrives"></i> Arquitectura de Hardware</h4>
                         <div style="font-weight: 600; color: var(--primary-dark); font-size: 11px; margin-bottom: 5px;">Ensambles & Cómputo de Alto Desempeño</div>
@@ -547,7 +565,7 @@
                 </section>
 
                 <!-- ESPECIALIZACIÓN CLARIS FILEMAKER -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-filemaker">
                     <div class="cv-card-box" style="border-left-color: #3b82f6;">
                         <h4 style="color: #1e3a8a;"><i class="ti-layers" style="color: #3b82f6;"></i> Claris FileMaker Pro & Server</h4>
                         <div style="font-weight: 600; color: #2563eb; font-size: 11px; margin-bottom: 5px;">Nivel Competitivo / Enterprise</div>
@@ -560,9 +578,38 @@
                 </section>
 
                 <!-- CERTIFICACIONES & INSIGNIAS OFICIALES -->
-                <section class="cv-section" id="resume-certifications-section">
+                <section class="cv-section" id="resume-section-certifications">
                     <h3 class="cv-section-title"><i class="ti-medall"></i> Certificaciones & Credenciales</h3>
                     <div id="resume-certifications-container">
+                        <!-- Certificado 1: Specialist (2 Estrellas) -->
+                        <div class="cv-card-box mb-2" style="border-left-color: #e11d48; background: #ffffff;">
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <img src="claris-specialist-badge.png" alt="Claris FileMaker Pro Specialist" class="cv-cert-badge-img">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px;">
+                                        <strong style="color: var(--dark); font-size: 12px;">App Developer for Claris FileMaker Pro Specialist</strong>
+                                        <span class="item-period" style="background: rgba(225, 29, 72, 0.12); color: #be123c; font-weight: 700;">Oct 2026</span>
+                                    </div>
+                                    <div style="font-size: 11px; color: #F85C70; font-weight: 700; margin: 2px 0;">Claris International Inc. (Apple Company) & Credly (★★ Specialist)</div>
+                                    <p style="margin: 0 0 5px; font-size: 11px; color: var(--text-muted); line-height: 1.35;">
+                                        Especialización oficial internacional en diseño de bases de datos relacionales avanzadas, seguridad, arquitectura de datos y automatización integral de procesos con Claris FileMaker Pro.
+                                    </p>
+                                    <div class="cert-card-actions no-print" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                        <a href="ClarisCertificate-Specialist20261014.pdf" target="_blank" download="Christian_Romero_Claris_Specialist_Certificate.pdf" class="recruiter-only-download" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #0f172a; text-decoration: none; background: #e2e8f0; padding: 2px 7px; border-radius: 4px;">
+                                            <i class="ti-download text-danger"></i> Descargar PDF
+                                        </a>
+                                        <span class="recruiter-lock-notice" style="display: none; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 2px 7px; border-radius: 4px; border: 1px solid #cbd5e1;">
+                                            <i class="ti-lock text-warning"></i> PDF en Modo Empresa
+                                        </span>
+                                        <a href="https://www.credly.com/badges/7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31/public_url" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: #F85C70; text-decoration: none; background: rgba(248, 92, 112, 0.08); padding: 2px 7px; border-radius: 4px;">
+                                            <i class="ti-check-box"></i> Verificar Credly
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Certificado 2: Associate (1 Estrella) -->
                         <div class="cv-card-box mb-2" style="border-left-color: #10b981; background: #ffffff;">
                             <div style="display: flex; gap: 10px; align-items: flex-start;">
                                 <img src="certificado.jpeg" alt="Claris FileMaker Pro Associate" class="cv-cert-badge-img">
@@ -571,7 +618,7 @@
                                         <strong style="color: var(--dark); font-size: 12px;">App Developer for Claris FileMaker Pro Associate</strong>
                                         <span class="item-period" style="background: rgba(16, 185, 129, 0.12); color: #047857; font-weight: 700;">Oct 2026</span>
                                     </div>
-                                    <div style="font-size: 11px; color: #F85C70; font-weight: 700; margin: 2px 0;">Claris International Inc. (Apple Company) & Credly</div>
+                                    <div style="font-size: 11px; color: #F85C70; font-weight: 700; margin: 2px 0;">Claris International Inc. (Apple Company) & Credly (★ Associate)</div>
                                     <p style="margin: 0 0 5px; font-size: 11px; color: var(--text-muted); line-height: 1.35;">
                                         Acreditación oficial internacional en desarrollo de soluciones empresariales, arquitectura relacional y automatización en Claris FileMaker Pro.
                                     </p>
@@ -593,7 +640,7 @@
                 </section>
 
                 <!-- HABILIDADES TÉCNICAS (STACK) -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-skills">
                     <h3 class="cv-section-title"><i class="ti-widget"></i> Stack Tecnológico</h3>
                     <div class="skill-tags-wrap">
                         <span class="cv-tag highlight">Python</span>
@@ -612,12 +659,50 @@
                 </section>
 
                 <!-- IDIOMAS -->
-                <section class="cv-section">
+                <section class="cv-section" id="resume-section-languages">
                     <h3 class="cv-section-title"><i class="ti-world"></i> Idiomas</h3>
                     <div style="font-size: 12px; color: var(--text-muted);">
                         <strong>Español:</strong> Nativo &nbsp;|&nbsp; <strong>Inglés:</strong> B1 (Intermedio)
                     </div>
                 </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Envío de CV por Correo (Modo Empresa / Reclutador) -->
+    <div id="sendCvEmailModal" class="modal-email-overlay no-print" style="display: none;">
+        <div class="modal-email-dialog">
+            <div class="modal-email-header">
+                <h5 class="modal-email-title"><i class="ti-email text-danger mr-2"></i> Enviar CV a un Correo</h5>
+                <button type="button" class="btn-close-modal-email" id="btn-close-send-email">&times;</button>
+            </div>
+            <div class="modal-email-body">
+                <p class="text-muted small mb-3">
+                    Envía el currículum vitae oficial y los enlaces de verificación de certificados directamente a la dirección de correo del reclutador o empresa.
+                </p>
+                <form id="form-send-cv-email">
+                    <div class="form-group mb-2">
+                        <label class="form-label font-weight-bold small text-light">Correo Destinatario *</label>
+                        <input type="email" id="send-cv-recipient-email" class="form-control form-control-sm" placeholder="reclutador@empresa.com" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="form-label font-weight-bold small text-light">Tu Nombre / Empresa (Opcional)</label>
+                        <input type="text" id="send-cv-recruiter-name" class="form-control form-control-sm" placeholder="Ej: Talento Humano / Tech Recruiters">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label font-weight-bold small text-light">Mensaje Adicional o Nota</label>
+                        <textarea id="send-cv-note" class="form-control form-control-sm" rows="2" placeholder="Nota o saludo opcional para el correo..."></textarea>
+                    </div>
+                    <div id="send-cv-feedback" class="alert small py-2 mb-3" style="display: none;"></div>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 8px;">
+                        <button type="button" id="btn-mailto-fallback" class="btn btn-outline-secondary btn-sm" title="Abrir en tu cliente de correo predeterminado">
+                            <i class="ti-share-alt mr-1"></i> Abrir en Mi Correo
+                        </button>
+                        <button type="submit" id="btn-submit-send-email" class="btn btn-primary btn-sm px-3" style="background: #F85C70; border-color: #F85C70; font-weight: 600;">
+                            <i class="ti-location-arrow mr-1"></i> Enviar Ahora
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

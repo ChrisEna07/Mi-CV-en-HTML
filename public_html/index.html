@@ -25,7 +25,10 @@
                 <span class="badge-recruiter"><i class="ti-briefcase mr-1"></i><span data-i18n="recruiter-banner-badge">Modo Empresa</span></span>
                 <span class="banner-text" data-i18n="recruiter-banner-text">Visualizando experiencia laboral completa, enlaces a repositorios y descarga de CV.</span>
             </div>
-            <div class="d-flex align-items-center mt-2 mt-md-0">
+            <div class="d-flex align-items-center mt-2 mt-md-0" style="gap: 8px;">
+                <button id="btn-banner-email-cv" class="btn btn-outline-light btn-sm" style="font-size: 12px; font-weight: 600; border-color: rgba(255,255,255,0.4);">
+                    <i class="ti-email mr-1"></i> <span data-i18n="recruiter-btn-email">Enviar CV por Correo</span>
+                </button>
                 <button id="btn-exit-recruiter" class="btn btn-exit-recruiter" title="Cambiar a Vista Pública">
                     <i class="ti-world mr-1"></i> <span data-i18n="recruiter-btn-public">Vista Pública</span>
                 </button>
@@ -685,7 +688,7 @@
             <!-- ============================================================
                  SUBSECCIÓN TÉCNICA COMPLEMENTARIA: CLARIS FILEMAKER (NIVEL COMPETITIVO)
                  ============================================================ -->
-            <div class="filemaker-specialization-container mt-5 pt-3">
+            <div class="filemaker-specialization-container mt-5 pt-3" id="section-claris-specialization">
                 <div class="d-flex align-items-center mb-4 flex-wrap">
                     <span class="badge badge-danger px-3 py-2 mr-2" style="font-size: 0.85rem; border-radius: 20px; background-color: #F85C70;">
                         <i class="ti-layers mr-1"></i> ESPECIALIZACIÓN TÉCNICA COMPLEMENTARIA
@@ -698,61 +701,116 @@
                     Capacidad técnica avanzada para el diseño, optimización e integración de sistemas operativos de misión crítica con el ecosistema Claris.
                 </p>
 
-                <!-- LOGRO & CERTIFICACIÓN OFICIAL CLARIS FILEMAKER (CREDLY BADGE & CERTIFICADO FÍSICO) -->
-                <div class="card mb-5 filemaker-cert-card shadow-sm" id="filemaker-cert-highlight" style="border: 1px solid rgba(248, 92, 112, 0.35); border-left: 5px solid #F85C70; background: linear-gradient(135deg, #ffffff 0%, #fff7f8 100%); border-radius: 12px; overflow: hidden;">
+                <!-- LOGRO 1: CLARIS FILEMAKER PRO SPECIALIST (2 ESTRELLAS - SPECIALIST LEVEL) -->
+                <div class="card mb-4 filemaker-cert-card shadow-sm" id="filemaker-cert-specialist" style="border: 1px solid rgba(37, 99, 235, 0.35); border-left: 5px solid #2563eb; background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border-radius: 12px; overflow: hidden;">
                     <div class="card-body p-4">
                         <div class="row align-items-center">
-                            <!-- Columna 1: Credly Badge Embed Frame Oficial -->
+                            <!-- Columna 1: Credly Badge Embed Frame Oficial Specialist -->
+                            <div class="col-12 col-md-auto text-center mb-3 mb-md-0 d-flex flex-column align-items-center justify-content-center" style="min-width: 175px;">
+                                <div class="credly-embed-wrapper d-inline-block">
+                                    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31" data-share-badge-host="https://www.credly.com"></div>
+                                </div>
+                                <small class="text-muted mt-2 d-block font-weight-bold" style="font-size: 0.72rem;">
+                                    <i class="ti-shield text-primary mr-1"></i>Credly Digital Badge (Specialist)
+                                </small>
+                            </div>
+
+                            <!-- Columna 2: Detalles del Logro Specialist y Acciones -->
+                            <div class="col-12 col-md">
+                                <div class="d-flex align-items-center flex-wrap mb-2" style="gap: 8px;">
+                                    <span class="badge badge-primary px-3 py-1 font-weight-bold" style="background-color: #2563eb; font-size: 0.76rem; border-radius: 20px;">
+                                        <i class="ti-star mr-1"></i> NIVEL SPECIALIST (2 ESTRELLAS)
+                                    </span>
+                                    <span class="badge badge-light text-muted border px-2 py-1 font-weight-bold" style="font-size: 0.76rem;">
+                                        <i class="ti-calendar mr-1"></i> 14 de Octubre de 2026
+                                    </span>
+                                    <span class="badge badge-info px-2 py-1" style="font-size: 0.74rem; background-color: #0284c7;">
+                                        Credly ID: 7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31
+                                    </span>
+                                </div>
+
+                                <h3 class="font-weight-bold text-dark mb-1" style="font-size: 1.35rem; line-height: 1.3;">
+                                    App Developer for Claris FileMaker Pro Specialist
+                                </h3>
+                                <p class="text-primary font-weight-bold mb-2" style="font-size: 0.95rem;">
+                                    <i class="ti-medall mr-1"></i> Claris International Inc. (An Apple Company) & Credly
+                                </p>
+                                <p class="subtitle text-muted mb-3" style="font-size: 0.92rem; line-height: 1.5;">
+                                    Acreditación profesional oficial de nivel Especialista (2 estrellas) otorgada por Claris International Inc. Certifica competencias avanzadas en ingeniería de software con Claris FileMaker Pro, desarrollo de soluciones empresariales escalables, optimización de rendimiento, seguridad de nivel enterprise, integración de APIs REST y modelado de arquitecturas de datos complejas.
+                                </p>
+
+                                <div class="d-flex flex-wrap align-items-center" style="gap: 10px;">
+                                    <a href="https://www.credly.com/badges/7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31/public_url" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm px-3 py-2 font-weight-bold shadow-sm" style="border-radius: 6px; background-color: #2563eb; border-color: #2563eb;">
+                                        <i class="ti-new-window mr-1"></i> <span data-i18n="cert-verify-btn">Verificar en Credly (Público)</span>
+                                    </a>
+
+                                    <a href="ClarisCertificate-Specialist20261014.pdf" target="_blank" download="Christian_Romero_Claris_Specialist_Certificate.pdf" class="btn btn-outline-dark btn-sm px-3 py-2 font-weight-bold recruiter-only-download" style="border-radius: 6px;">
+                                        <i class="ti-download mr-1"></i> <span>Descargar Certificado Specialist (PDF)</span>
+                                    </a>
+                                    <span class="badge badge-secondary py-2 px-3 recruiter-lock-notice" style="border-radius: 6px; display: none; font-size: 0.82rem;" title="Descarga de certificados confidenciales reservada para reclutadores autorizados">
+                                        <i class="ti-lock text-warning mr-1"></i> <span data-i18n="cert-locked-btn">Descarga PDF (Modo Empresa)</span>
+                                    </span>
+
+                                    <a href="claris-specialist-badge.png" target="_blank" class="btn btn-outline-secondary btn-sm px-3 py-2" style="border-radius: 6px;">
+                                        <i class="ti-image mr-1"></i> <span>Ver Insignia Digital</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOGRO 2: CLARIS FILEMAKER PRO ASSOCIATE (1 ESTRELLA - ASSOCIATE LEVEL) -->
+                <div class="card mb-5 filemaker-cert-card shadow-sm" id="filemaker-cert-associate" style="border: 1px solid rgba(248, 92, 112, 0.35); border-left: 5px solid #F85C70; background: linear-gradient(135deg, #ffffff 0%, #fff7f8 100%); border-radius: 12px; overflow: hidden;">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <!-- Columna 1: Credly Badge Embed Frame Oficial Associate -->
                             <div class="col-12 col-md-auto text-center mb-3 mb-md-0 d-flex flex-column align-items-center justify-content-center" style="min-width: 175px;">
                                 <div class="credly-embed-wrapper d-inline-block">
                                     <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="d8c70883-218b-46e7-a89b-5b459d53a20a" data-share-badge-host="https://www.credly.com"></div>
                                 </div>
                                 <small class="text-muted mt-2 d-block font-weight-bold" style="font-size: 0.72rem;">
-                                    <i class="ti-shield text-success mr-1"></i>Credly Digital Badge Verificada
+                                    <i class="ti-shield text-success mr-1"></i>Credly Digital Badge (Associate)
                                 </small>
                             </div>
 
-                            <!-- Columna 2: Detalles del Logro, Autoridad Acreditadora y Botones -->
+                            <!-- Columna 2: Detalles del Logro Associate y Acciones -->
                             <div class="col-12 col-md">
                                 <div class="d-flex align-items-center flex-wrap mb-2" style="gap: 8px;">
                                     <span class="badge badge-success px-3 py-1 font-weight-bold" style="background-color: #10b981; font-size: 0.76rem; border-radius: 20px;">
-                                        <i class="ti-check mr-1"></i> LOGRO OFICIAL VERIFICADO
+                                        <i class="ti-check mr-1"></i> NIVEL ASSOCIATE (1 ESTRELLA)
                                     </span>
                                     <span class="badge badge-light text-muted border px-2 py-1 font-weight-bold" style="font-size: 0.76rem;">
-                                        <i class="ti-calendar mr-1"></i> <span class="fm-cert-date-text">Octubre 2026</span>
+                                        <i class="ti-calendar mr-1"></i> 13 de Octubre de 2026
                                     </span>
                                     <span class="badge badge-info px-2 py-1" style="font-size: 0.74rem; background-color: #0284c7;">
                                         Credly ID: d8c70883-218b-46e7-a89b-5b459d53a20a
                                     </span>
                                 </div>
 
-                                <h3 class="font-weight-bold text-dark mb-1 fm-cert-title" style="font-size: 1.35rem; line-height: 1.3;">
+                                <h3 class="font-weight-bold text-dark mb-1" style="font-size: 1.35rem; line-height: 1.3;">
                                     App Developer for Claris FileMaker Pro Associate
                                 </h3>
-                                <p class="text-danger font-weight-bold mb-2 fm-cert-issuer-text" style="font-size: 0.95rem;">
+                                <p class="text-danger font-weight-bold mb-2" style="font-size: 0.95rem;">
                                     <i class="ti-medall mr-1"></i> Claris International Inc. (An Apple Company) & Credly
                                 </p>
-                                <p class="subtitle text-muted mb-3 fm-cert-desc-text" style="font-size: 0.92rem; line-height: 1.5;">
+                                <p class="subtitle text-muted mb-3" style="font-size: 0.92rem; line-height: 1.5;">
                                     Acreditación internacional oficial que certifica competencias avanzadas en el diseño de arquitectura relacional, desarrollo de soluciones empresariales modulares, creación de flujos automatizados con scripting complejo y diseño de interfaces optimizadas bajo el ecosistema Claris FileMaker Pro.
                                 </p>
 
-                                <!-- Acciones y Enlaces de Acceso y Descarga -->
                                 <div class="d-flex flex-wrap align-items-center" style="gap: 10px;">
-                                    <!-- Enlace a Credly -->
-                                    <a href="https://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url" target="_blank" rel="noopener noreferrer" class="btn btn-danger btn-sm px-3 py-2 font-weight-bold shadow-sm fm-cert-credly-btn" style="border-radius: 6px; background-color: #F85C70; border-color: #F85C70;">
+                                    <a href="https://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url" target="_blank" rel="noopener noreferrer" class="btn btn-danger btn-sm px-3 py-2 font-weight-bold shadow-sm" style="border-radius: 6px; background-color: #F85C70; border-color: #F85C70;">
                                         <i class="ti-new-window mr-1"></i> <span data-i18n="cert-verify-btn">Verificar en Credly (Público)</span>
                                     </a>
 
-                                    <!-- Descarga Certificado Físico / PDF (Exclusivo Modo Empresa) -->
-                                    <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Certificate.pdf" class="btn btn-outline-dark btn-sm px-3 py-2 font-weight-bold fm-cert-pdf-btn recruiter-only-download" style="border-radius: 6px;">
-                                        <i class="ti-download mr-1"></i> <span data-i18n="cert-download-btn">Descargar Certificado Oficial (PDF)</span>
+                                    <a href="ClarisCertificate-Main20261013-21-sbjpms.pdf" target="_blank" download="Christian_Romero_Claris_Certificate.pdf" class="btn btn-outline-dark btn-sm px-3 py-2 font-weight-bold recruiter-only-download" style="border-radius: 6px;">
+                                        <i class="ti-download mr-1"></i> <span data-i18n="cert-download-btn">Descargar Certificado Associate (PDF)</span>
                                     </a>
                                     <span class="badge badge-secondary py-2 px-3 recruiter-lock-notice" style="border-radius: 6px; display: none; font-size: 0.82rem;" title="Descarga de certificados confidenciales reservada para reclutadores autorizados">
                                         <i class="ti-lock text-warning mr-1"></i> <span data-i18n="cert-locked-btn">Descarga PDF (Modo Empresa)</span>
                                     </span>
 
-                                    <!-- Ver Diploma Digital JPEG -->
-                                    <a href="certificado.jpeg" target="_blank" class="btn btn-outline-secondary btn-sm px-3 py-2 fm-cert-img-btn" style="border-radius: 6px;">
+                                    <a href="certificado.jpeg" target="_blank" class="btn btn-outline-secondary btn-sm px-3 py-2" style="border-radius: 6px;">
                                         <i class="ti-image mr-1"></i> <span data-i18n="cert-view-diploma">Ver Diploma Digital (JPEG)</span>
                                     </a>
                                 </div>
@@ -1164,6 +1222,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" id="tab-btn-layout" data-toggle="pill" href="#admin-tab-layout" role="tab">
+                                <i class="ti-layout-grid2 mr-1"></i> Disposición & Secciones
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" id="tab-btn-backup" data-toggle="pill" href="#admin-tab-backup" role="tab">
                                 <i class="ti-server mr-1"></i> Respaldo & Control
                             </a>
@@ -1188,8 +1251,13 @@
                                                 <div class="text-center my-2">
                                                     <img id="admin-banner-preview" src="assets/imgs/header.jpg" alt="Banner Preview" style="width: 100%; height: 60px; object-fit: cover; object-position: center 50%; border-radius: 4px; border: 1px solid #F85C70;">
                                                 </div>
-                                                <input type="text" id="admin-input-banner-url" class="form-control form-control-sm mb-2" placeholder="URL fondo portada..." style="font-size: 0.75rem;">
+                                                <input type="text" id="admin-input-banner-url" class="form-control form-control-sm mb-1" placeholder="URL fondo portada..." style="font-size: 0.75rem;">
+                                                <input type="file" id="admin-file-banner" accept="image/*" style="display: none;">
+                                                <button type="button" id="admin-btn-upload-banner" class="btn btn-outline-info btn-sm btn-block mb-1 py-0" style="font-size: 0.72rem;">
+                                                    <i class="ti-upload mr-1"></i> Subir Imagen Local (PC)
+                                                </button>
                                                 <div class="d-flex justify-content-between mb-2" style="gap: 4px;">
+                                                    <button type="button" class="btn btn-dark btn-sm flex-fill py-0 preset-banner-btn" data-url="assets/imgs/header.jpg" style="font-size: 0.68rem;">header.jpg</button>
                                                     <button type="button" id="admin-btn-preview-banner" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-eye"></i> Probar</button>
                                                     <button type="button" id="admin-btn-reset-banner" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-reload"></i> Original</button>
                                                 </div>
@@ -1210,8 +1278,13 @@
                                                 <div class="text-center my-2">
                                                     <img id="admin-avatar-web-preview" src="assets/imgs/avatar.jpg" alt="Avatar Web" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 2px solid #F85C70;">
                                                 </div>
-                                                <input type="text" id="admin-input-avatar-web-url" class="form-control form-control-sm mb-2" placeholder="URL avatar web..." style="font-size: 0.75rem;">
+                                                <input type="text" id="admin-input-avatar-web-url" class="form-control form-control-sm mb-1" placeholder="URL avatar web..." style="font-size: 0.75rem;">
+                                                <input type="file" id="admin-file-avatar-web" accept="image/*" style="display: none;">
+                                                <button type="button" id="admin-btn-upload-avatar-web" class="btn btn-outline-info btn-sm btn-block mb-1 py-0" style="font-size: 0.72rem;">
+                                                    <i class="ti-upload mr-1"></i> Subir Foto Local (PC)
+                                                </button>
                                                 <div class="d-flex justify-content-between mb-2" style="gap: 4px;">
+                                                    <button type="button" class="btn btn-dark btn-sm flex-fill py-0 preset-avatar-btn" data-url="assets/imgs/avatar.jpg" style="font-size: 0.68rem;">avatar.jpg</button>
                                                     <button type="button" id="admin-btn-preview-avatar-web" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-eye"></i> Probar</button>
                                                     <button type="button" id="admin-btn-reset-avatar-web" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-reload"></i> Original</button>
                                                 </div>
@@ -1232,8 +1305,13 @@
                                                 <div class="text-center my-2">
                                                     <img id="admin-avatar-resume-preview" src="assets/imgs/CVpicture.jpg" alt="Avatar CV" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; object-position: center 15%; border: 2px solid #64748b;">
                                                 </div>
-                                                <input type="text" id="admin-input-avatar-resume-url" class="form-control form-control-sm mb-2" placeholder="URL foto CV sobria..." style="font-size: 0.75rem;">
+                                                <input type="text" id="admin-input-avatar-resume-url" class="form-control form-control-sm mb-1" placeholder="URL foto CV sobria..." style="font-size: 0.75rem;">
+                                                <input type="file" id="admin-file-avatar-resume" accept="image/*" style="display: none;">
+                                                <button type="button" id="admin-btn-upload-avatar-resume" class="btn btn-outline-info btn-sm btn-block mb-1 py-0" style="font-size: 0.72rem;">
+                                                    <i class="ti-upload mr-1"></i> Subir Foto Local (PC)
+                                                </button>
                                                 <div class="d-flex justify-content-between mb-2" style="gap: 4px;">
+                                                    <button type="button" class="btn btn-dark btn-sm flex-fill py-0 preset-resume-btn" data-url="assets/imgs/CVpicture.jpg" style="font-size: 0.68rem;">CVpicture.jpg</button>
                                                     <button type="button" id="admin-btn-preview-avatar-resume" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-eye"></i> Probar</button>
                                                     <button type="button" id="admin-btn-reset-avatar-resume" class="btn btn-outline-secondary btn-sm flex-fill py-0" style="font-size: 0.7rem;"><i class="ti-reload"></i> Original</button>
                                                 </div>
@@ -1564,6 +1642,49 @@
                             </div>
                         </div>
 
+                        <!-- TAB 6: DISPOSICIÓN & SECCIONES (ORDEN Y VISIBILIDAD) -->
+                        <div class="tab-pane fade" id="admin-tab-layout" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                                <div>
+                                    <h6 class="text-light font-weight-bold mb-0">
+                                        <i class="ti-layout-grid2 text-danger mr-1"></i> Administrador de Estructura y Secciones
+                                    </h6>
+                                    <small class="text-muted">Reordena las secciones de tu página o del CV imprimible con ⬆️ ⬇️ y activa/desactiva su visualización.</small>
+                                </div>
+                                <button type="button" id="admin-btn-reset-layout" class="btn btn-outline-secondary btn-sm mt-2 mt-sm-0">
+                                    <i class="ti-reload mr-1"></i> Restaurar Orden por Defecto
+                                </button>
+                            </div>
+
+                            <div class="row">
+                                <!-- Columna 1: Secciones de la Página Web (index.html) -->
+                                <div class="col-lg-6 mb-4">
+                                    <div class="p-3 rounded h-100" style="background: #111418; border: 1px solid #334155;">
+                                        <h6 class="text-danger font-weight-bold mb-2">
+                                            <i class="ti-world mr-1"></i> Secciones de la Página Web
+                                        </h6>
+                                        <p class="text-muted small mb-3">Reorganiza el flujo visual del portafolio digital en vivo.</p>
+                                        <div id="admin-layout-web-list" class="admin-layout-list">
+                                            <!-- Se renderiza dinámicamente -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Columna 2: Secciones del Currículum Vitae (resumen.html) -->
+                                <div class="col-lg-6 mb-4">
+                                    <div class="p-3 rounded h-100" style="background: #111418; border: 1px solid #334155;">
+                                        <h6 class="text-danger font-weight-bold mb-2">
+                                            <i class="ti-id-badge mr-1"></i> Secciones del CV Imprimible
+                                        </h6>
+                                        <p class="text-muted small mb-3">Organiza las secciones de la hoja de vida para impresión y descarga.</p>
+                                        <div id="admin-layout-resume-list" class="admin-layout-list">
+                                            <!-- Se renderiza dinámicamente -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- TAB 5: RESPALDO Y PERSISTENCIA -->
                         <div class="tab-pane fade" id="admin-tab-backup" role="tabpanel">
                             <div class="card p-3 mb-3" style="background: #111418; border: 1px solid #334155;">
@@ -1599,6 +1720,44 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Envío de CV por Correo (Modo Empresa / Reclutador) -->
+    <div id="sendCvEmailModal" class="modal-email-overlay no-print" style="display: none;">
+        <div class="modal-email-dialog">
+            <div class="modal-email-header">
+                <h5 class="modal-email-title"><i class="ti-email text-danger mr-2"></i> Enviar CV a un Correo</h5>
+                <button type="button" class="btn-close-modal-email" id="btn-close-send-email">&times;</button>
+            </div>
+            <div class="modal-email-body">
+                <p class="text-muted small mb-3">
+                    Envía el currículum vitae oficial y los enlaces de verificación de certificados directamente a la dirección de correo del reclutador o empresa.
+                </p>
+                <form id="form-send-cv-email">
+                    <div class="form-group mb-2">
+                        <label class="form-label font-weight-bold small text-light">Correo Destinatario *</label>
+                        <input type="email" id="send-cv-recipient-email" class="form-control form-control-sm" placeholder="reclutador@empresa.com" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="form-label font-weight-bold small text-light">Tu Nombre / Empresa (Opcional)</label>
+                        <input type="text" id="send-cv-recruiter-name" class="form-control form-control-sm" placeholder="Ej: Talento Humano / Tech Recruiters">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label font-weight-bold small text-light">Mensaje Adicional o Nota</label>
+                        <textarea id="send-cv-note" class="form-control form-control-sm" rows="2" placeholder="Nota o saludo opcional para el correo..."></textarea>
+                    </div>
+                    <div id="send-cv-feedback" class="alert small py-2 mb-3" style="display: none;"></div>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 8px;">
+                        <button type="button" id="btn-mailto-fallback" class="btn btn-outline-secondary btn-sm" title="Abrir en tu cliente de correo predeterminado">
+                            <i class="ti-share-alt mr-1"></i> Abrir en Mi Correo
+                        </button>
+                        <button type="submit" id="btn-submit-send-email" class="btn btn-primary btn-sm px-3" style="background: #F85C70; border-color: #F85C70; font-weight: 600;">
+                            <i class="ti-location-arrow mr-1"></i> Enviar Ahora
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

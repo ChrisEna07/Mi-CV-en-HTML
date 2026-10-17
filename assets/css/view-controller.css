@@ -1007,3 +1007,181 @@ body.mode-public .portfolio-col-apps {
     border: 2px solid #ffffff;
 }
 
+/* Forzar background-attachment: scroll para permitir reposicionamiento fluido */
+.header {
+    background-attachment: scroll !important;
+}
+
+/* --------------------------------------------------------------------------
+   9. Modal de Envío de CV por Correo (Vanilla + Bootstrap Compatible)
+   -------------------------------------------------------------------------- */
+.modal-email-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(6px);
+    z-index: 1080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: fadeInModal 0.25s ease-out;
+}
+
+.modal-email-dialog {
+    background: #1e2229;
+    border: 1px solid rgba(248, 92, 112, 0.4);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    color: #f1f5f9;
+    overflow: hidden;
+    animation: scaleInModal 0.25s ease-out;
+}
+
+.modal-email-header {
+    background: rgba(248, 92, 112, 0.08);
+    border-bottom: 1px solid #334155;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-email-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+.btn-close-modal-email {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    transition: color 0.15s ease;
+}
+
+.btn-close-modal-email:hover {
+    color: #F85C70;
+}
+
+.modal-email-body {
+    padding: 18px;
+}
+
+.modal-email-body .form-control {
+    background: #111418;
+    border: 1px solid #334155;
+    color: #ffffff;
+}
+
+.modal-email-body .form-control:focus {
+    border-color: #F85C70;
+    box-shadow: 0 0 0 0.2rem rgba(248, 92, 112, 0.2);
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleInModal {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   10. Administrador de Disposición y Reordenamiento de Secciones (Tab 6)
+   -------------------------------------------------------------------------- */
+.admin-layout-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-layout-item {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.admin-layout-item:hover {
+    border-color: rgba(248, 92, 112, 0.4);
+    background: #151d30;
+}
+
+.admin-layout-item.is-hidden {
+    opacity: 0.55;
+    border-style: dashed;
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.admin-layout-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-layout-handle {
+    color: #64748b;
+    font-size: 0.9rem;
+    cursor: grab;
+}
+
+.admin-layout-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-layout-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.admin-layout-btn {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.admin-layout-btn:hover:not(:disabled) {
+    background: #334155;
+    color: #F85C70;
+}
+
+.admin-layout-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+
