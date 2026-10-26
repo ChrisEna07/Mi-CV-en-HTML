@@ -343,13 +343,47 @@
         /* Proyectos */
         .project-item {
             margin-bottom: 8px;
-            font-size: 12px;
-            line-height: 1.4;
+            font-size: 11.5px;
+            line-height: 1.42;
             color: var(--text-muted);
         }
 
         .project-item strong {
             color: var(--dark);
+        }
+
+        .project-item a {
+            color: var(--dark);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(15, 23, 42, 0.35);
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .project-item a:hover {
+            color: var(--primary);
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .project-badge {
+            display: inline-block;
+            font-size: 9.5px;
+            padding: 1px 6px;
+            font-weight: 600;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-left: 3px;
+        }
+
+        .project-badge-prod {
+            background: rgba(16, 185, 129, 0.12);
+            color: #047857;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .project-badge-repo {
+            background: rgba(2, 132, 199, 0.12);
+            color: #0284c7;
+            border: 1px solid rgba(2, 132, 199, 0.3);
         }
 
         .cv-cert-badge-img {
@@ -386,6 +420,11 @@
             }
             .cv-section, .exp-item, .cv-card-box {
                 page-break-inside: avoid !important;
+            }
+            .project-item a {
+                border-bottom: none !important;
+                color: var(--dark) !important;
+                text-decoration: none !important;
             }
         }
 
@@ -531,16 +570,19 @@
                 <section class="cv-section" id="resume-section-projects">
                     <h3 class="cv-section-title"><i class="ti-folder"></i> Proyectos de Ingeniería</h3>
                     <div class="project-item">
-                        <strong>DataExPY (Python & IA):</strong> Extractor de datos estructurados de fuentes no estructuradas (PDFs, imágenes) con orquestación asíncrona y manejo de resiliencia ante errores 429.
+                        <strong><a href="https://github.com/ChrisEna07/PresMon" target="_blank" rel="noopener noreferrer">PresMon</a> (TypeScript, React & Node.js):</strong> Plataforma SaaS integral para liquidación y gestión de préstamos, carteras de crédito y microfinanzas; simulación de cuotas, tablas de amortización y reportería financiera en tiempo real. <span class="project-badge project-badge-prod">En Producción (Vercel)</span>
                     </div>
                     <div class="project-item">
-                        <strong>PrimeDesk (Flutter):</strong> Sistema multiplataforma de gestión operativa para talleres mecánicos y órdenes de servicio en tiempo real.
+                        <strong><a href="https://github.com/ChrisEna07/babyrevela" target="_blank" rel="noopener noreferrer">Baby Revela</a> (TypeScript, PWA & JavaScript):</strong> Aplicación web interactiva multiusuario en tiempo real para eventos de revelación de sexo, con votaciones dinámicas en vivo, estadísticas instantáneas y sincronización multidispositivo. <span class="project-badge project-badge-prod">En Producción (Vercel)</span>
                     </div>
                     <div class="project-item">
-                        <strong>iRemApp (Flutter & Dart):</strong> Aplicación móvil nativa para control financiero personal, recordatorios inteligentes y almacenamiento local seguro.
+                        <strong><a href="https://github.com/ChrisEna07/Uparqueo-" target="_blank" rel="noopener noreferrer">UParqueo</a> (JavaScript, Node.js & CSS3):</strong> Sistema profesional para control y gestión de parqueaderos y centros comerciales; tarificación por minutos/horas, control de cupos en tiempo real, arqueo de caja y emisión de comprobantes. <span class="project-badge project-badge-repo">GitHub</span>
                     </div>
                     <div class="project-item">
-                        <strong>DeepFace AI (Python):</strong> Pipeline de visión por computador y clasificación biométrica para análisis de expresiones faciales.
+                        <strong><a href="https://github.com/ChrisEna07/O-my-Cash" target="_blank" rel="noopener noreferrer">O-myCash</a> (Flutter, Dart & Web):</strong> Solución financiera móvil y web para control de presupuestos personales, flujo de caja y balances de ingresos/gastos bajo arquitectura segura offline-first. <span class="project-badge project-badge-repo">APK / GitHub</span>
+                    </div>
+                    <div class="project-item">
+                        <strong><a href="https://github.com/ChrisEna07/DataExpy" target="_blank" rel="noopener noreferrer">DataExPY</a> (Python & IA / Automatización):</strong> Motor automatizado para extracción de datos estructurados desde documentos heterogéneos (PDFs, imágenes) con orquestación asíncrona y procesamiento resiliente. <span class="project-badge project-badge-repo">GitHub</span>
                     </div>
                 </section>
 
