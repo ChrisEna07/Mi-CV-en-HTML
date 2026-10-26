@@ -96,6 +96,11 @@
                         <button id="dark-mode-toggle" class="btn btn-dark btn-sm mt-1"><i
                                 class="ti-light-bulb"></i></button>
                     </li>
+                    <li class="nav-item ml-lg-2">
+                        <button id="btn-navbar-admin" class="btn btn-outline-danger btn-sm mt-1 font-weight-bold" title="Acceso al Panel de Administrador" style="border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="ti-shield"></i> <span id="btn-navbar-admin-label">Admin</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -1110,7 +1115,7 @@
             </p>
             <div class="footer-links small text-muted">
                 <a href="#" id="recruiter-access-trigger" class="text-muted mr-3" title="Acceso para Reclutadores"><i class="ti-briefcase mr-1"></i>Acceso Empresa</a>
-                <a href="#" id="admin-login-trigger" class="text-muted" title="Administración" aria-label="Administración"><i class="ti-lock" style="opacity: 0.35;"></i></a>
+                <a href="#" id="admin-login-trigger" class="btn btn-outline-danger btn-sm py-1 px-3" title="Acceso al Panel de Administrador" style="font-size: 0.8rem; font-weight: 600; border-radius: 20px;"><i class="ti-shield mr-1"></i>Panel Admin</a>
             </div>
         </div>
     </footer>
@@ -1307,6 +1312,11 @@
                         <li class="nav-item">
                             <a class="nav-link" id="tab-btn-backup" data-toggle="pill" href="#admin-tab-backup" role="tab">
                                 <i class="ti-server mr-1"></i> Respaldo & Control
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab-btn-security" data-toggle="pill" href="#admin-tab-security" role="tab">
+                                <i class="ti-lock mr-1"></i> Seguridad & Sesiones
                             </a>
                         </li>
                     </ul>
@@ -1935,6 +1945,95 @@
                                 <button type="button" id="admin-btn-reset-defaults" class="btn btn-outline-danger btn-sm align-self-start">
                                     <i class="ti-reload mr-1"></i> Restablecer Valores Iniciales por Defecto
                                 </button>
+                            </div>
+                        </div>
+
+                        <!-- TAB 8: SEGURIDAD, SESIONES ACTIVAS & CAMBIO DE CONTRASEÑA -->
+                        <div class="tab-pane fade" id="admin-tab-security" role="tabpanel">
+                            <!-- SECCIÓN 1: MONITOR DE SESIONES ACTIVAS -->
+                            <div class="card p-3 mb-4" style="background: #111418; border: 1px solid #334155; border-radius: 10px;">
+                                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap" style="gap: 10px;">
+                                    <div>
+                                        <h6 class="text-light font-weight-bold mb-0">
+                                            <i class="ti-pulse text-success mr-1"></i> Monitor de Sesiones Activas
+                                        </h6>
+                                        <small class="text-muted">Visualiza los accesos activos a tu panel y gestiona la seguridad de tus dispositivos.</small>
+                                    </div>
+                                    <div class="d-flex align-items-center" style="gap: 8px;">
+                                        <span class="badge badge-success px-3 py-2 font-weight-bold" id="admin-badge-sessions-status" style="font-size: 0.8rem; border-radius: 20px;">
+                                            <i class="ti-check-box mr-1"></i> <span id="admin-active-sessions-count">1</span> Sesión(es) Activa(s)
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Lista de Sesiones Activas -->
+                                <div id="admin-active-sessions-list" class="mb-3">
+                                    <!-- Se inyecta dinámicamente con JS -->
+                                </div>
+
+                                <div class="d-flex flex-wrap justify-content-between align-items-center pt-2 border-top" style="border-color: #334155 !important; gap: 10px;">
+                                    <button type="button" id="btn-close-other-sessions" class="btn btn-outline-secondary btn-sm">
+                                        <i class="ti-close mr-1"></i> Cerrar Otras Sesiones
+                                    </button>
+                                    <div class="d-flex" style="gap: 8px;">
+                                        <button type="button" id="btn-logout-current-admin" class="btn btn-outline-warning btn-sm">
+                                            <i class="ti-lock mr-1"></i> Cerrar Esta Sesión
+                                        </button>
+                                        <button type="button" id="btn-close-all-sessions" class="btn btn-outline-danger btn-sm font-weight-bold">
+                                            <i class="ti-power-off mr-1"></i> Cerrar Todas las Sesiones Activas
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 2: CAMBIO DE CONTRASEÑA -->
+                            <div class="card p-3" style="background: #111418; border: 1px solid #334155; border-radius: 10px;">
+                                <div class="mb-3">
+                                    <h6 class="text-light font-weight-bold mb-0">
+                                        <i class="ti-key text-danger mr-1"></i> Cambiar Contraseña de Administrador
+                                    </h6>
+                                    <small class="text-muted">Actualiza tu clave de acceso maestra para proteger tu portafolio y CV.</small>
+                                </div>
+
+                                <form id="form-change-password">
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label text-light font-weight-bold small">Contraseña Actual *</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="password" id="admin-current-pass" class="form-control form-control-sm" placeholder="Contraseña actual" required autocomplete="current-password">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary btn-toggle-pass" type="button" data-target="admin-current-pass" title="Ver contraseña"><i class="ti-eye"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label text-light font-weight-bold small">Nueva Contraseña *</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="password" id="admin-new-pass" class="form-control form-control-sm" placeholder="Mínimo 6 caracteres" required minlength="6" autocomplete="new-password">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary btn-toggle-pass" type="button" data-target="admin-new-pass" title="Ver contraseña"><i class="ti-eye"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="form-label text-light font-weight-bold small">Confirmar Nueva Contraseña *</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="password" id="admin-confirm-pass" class="form-control form-control-sm" placeholder="Repite la contraseña" required minlength="6" autocomplete="new-password">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary btn-toggle-pass" type="button" data-target="admin-confirm-pass" title="Ver contraseña"><i class="ti-eye"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="admin-change-pass-feedback" class="alert small py-2 mb-3" style="display: none;"></div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" id="btn-submit-change-pass" class="btn btn-primary btn-sm px-4 font-weight-bold" style="background: #F85C70; border-color: #F85C70;">
+                                            <i class="ti-check mr-1"></i> Guardar Nueva Contraseña
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

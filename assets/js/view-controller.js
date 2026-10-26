@@ -27,6 +27,8 @@
 
     const STORAGE_KEYS = {
         ADMIN_SESSION: 'cv_admin_session',
+        ADMIN_PASS: 'cv_admin_password',
+        ACTIVE_SESSIONS: 'cv_active_sessions',
         RECRUITER_SESSION: 'cv_recruiter_session',
         RECRUITER_TOKEN: 'cv_recruiter_token',
         ADMIN_PREVIEW: 'cv_admin_preview_mode',
@@ -1185,6 +1187,9 @@
 
         // 8. Renderizar administrador de disposición y orden de secciones
         renderAdminLayoutManager();
+
+        // 9. Renderizar sección de seguridad y sesiones activas
+        renderAdminSecuritySection();
     }
 
     function updateAvailabilityUI(isWorking) {
@@ -2111,6 +2116,82 @@
             });
         }
 
+        // ---------------------------------------------------------------------
+        // LISTENERS DE SEGURIDAD, CAMBIO DE CONTRASEÑA Y SESIONES ACTIVAS
+        // ---------------------------------------------------------------------
+        // Toggle ver/ocultar contraseña con el ojito
+        document.querySelectorAll('.btn-toggle-pass').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const targetId = this.getAttribute('data-target');
+                const inp = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+                if (!inp) return;
+
+                if (inp.type === 'password') {
+                    inp.type = 'text';
+                    if (icon) icon.className = 'ti-eye text-danger';
+                } else {
+                    inp.type = 'password';
+                    if (icon) icon.className = 'ti-eye text-muted';
+                }
+            });
+        });
+
+        // Formulario de cambio de contraseña
+        const formChangePass = document.getElementById('form-change-password');
+        if (formChangePass) {
+            formChangePass.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const currentPass = document.getElementById('admin-current-pass')?.value || '';
+                const newPass = document.getElementById('admin-new-pass')?.value || '';
+                const confirmPass = document.getElementById('admin-confirm-pass')?.value || '';
+                const feedback = document.getElementById('admin-change-pass-feedback');
+
+                const res = changeAdminPassword(currentPass, newPass, confirmPass);
+
+                if (feedback) {
+                    feedback.style.display = 'block';
+                    feedback.className = `alert py-2 small ${res.success ? 'alert-success' : 'alert-danger'}`;
+                    feedback.innerHTML = `<i class="${res.success ? 'ti-check' : 'ti-alert'} mr-1"></i> ${res.message}`;
+                }
+
+                if (res.success) {
+                    showToast('Contraseña actualizada correctamente.', 'success');
+                    formChangePass.reset();
+                    renderAdminSecuritySection();
+                } else {
+                    showToast(res.message, 'danger');
+                }
+            });
+        }
+
+        // Botones de cierre de sesión
+        const btnCloseAll = document.getElementById('btn-close-all-sessions');
+        if (btnCloseAll) {
+            btnCloseAll.addEventListener('click', function () {
+                if (confirm('¿Estás seguro de que deseas cerrar todas las sesiones activas en todos los dispositivos?')) {
+                    closeAllActiveSessions();
+                }
+            });
+        }
+
+        const btnCloseOther = document.getElementById('btn-close-other-sessions');
+        if (btnCloseOther) {
+            btnCloseOther.addEventListener('click', function () {
+                if (confirm('¿Cerrar todas las demás sesiones excepto la actual?')) {
+                    closeOtherActiveSessions();
+                }
+            });
+        }
+
+        const btnLogoutCurrent = document.getElementById('btn-logout-current-admin');
+        if (btnLogoutCurrent) {
+            btnLogoutCurrent.addEventListener('click', function () {
+                logoutAdmin();
+                if (typeof $ !== 'undefined') $('#admin-cv-manager-modal').modal('hide');
+            });
+        }
+
         // 1. Portada / Banner (Muro) - Max 1400x700 a 80% calidad (~80-110KB)
         setupImagePreview(
             'admin-input-banner-url', 
@@ -2690,18 +2771,254 @@
     // -------------------------------------------------------------------------
     // 9. Autenticación de Administrador (Login / Logout)
     // -------------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------
+    // GESTIÓN DE SEGURIDAD, CONTRASEÑA Y SESIONES ACTIVAS
+    // -------------------------------------------------------------------------
+    function getAdminPassword() {
+        return localStorage.getItem(STORAGE_KEYS.ADMIN_PASS) || ADMIN_PASS;
+    }
+
+    function setAdminPassword(newPassword) {
+        localStorage.setItem(STORAGE_KEYS.ADMIN_PASS, newPassword);
+    }
+
+    function getActiveSessions() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEYS.ACTIVE_SESSIONS);
+            if (raw) {
+                const arr = JSON.parse(raw);
+                if (Array.isArray(arr)) return arr;
+            }
+        } catch (e) {
+            console.warn('Error al leer cv_active_sessions:', e);
+        }
+        return [];
+    }
+
+    function saveActiveSessions(sessions) {
+        localStorage.setItem(STORAGE_KEYS.ACTIVE_SESSIONS, JSON.stringify(sessions));
+    }
+
+    function registerCurrentSession() {
+        if (!isAdminLoggedIn()) return;
+        let sessions = getActiveSessions();
+        let currentSessId = sessionStorage.getItem('cv_current_session_id');
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        let userAgent = navigator.userAgent || '';
+        let deviceName = 'Windows PC';
+        if (userAgent.includes('Macintosh')) deviceName = 'Mac / Apple';
+        else if (userAgent.includes('Android')) deviceName = 'Android Móvil';
+        else if (userAgent.includes('iPhone') || userAgent.includes('iPad')) deviceName = 'iOS Móvil';
+        else if (userAgent.includes('Linux')) deviceName = 'Linux PC';
+
+        let browserName = 'Navegador Web';
+        if (userAgent.includes('Chrome') && !userAgent.includes('Edg')) browserName = 'Chrome';
+        else if (userAgent.includes('Edg')) browserName = 'Edge';
+        else if (userAgent.includes('Firefox')) browserName = 'Firefox';
+        else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) browserName = 'Safari';
+
+        const deviceLabel = `${deviceName} (${browserName})`;
+
+        if (currentSessId) {
+            const existing = sessions.find(s => s.id === currentSessId);
+            if (existing) {
+                existing.lastActive = dateStr;
+                existing.device = deviceLabel;
+                saveActiveSessions(sessions);
+                return;
+            }
+        }
+
+        currentSessId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+        sessionStorage.setItem('cv_current_session_id', currentSessId);
+
+        sessions.unshift({
+            id: currentSessId,
+            type: 'admin',
+            user: ADMIN_USER,
+            device: deviceLabel,
+            startedAt: dateStr,
+            lastActive: dateStr
+        });
+
+        if (sessions.length > 10) sessions = sessions.slice(0, 10);
+        saveActiveSessions(sessions);
+    }
+
+    function closeAllActiveSessions() {
+        localStorage.removeItem(STORAGE_KEYS.ADMIN_SESSION);
+        localStorage.removeItem(STORAGE_KEYS.ACTIVE_SESSIONS);
+        sessionStorage.removeItem(STORAGE_KEYS.RECRUITER_SESSION);
+        sessionStorage.removeItem('cv_current_session_id');
+
+        const toolbar = document.getElementById('admin-toolbar');
+        if (toolbar) toolbar.remove();
+
+        updateNavbarAdminButton(false);
+        applyViewMode('public');
+
+        if (typeof $ !== 'undefined') {
+            $('#admin-cv-manager-modal').modal('hide');
+        }
+
+        renderAdminSecuritySection();
+        showToast('Todas las sesiones activas han sido cerradas con éxito.', 'info', 4000);
+    }
+
+    function closeOtherActiveSessions() {
+        const currentSessId = sessionStorage.getItem('cv_current_session_id');
+        let sessions = getActiveSessions();
+        if (currentSessId) {
+            sessions = sessions.filter(s => s.id === currentSessId);
+        } else {
+            sessions = [];
+        }
+        saveActiveSessions(sessions);
+        renderAdminSecuritySection();
+        showToast('Se han cerrado todas las demás sesiones activas.', 'success');
+    }
+
+    function changeAdminPassword(currentPass, newPass, confirmPass) {
+        const currentStored = getAdminPassword();
+        if (currentPass !== currentStored) {
+            return { success: false, message: 'La contraseña actual no es correcta.' };
+        }
+        if (!newPass || newPass.length < 6) {
+            return { success: false, message: 'La nueva contraseña debe tener al menos 6 caracteres.' };
+        }
+        if (newPass !== confirmPass) {
+            return { success: false, message: 'La nueva contraseña y su confirmación no coinciden.' };
+        }
+        setAdminPassword(newPass);
+        registerCurrentSession();
+        return { success: true, message: '¡Contraseña actualizada con éxito! Utiliza tu nueva clave en tu próximo inicio de sesión.' };
+    }
+
+    function updateNavbarAdminButton(isLoggedIn) {
+        const btnNav = document.getElementById('btn-navbar-admin');
+        const lblNav = document.getElementById('btn-navbar-admin-label');
+        const footerTrigger = document.getElementById('admin-login-trigger');
+
+        if (btnNav) {
+            if (isLoggedIn) {
+                btnNav.className = 'btn btn-outline-danger btn-sm mt-1 font-weight-bold active-admin-badge';
+                btnNav.innerHTML = '<i class="ti-shield mr-1"></i> <span id="btn-navbar-admin-label">Admin</span> <span class="badge badge-success ml-1" style="font-size: 0.65rem; border-radius: 4px; padding: 2px 4px;">Activo</span>';
+                btnNav.title = 'Panel de Administrador (Sesión Activa) - Clic para abrir gestor';
+            } else {
+                btnNav.className = 'btn btn-outline-danger btn-sm mt-1 font-weight-bold';
+                btnNav.innerHTML = '<i class="ti-shield mr-1"></i> <span id="btn-navbar-admin-label">Admin</span>';
+                btnNav.title = 'Acceso al Panel de Administrador';
+            }
+        }
+
+        if (footerTrigger) {
+            if (isLoggedIn) {
+                footerTrigger.innerHTML = '<i class="ti-shield mr-1"></i> Panel Administrador (Activo)';
+                footerTrigger.className = 'btn btn-danger btn-sm py-1 px-3 active-admin-badge';
+            } else {
+                footerTrigger.innerHTML = '<i class="ti-shield mr-1"></i> Panel Administrador';
+                footerTrigger.className = 'btn btn-outline-danger btn-sm py-1 px-3';
+            }
+        }
+    }
+
+    function renderAdminSecuritySection() {
+        const countBadge = document.getElementById('admin-active-sessions-count');
+        const listContainer = document.getElementById('admin-active-sessions-list');
+        if (!listContainer) return;
+
+        registerCurrentSession();
+        const sessions = getActiveSessions();
+        const currentSessId = sessionStorage.getItem('cv_current_session_id');
+
+        if (countBadge) {
+            countBadge.textContent = sessions.length || 1;
+        }
+
+        if (sessions.length === 0) {
+            listContainer.innerHTML = `
+                <div class="p-3 text-center text-muted rounded" style="background: rgba(255,255,255,0.02); border: 1px dashed #334155;">
+                    <i class="ti-info-alt mr-1"></i> No hay sesiones activas registradas actualmente.
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        sessions.forEach(sess => {
+            const isCurrent = (sess.id === currentSessId) || sessions.length === 1;
+
+            html += `
+                <div class="admin-session-card d-flex justify-content-between align-items-center flex-wrap" style="gap: 10px;" data-session-id="${escapeHtml(sess.id)}">
+                    <div class="d-flex align-items-center" style="gap: 12px;">
+                        <div style="width: 38px; height: 38px; border-radius: 50%; background: ${isCurrent ? 'rgba(16, 185, 129, 0.15)' : '#1e293b'}; border: 1px solid ${isCurrent ? '#10b981' : '#334155'}; display: flex; align-items: center; justify-content: center; color: ${isCurrent ? '#10b981' : '#94a3b8'}; font-size: 1.1rem;">
+                            <i class="${sess.device && sess.device.includes('Móvil') ? 'ti-mobile' : 'ti-desktop'}"></i>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center" style="gap: 6px;">
+                                <strong class="text-light" style="font-size: 0.88rem;">${escapeHtml(sess.device || 'Dispositivo Web')}</strong>
+                                ${isCurrent ? '<span class="badge badge-success px-2 py-0" style="font-size: 0.68rem; border-radius: 12px;">🟢 Esta sesión</span>' : '<span class="badge badge-secondary px-2 py-0" style="font-size: 0.68rem; border-radius: 12px;">Conectado</span>'}
+                            </div>
+                            <div class="text-muted small" style="font-size: 0.76rem;">
+                                Inició: ${escapeHtml(sess.startedAt || 'Reciente')} · Última act.: ${escapeHtml(sess.lastActive || sess.startedAt || 'Ahora')}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        ${isCurrent ? `
+                            <button type="button" class="btn btn-outline-warning btn-sm btn-logout-session" data-id="${escapeHtml(sess.id)}" style="font-size: 0.72rem; padding: 2px 8px;">
+                                <i class="ti-power-off mr-1"></i> Cerrar
+                            </button>
+                        ` : `
+                            <button type="button" class="btn btn-outline-danger btn-sm btn-logout-session" data-id="${escapeHtml(sess.id)}" style="font-size: 0.72rem; padding: 2px 8px;">
+                                <i class="ti-close mr-1"></i> Desconectar
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+        });
+
+        listContainer.innerHTML = html;
+
+        listContainer.querySelectorAll('.btn-logout-session').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const sId = this.getAttribute('data-id');
+                if (sId === currentSessId || sessions.length <= 1) {
+                    logoutAdmin();
+                    if (typeof $ !== 'undefined') $('#admin-cv-manager-modal').modal('hide');
+                    showToast('Has cerrado la sesión de este dispositivo.', 'info');
+                } else {
+                    let updated = getActiveSessions().filter(s => s.id !== sId);
+                    saveActiveSessions(updated);
+                    renderAdminSecuritySection();
+                    showToast('Dispositivo desconectado.', 'info');
+                }
+            });
+        });
+    }
+
     function loginAdmin(user, pass) {
-        if (user.trim() === ADMIN_USER && pass === ADMIN_PASS) {
+        const expectedPass = getAdminPassword();
+        if (user.trim() === ADMIN_USER && pass === expectedPass) {
             localStorage.setItem(STORAGE_KEYS.ADMIN_SESSION, 'true');
             if (!localStorage.getItem(STORAGE_KEYS.ADMIN_PREVIEW)) {
                 localStorage.setItem(STORAGE_KEYS.ADMIN_PREVIEW, 'recruiter');
             }
+
+            registerCurrentSession();
 
             if (typeof $ !== 'undefined') {
                 $('#admin-login-modal').modal('hide');
             }
 
             renderAdminToolbar();
+            updateNavbarAdminButton(true);
+
             const preferredMode = localStorage.getItem(STORAGE_KEYS.ADMIN_PREVIEW) || 'recruiter';
             applyViewMode(preferredMode);
             showToast('¡Bienvenido, Administrador (ChrizDev)! Panel activado.', 'success');
@@ -2712,9 +3029,18 @@
     }
 
     function logoutAdmin() {
+        const currentSessId = sessionStorage.getItem('cv_current_session_id');
+        if (currentSessId) {
+            let sessions = getActiveSessions().filter(s => s.id !== currentSessId);
+            saveActiveSessions(sessions);
+            sessionStorage.removeItem('cv_current_session_id');
+        }
+
         localStorage.removeItem(STORAGE_KEYS.ADMIN_SESSION);
         const toolbar = document.getElementById('admin-toolbar');
         if (toolbar) toolbar.remove();
+
+        updateNavbarAdminButton(false);
 
         if (!isRecruiterAuthorized()) {
             applyViewMode('public');
@@ -2871,6 +3197,38 @@
                 showToast('Has cambiado a la Vista Pública.', 'info');
             });
         }
+
+        // Botón de Acceso Admin en Navbar
+        const btnNavbarAdmin = document.getElementById('btn-navbar-admin');
+        if (btnNavbarAdmin) {
+            btnNavbarAdmin.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (isAdminLoggedIn()) {
+                    openCvManagerModal();
+                } else {
+                    openAdminModal();
+                }
+            });
+        }
+
+        updateNavbarAdminButton(isAdminLoggedIn());
+        if (isAdminLoggedIn()) {
+            registerCurrentSession();
+        }
+
+        // Acceso desde URL (?open=admin)
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('open') === 'admin') {
+                setTimeout(() => {
+                    if (isAdminLoggedIn()) {
+                        openCvManagerModal();
+                    } else {
+                        openAdminModal();
+                    }
+                }, 350);
+            }
+        } catch (err) { /* ignore */ }
 
         const footerAdminTrigger = document.getElementById('admin-login-trigger');
         if (footerAdminTrigger) {
