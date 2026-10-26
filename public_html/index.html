@@ -97,7 +97,7 @@
                                 class="ti-light-bulb"></i></button>
                     </li>
                     <li class="nav-item ml-lg-2">
-                        <button id="btn-navbar-admin" class="btn btn-outline-danger btn-sm mt-1 font-weight-bold" title="Acceso al Panel de Administrador" style="border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                        <button id="btn-navbar-admin" class="btn btn-outline-danger btn-sm mt-1 font-weight-bold" title="Acceso al Panel de Administrador" style="border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;" onclick="if(window.ViewController){if(window.ViewController.isAdminLoggedIn && window.ViewController.isAdminLoggedIn()){window.ViewController.openCvManagerModal();}else{window.ViewController.openAdminModal();}}">
                             <i class="ti-shield"></i> <span id="btn-navbar-admin-label">Admin</span>
                         </button>
                     </li>
@@ -569,7 +569,7 @@
             <div class="row justify-content-center mt-4" id="display-vibe-gifs-container">
                 <div class="col-11 col-sm-8 col-md-6 col-lg-4">
                     <div style="border-radius: 8px; overflow: hidden; border: 1px solid rgba(248, 92, 112, 0.25); box-shadow: 0 4px 15px rgba(0,0,0,0.25);">
-                        <div class="tenor-gif-embed" data-postid="26819026" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%"><a href="https://tenor.com/view/keyboard-fast-typing-jim-carrey-gif-26819026">Keyboard Fast Typing GIF</a>from <a href="https://tenor.com/search/keyboard-gifs">Keyboard GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                        <img src="assets/imgs/keyboard-fast-typing.gif" alt="Keyboard Fast Typing Jim Carrey" style="width: 100%; height: auto; display: block; object-fit: cover;">
                     </div>
                     <p class="text-muted mt-2 mb-0" style="font-size: 0.85rem; font-style: italic;">Programando en modo VibeCoding a máxima velocidad...</p>
                 </div>
@@ -1863,7 +1863,7 @@
                                     </div>
                                     <!-- Previsualización del GIF en el formulario -->
                                     <div class="mb-3 text-center p-2 rounded" style="background: rgba(0,0,0,0.3); border: 1px dashed #334155;">
-                                        <img id="admin-gif-preview" src="https://media.tenor.com/z0jV_dYd38QAAAAC/keyboard-fast-typing.gif" alt="Preview GIF" style="max-height: 140px; max-width: 100%; border-radius: 6px; object-fit: contain;">
+                                        <img id="admin-gif-preview" src="assets/imgs/keyboard-fast-typing.gif" alt="Preview GIF" style="max-height: 140px; max-width: 100%; border-radius: 6px; object-fit: contain;">
                                         <div class="text-muted small mt-1" id="admin-gif-preview-caption">Previsualización</div>
                                     </div>
                                     <div class="d-flex justify-content-end" style="gap: 8px;">

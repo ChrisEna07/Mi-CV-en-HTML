@@ -210,7 +210,7 @@
         vibeGifs: [
             {
                 id: 'gif_1',
-                url: 'https://media.tenor.com/z0jV_dYd38QAAAAC/keyboard-fast-typing.gif',
+                url: 'assets/imgs/keyboard-fast-typing.gif',
                 embedPostId: '26819026',
                 caption_es: 'Programando en modo VibeCoding a máxima velocidad...',
                 caption_en: 'Coding in VibeCoding mode at maximum speed...'
@@ -621,7 +621,67 @@
         }
     }
 
-    function applyCvDataToDOM(data) {
+        // -------------------------------------------------------------------------
+    // 4b. Renderizado DOM de Estadísticas / Métricas y GIFs VibeCoding
+    // -------------------------------------------------------------------------
+    function applyStatsAndGifsToDOM(stats, vibeGifs) {
+        const lang = localStorage.getItem('lang') || 'es';
+
+        // 1. Estadísticas / Métricas de Tiempo
+        const statsContainer = document.getElementById('display-stats-container');
+        if (statsContainer && Array.isArray(stats) && stats.length > 0) {
+            let statsHtml = '';
+            stats.forEach(stat => {
+                const label = lang === 'en' ? (stat.label_en || stat.label_es) : stat.label_es;
+                const isLongVal = stat.value && stat.value.length > 8;
+                statsHtml += `
+                    <div class="col-md-6 col-lg-4 mb-4" data-stat-id="${escapeHtml(stat.id)}">
+                        <div class="row">
+                            <div class="col-5 text-right text-light border-right py-3">
+                                <div class="m-auto"><i class="${escapeHtml(stat.icon || 'ti-stats-up')} icon-xl"></i></div>
+                            </div>
+                            <div class="col-7 text-left py-3">
+                                <h1 class="text-danger font-weight-bold font40" ${isLongVal ? 'style="font-size: 2.2rem; line-height: 1.2; padding-top: 5px;"' : ''}>${escapeHtml(stat.value)}</h1>
+                                <p class="text-light mb-1">
+                                    ${stat.isModalSurvey 
+                                        ? `<a href="#" data-toggle="modal" data-target="#surveyModal" class="text-light" data-i18n="stat-clients">${escapeHtml(label)}</a>`
+                                        : escapeHtml(label)
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            statsContainer.innerHTML = statsHtml;
+        }
+
+        // 2. GIFs VibeCoding
+        const gifsContainer = document.getElementById('display-vibe-gifs-container');
+        if (gifsContainer && Array.isArray(vibeGifs) && vibeGifs.length > 0) {
+            let gifsHtml = '';
+            vibeGifs.forEach(gif => {
+                const caption = lang === 'en' ? (gif.caption_en || gif.caption_es) : gif.caption_es;
+                let gifUrl = gif.url || 'assets/imgs/keyboard-fast-typing.gif';
+                if (gifUrl.includes('z0jV_dYd38QAAAAC') || gifUrl.includes('tenor.com')) {
+                    gifUrl = 'assets/imgs/keyboard-fast-typing.gif';
+                }
+                gifsHtml += `
+                    <div class="col-11 col-sm-8 col-md-6 col-lg-4 mb-3" data-gif-id="${escapeHtml(gif.id)}">
+                        <div style="border-radius: 8px; overflow: hidden; border: 1px solid rgba(248, 92, 112, 0.25); box-shadow: 0 4px 15px rgba(0,0,0,0.25); background: #161b22;">
+                            <img src="${escapeHtml(gifUrl)}" alt="VibeCoding GIF" style="width: 100%; height: auto; display: block; object-fit: cover;" onerror="this.src='assets/imgs/keyboard-fast-typing.gif'">
+                        </div>
+                        ${caption ? `
+                            <p class="text-muted mt-2 mb-0" style="font-size: 0.85rem; font-style: italic;">${escapeHtml(caption)}</p>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            gifsContainer.innerHTML = gifsHtml;
+        }
+    }
+
+function applyCvDataToDOM(data) {
         if (!data) data = getCvData();
         const p = data.personal || {};
         const avail = data.availability || DEFAULT_CV_DATA.availability;
@@ -1514,7 +1574,282 @@
         if (idInput) idInput.value = '';
     }
 
+    
     // -------------------------------------------------------------------------
+    // G2. GESTOR CRUD DE MÉTRICAS / ESTADÍSTICAS & MEMES VIBECODING (ChrizDev)
+    // -------------------------------------------------------------------------
+    function renderAdminStatsList() {
+        const container = document.getElementById('admin-stat-crud-list');
+        if (!container) return;
+        if (!activeCvData) activeCvData = getCvData();
+        const stats = Array.isArray(activeCvData.stats) ? activeCvData.stats : [];
+
+        if (stats.length === 0) {
+            container.innerHTML = `
+                <div class="p-3 text-center text-muted rounded" style="background: rgba(255,255,255,0.02); border: 1px dashed #334155;">
+                    <i class="ti-bar-chart mb-2" style="font-size: 1.5rem;"></i>
+                    <p class="mb-0 small">No hay métricas registradas. Pulsa en "+ Nueva Métrica / Estadística".</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        stats.forEach((stat, idx) => {
+            const isFirst = idx === 0;
+            const isLast = idx === stats.length - 1;
+            html += `
+                <div class="admin-crud-item p-2 mb-2 rounded" data-id="${escapeHtml(stat.id)}" style="background: #1e293b; border: 1px solid #334155;">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 10px;">
+                        <div class="d-flex align-items-center flex-fill" style="gap: 12px; min-width: 200px;">
+                            <div style="font-size: 1.5rem; color: #F85C70; width: 35px; text-align: center;"><i class="${escapeHtml(stat.icon || 'ti-stats-up')}"></i></div>
+                            <div>
+                                <div class="font-weight-bold text-white">${escapeHtml(stat.value)} - <span class="text-light">${escapeHtml(stat.label_es)}</span></div>
+                                <div class="small text-muted">${escapeHtml(stat.label_en || stat.label_es)} ${stat.isModalSurvey ? '<span class="badge badge-info py-0">Abre Encuesta</span>' : ''}</div>
+                            </div>
+                        </div>
+                        <div class="admin-crud-actions d-flex align-items-center" style="gap: 5px;">
+                            <button type="button" class="btn btn-dark btn-sm admin-btn-move-stat" data-id="${escapeHtml(stat.id)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''} style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-arrow-up"></i>
+                            </button>
+                            <button type="button" class="btn btn-dark btn-sm admin-btn-move-stat" data-id="${escapeHtml(stat.id)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''} style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-arrow-down"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm admin-btn-edit-stat" data-id="${escapeHtml(stat.id)}" title="Editar" style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-pencil"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm admin-btn-delete-stat" data-id="${escapeHtml(stat.id)}" title="Eliminar" style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        attachStatListEvents();
+    }
+
+    function attachStatListEvents() {
+        document.querySelectorAll('.admin-btn-edit-stat').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const stat = (activeCvData && activeCvData.stats) ? activeCvData.stats.find(s => s.id === id) : null;
+                if (stat) showStatForm(stat);
+            });
+        });
+
+        document.querySelectorAll('.admin-btn-delete-stat').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                if (!confirm('¿Seguro que deseas eliminar esta métrica?')) return;
+                if (!activeCvData || !activeCvData.stats) return;
+                activeCvData.stats = activeCvData.stats.filter(s => s.id !== id);
+                saveCvData(activeCvData);
+                renderAdminStatsList();
+                applyCvDataToDOM(activeCvData);
+                showToast('Métrica eliminada.', 'info');
+            });
+        });
+
+        document.querySelectorAll('.admin-btn-move-stat').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const dir = this.getAttribute('data-dir');
+                if (!activeCvData || !Array.isArray(activeCvData.stats)) return;
+                const idx = activeCvData.stats.findIndex(s => s.id === id);
+                if (idx === -1) return;
+                if (dir === 'up' && idx > 0) {
+                    const temp = activeCvData.stats[idx];
+                    activeCvData.stats[idx] = activeCvData.stats[idx - 1];
+                    activeCvData.stats[idx - 1] = temp;
+                } else if (dir === 'down' && idx < activeCvData.stats.length - 1) {
+                    const temp = activeCvData.stats[idx];
+                    activeCvData.stats[idx] = activeCvData.stats[idx + 1];
+                    activeCvData.stats[idx + 1] = temp;
+                }
+                saveCvData(activeCvData);
+                renderAdminStatsList();
+                applyCvDataToDOM(activeCvData);
+            });
+        });
+    }
+
+    function showStatForm(stat) {
+        const card = document.getElementById('admin-stat-form-card');
+        const title = document.getElementById('admin-stat-form-title');
+        if (!card) return;
+        card.style.display = 'block';
+        if (stat) {
+            if (title) title.innerHTML = '<i class="ti-pencil-alt mr-1"></i> Editar Métrica / Estadística';
+            document.getElementById('admin-stat-id').value = stat.id || '';
+            document.getElementById('admin-stat-value').value = stat.value || '';
+            document.getElementById('admin-stat-label-es').value = stat.label_es || '';
+            document.getElementById('admin-stat-label-en').value = stat.label_en || '';
+            document.getElementById('admin-stat-icon').value = stat.icon || 'ti-alarm-clock';
+            const isSurvey = document.getElementById('admin-stat-is-survey');
+            if (isSurvey) isSurvey.checked = !!stat.isModalSurvey;
+            const iconPrev = document.getElementById('admin-stat-icon-preview');
+            if (iconPrev) iconPrev.innerHTML = `<i class="${stat.icon || 'ti-alarm-clock'}"></i>`;
+        } else {
+            if (title) title.innerHTML = '<i class="ti-plus mr-1"></i> Añadir Nueva Métrica / Estadística';
+            document.getElementById('admin-stat-id').value = '';
+            document.getElementById('admin-stat-value').value = '';
+            document.getElementById('admin-stat-label-es').value = '';
+            document.getElementById('admin-stat-label-en').value = '';
+            document.getElementById('admin-stat-icon').value = 'ti-alarm-clock';
+            const isSurvey = document.getElementById('admin-stat-is-survey');
+            if (isSurvey) isSurvey.checked = false;
+            const iconPrev = document.getElementById('admin-stat-icon-preview');
+            if (iconPrev) iconPrev.innerHTML = '<i class="ti-alarm-clock"></i>';
+        }
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function hideStatForm() {
+        const card = document.getElementById('admin-stat-form-card');
+        if (card) card.style.display = 'none';
+        const form = document.getElementById('form-admin-stat-item');
+        if (form) form.reset();
+        const idInput = document.getElementById('admin-stat-id');
+        if (idInput) idInput.value = '';
+    }
+
+    function renderAdminGifList() {
+        const container = document.getElementById('admin-gif-crud-list');
+        if (!container) return;
+        if (!activeCvData) activeCvData = getCvData();
+        const gifs = Array.isArray(activeCvData.vibeGifs) ? activeCvData.vibeGifs : [];
+
+        if (gifs.length === 0) {
+            container.innerHTML = `
+                <div class="p-3 text-center text-muted rounded" style="background: rgba(255,255,255,0.02); border: 1px dashed #334155;">
+                    <i class="ti-image mb-2" style="font-size: 1.5rem;"></i>
+                    <p class="mb-0 small">No hay GIFs configurados. Pulsa en "+ Nuevo GIF / Meme".</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        gifs.forEach((gif, idx) => {
+            const isFirst = idx === 0;
+            const isLast = idx === gifs.length - 1;
+            const gifUrl = gif.url || 'assets/imgs/keyboard-fast-typing.gif';
+            html += `
+                <div class="admin-crud-item p-2 mb-2 rounded" data-id="${escapeHtml(gif.id)}" style="background: #1e293b; border: 1px solid #334155;">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 10px;">
+                        <div class="d-flex align-items-center flex-fill" style="gap: 12px; min-width: 200px;">
+                            <img src="${escapeHtml(gifUrl)}" alt="GIF" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #334155;" onerror="this.src='assets/imgs/keyboard-fast-typing.gif'">
+                            <div>
+                                <div class="font-weight-bold text-white">${escapeHtml(gif.caption_es || 'Sin texto')}</div>
+                                <div class="small text-muted">${gif.embedPostId ? `Tenor ID: ${escapeHtml(gif.embedPostId)}` : 'GIF Directo'}</div>
+                            </div>
+                        </div>
+                        <div class="admin-crud-actions d-flex align-items-center" style="gap: 5px;">
+                            <button type="button" class="btn btn-dark btn-sm admin-btn-move-gif" data-id="${escapeHtml(gif.id)}" data-dir="up" title="Mover Arriba" ${isFirst ? 'disabled' : ''} style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-arrow-up"></i>
+                            </button>
+                            <button type="button" class="btn btn-dark btn-sm admin-btn-move-gif" data-id="${escapeHtml(gif.id)}" data-dir="down" title="Mover Abajo" ${isLast ? 'disabled' : ''} style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-arrow-down"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm admin-btn-edit-gif" data-id="${escapeHtml(gif.id)}" title="Editar" style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-pencil"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm admin-btn-delete-gif" data-id="${escapeHtml(gif.id)}" title="Eliminar" style="padding: 2px 7px; font-size: 0.72rem;">
+                                <i class="ti-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        attachGifListEvents();
+    }
+
+    function attachGifListEvents() {
+        document.querySelectorAll('.admin-btn-edit-gif').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const gif = (activeCvData && activeCvData.vibeGifs) ? activeCvData.vibeGifs.find(g => g.id === id) : null;
+                if (gif) showGifForm(gif);
+            });
+        });
+
+        document.querySelectorAll('.admin-btn-delete-gif').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                if (!confirm('¿Seguro que deseas eliminar este GIF?')) return;
+                if (!activeCvData || !activeCvData.vibeGifs) return;
+                activeCvData.vibeGifs = activeCvData.vibeGifs.filter(g => g.id !== id);
+                saveCvData(activeCvData);
+                renderAdminGifList();
+                applyCvDataToDOM(activeCvData);
+                showToast('GIF eliminado.', 'info');
+            });
+        });
+
+        document.querySelectorAll('.admin-btn-move-gif').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const dir = this.getAttribute('data-dir');
+                if (!activeCvData || !Array.isArray(activeCvData.vibeGifs)) return;
+                const idx = activeCvData.vibeGifs.findIndex(g => g.id === id);
+                if (idx === -1) return;
+                if (dir === 'up' && idx > 0) {
+                    const temp = activeCvData.vibeGifs[idx];
+                    activeCvData.vibeGifs[idx] = activeCvData.vibeGifs[idx - 1];
+                    activeCvData.vibeGifs[idx - 1] = temp;
+                } else if (dir === 'down' && idx < activeCvData.vibeGifs.length - 1) {
+                    const temp = activeCvData.vibeGifs[idx];
+                    activeCvData.vibeGifs[idx] = activeCvData.vibeGifs[idx + 1];
+                    activeCvData.vibeGifs[idx + 1] = temp;
+                }
+                saveCvData(activeCvData);
+                renderAdminGifList();
+                applyCvDataToDOM(activeCvData);
+            });
+        });
+    }
+
+    function showGifForm(gif) {
+        const card = document.getElementById('admin-gif-form-card');
+        const title = document.getElementById('admin-gif-form-title');
+        if (!card) return;
+        card.style.display = 'block';
+        if (gif) {
+            if (title) title.innerHTML = '<i class="ti-pencil-alt mr-1"></i> Editar GIF / Meme';
+            document.getElementById('admin-gif-id').value = gif.id || '';
+            document.getElementById('admin-gif-url').value = gif.url || '';
+            document.getElementById('admin-gif-tenor-id').value = gif.embedPostId || '';
+            document.getElementById('admin-gif-caption-es').value = gif.caption_es || '';
+            document.getElementById('admin-gif-caption-en').value = gif.caption_en || '';
+            const prev = document.getElementById('admin-gif-preview');
+            if (prev) prev.src = gif.url || 'assets/imgs/keyboard-fast-typing.gif';
+        } else {
+            if (title) title.innerHTML = '<i class="ti-plus mr-1"></i> Añadir Nuevo GIF / Meme VibeCoding';
+            document.getElementById('admin-gif-id').value = '';
+            document.getElementById('admin-gif-url').value = '';
+            document.getElementById('admin-gif-tenor-id').value = '';
+            document.getElementById('admin-gif-caption-es').value = '';
+            document.getElementById('admin-gif-caption-en').value = '';
+            const prev = document.getElementById('admin-gif-preview');
+            if (prev) prev.src = 'assets/imgs/keyboard-fast-typing.gif';
+        }
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function hideGifForm() {
+        const card = document.getElementById('admin-gif-form-card');
+        if (card) card.style.display = 'none';
+        const form = document.getElementById('form-admin-gif-item');
+        if (form) form.reset();
+        const idInput = document.getElementById('admin-gif-id');
+        if (idInput) idInput.value = '';
+    }
+
+// -------------------------------------------------------------------------
     // H. GESTIÓN DE DISPOSICIÓN & SECCIONES (TAB 6 LAYOUT MANAGER)
     // -------------------------------------------------------------------------
     const WEB_SECTION_LABELS = {
@@ -2048,7 +2383,7 @@
         if (gifUrlInput) {
             gifUrlInput.addEventListener('input', function () {
                 const prev = document.getElementById('admin-gif-preview');
-                if (prev) prev.src = this.value.trim() || 'https://media.tenor.com/z0jV_dYd38QAAAAC/keyboard-fast-typing.gif';
+                if (prev) prev.src = this.value.trim() || 'assets/imgs/keyboard-fast-typing.gif';
             });
         }
 
@@ -2091,7 +2426,7 @@
 
                 const gifItem = {
                     id: gifId || generateId('gif_'),
-                    url: url || 'https://media.tenor.com/z0jV_dYd38QAAAAC/keyboard-fast-typing.gif',
+                    url: url || 'assets/imgs/keyboard-fast-typing.gif',
                     embedPostId,
                     caption_es: captionEs,
                     caption_en: captionEn || captionEs
@@ -3075,8 +3410,17 @@
     // 10. Inicialización en index.html
     // -------------------------------------------------------------------------
     function initIndexPage() {
-        applyCvDataToDOM(getCvData());
-        initCvManagerModal();
+        try {
+            applyCvDataToDOM(getCvData());
+        } catch (err) {
+            console.error('Error al aplicar datos del CV al DOM:', err);
+        }
+
+        try {
+            initCvManagerModal();
+        } catch (err) {
+            console.error('Error al inicializar modal ChrizDev:', err);
+        }
 
         const urlParams = new URLSearchParams(window.location.search);
         const modeParam = urlParams.get('mode');
@@ -3400,7 +3744,11 @@
     // 12. Protección y Render Dinámico en resumen.html (CV Imprimible)
     // -------------------------------------------------------------------------
     function initResumePage() {
-        applyCvDataToDOM(getCvData());
+        try {
+            applyCvDataToDOM(getCvData());
+        } catch (err) {
+            console.error('Error aplicando datos al resumen:', err);
+        }
         setupSendCvEmailModal();
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -3500,15 +3848,22 @@
     // -------------------------------------------------------------------------
     // 12. Inicialización Automática
     // -------------------------------------------------------------------------
-    document.addEventListener('DOMContentLoaded', function () {
+    function runInit() {
         if (window.location.pathname.endsWith('resumen.html')) {
             initResumePage();
         } else {
             initIndexPage();
         }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runInit);
+    } else {
+        runInit();
+    }
 
     window.ViewController = {
+        isAdminLoggedIn: isAdminLoggedIn,
         applyViewMode: applyViewMode,
         loginAdmin: loginAdmin,
         logoutAdmin: logoutAdmin,
