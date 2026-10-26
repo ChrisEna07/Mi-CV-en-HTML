@@ -118,6 +118,20 @@
         ],
         certifications: [
             {
+                id: 'cert_claris_filemaker_expert_2026',
+                title: 'App Developer for Claris FileMaker Pro Expert',
+                issuer: 'Claris International Inc. (An Apple Company) & Credly',
+                date: '26 de Octubre de 2026',
+                credlyUrl: 'https://www.credly.com/badges/f9ec4108-6fe7-4280-83b5-5cfbdfe68df5/public_url',
+                badgeId: 'f9ec4108-6fe7-4280-83b5-5cfbdfe68df5',
+                pdfUrl: 'expert claris.pdf',
+                imageUrl: 'app-developer-for-claris-filemaker-pro-expert.png',
+                desc: 'Máxima acreditación profesional oficial de nivel Expert (3 estrellas) otorgada por Claris International Inc. Certifica maestría técnica completa en desarrollo avanzado, integración empresarial, arquitectura de sistemas de misión crítica, optimización extrema de rendimiento y seguridad de datos con Claris FileMaker Pro.',
+                skills: 'Claris FileMaker Pro, Expert Architecture, Advanced API Integrations, Mission-Critical Systems, Enterprise Security, High Performance Tuning',
+                showInWeb: true,
+                showInResume: true
+            },
+            {
                 id: 'cert_claris_filemaker_specialist_2026',
                 title: 'App Developer for Claris FileMaker Pro Specialist',
                 issuer: 'Claris International Inc. (An Apple Company) & Credly',
@@ -146,11 +160,66 @@
                 showInResume: true
             }
         ],
+        stats: [
+            {
+                id: 'stat_1',
+                icon: 'ti-alarm-clock',
+                value: '2000+',
+                label_es: 'Horas Académicas',
+                label_en: 'Academic Hours'
+            },
+            {
+                id: 'stat_2',
+                icon: 'ti-layers-alt',
+                value: '40+',
+                label_es: 'Repositorios en GitHub',
+                label_en: 'GitHub Repositories'
+            },
+            {
+                id: 'stat_3',
+                icon: 'ti-light-bulb',
+                value: '500+',
+                label_es: 'Prompts Ejecutados',
+                label_en: 'Executed Prompts'
+            },
+            {
+                id: 'stat_4',
+                icon: 'ti-music-alt',
+                value: 'VibeCoding',
+                label_es: 'Con conciencia y profesionalismo',
+                label_en: 'With mindfulness & craft'
+            },
+            {
+                id: 'stat_5',
+                icon: 'ti-face-smile',
+                value: '15+',
+                label_es: 'Satisfacción',
+                label_en: 'Satisfaction',
+                isModalSurvey: true
+            },
+            {
+                id: 'stat_6',
+                icon: 'ti-heart-broken',
+                value: '+1k',
+                label_es: 'Cafés Tomados',
+                label_en: 'Coffees Consumed'
+            }
+        ],
+        vibeGifs: [
+            {
+                id: 'gif_1',
+                url: 'https://media.tenor.com/z0jV_dYd38QAAAAC/keyboard-fast-typing.gif',
+                embedPostId: '26819026',
+                caption_es: 'Programando en modo VibeCoding a máxima velocidad...',
+                caption_en: 'Coding in VibeCoding mode at maximum speed...'
+            }
+        ],
         layout: {
             sectionsOrderWeb: [
                 'about',
                 'section-claris-specialization',
                 'resume',
+                'section-stats',
                 'portfolio',
                 'service',
                 'price',
@@ -161,6 +230,7 @@
                 'about': true,
                 'section-claris-specialization': true,
                 'resume': true,
+                'section-stats': true,
                 'portfolio': true,
                 'service': true,
                 'price': true,
@@ -286,11 +356,26 @@
                     ? parsed.certifications
                     : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.certifications));
 
-                // Asegurar que el nuevo certificado Specialist esté presente de forma automática
-                const hasSpecialist = certs.some(c => c.badgeId === '7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31' || (c.title && c.title.toLowerCase().includes('specialist')));
-                if (!hasSpecialist) {
+                // Asegurar que los certificados Expert y Specialist estén presentes
+                const hasExpert = certs.some(c => c.badgeId === 'f9ec4108-6fe7-4280-83b5-5cfbdfe68df5' || (c.title && c.title.toLowerCase().includes('expert')));
+                if (!hasExpert) {
                     certs.unshift(JSON.parse(JSON.stringify(DEFAULT_CV_DATA.certifications[0])));
                 }
+
+                const hasSpecialist = certs.some(c => c.badgeId === '7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31' || (c.title && c.title.toLowerCase().includes('specialist')));
+                if (!hasSpecialist) {
+                    const specObj = DEFAULT_CV_DATA.certifications.find(c => c.id === 'cert_claris_filemaker_specialist_2026');
+                    if (specObj) certs.splice(1, 0, JSON.parse(JSON.stringify(specObj)));
+                }
+
+                // Normalización de Estadísticas (Tiempos trabajados) y GIFs
+                let stats = Array.isArray(parsed.stats) && parsed.stats.length > 0
+                    ? parsed.stats
+                    : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.stats));
+
+                let vibeGifs = Array.isArray(parsed.vibeGifs) && parsed.vibeGifs.length > 0
+                    ? parsed.vibeGifs
+                    : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.vibeGifs));
 
                 // Normalización de layout dinámico
                 const layout = Object.assign({}, DEFAULT_CV_DATA.layout, parsed.layout || {});
@@ -314,6 +399,8 @@
                         ? parsed.experiences 
                         : JSON.parse(JSON.stringify(DEFAULT_CV_DATA.experiences)),
                     certifications: certs,
+                    stats: stats,
+                    vibeGifs: vibeGifs,
                     layout: layout
                 };
             }
@@ -891,7 +978,12 @@
         }
 
         // ---------------------------------------------------------------------
-        // G. DISPOSICIÓN & REORDENAMIENTO DE SECCIONES (LAYOUT MANAGER)
+        // G. MÉTRICAS DE TIEMPO / ESTADÍSTICAS & MEMES / GIFS VIBECODING
+        // ---------------------------------------------------------------------
+        applyStatsAndGifsToDOM(data.stats, data.vibeGifs);
+
+        // ---------------------------------------------------------------------
+        // H. DISPOSICIÓN & REORDENAMIENTO DE SECCIONES (LAYOUT MANAGER)
         // ---------------------------------------------------------------------
         if (data && data.layout) {
             applyLayoutToDOM(data.layout);
@@ -1087,7 +1179,11 @@
         // 6. Renderizar listado de certificaciones e insignias CRUD
         renderAdminCertList();
 
-        // 7. Renderizar administrador de disposición y orden de secciones
+        // 7. Renderizar administrador de métricas y GIFs CRUD
+        renderAdminStatsList();
+        renderAdminGifList();
+
+        // 8. Renderizar administrador de disposición y orden de secciones
         renderAdminLayoutManager();
     }
 
@@ -1418,8 +1514,9 @@
     // -------------------------------------------------------------------------
     const WEB_SECTION_LABELS = {
         'about': { label: 'Perfil / Sobre Mí', icon: 'ti-user' },
-        'section-claris-specialization': { label: 'Especialización Claris FileMaker (Doble Certificación)', icon: 'ti-layers' },
+        'section-claris-specialization': { label: 'Especialización Claris FileMaker (Triple Certificación Oficial)', icon: 'ti-layers' },
         'resume': { label: 'Currículum & Trayectoria Laboral', icon: 'ti-briefcase' },
+        'section-stats': { label: 'Tiempos Trabajados & GIFs VibeCoding', icon: 'ti-timer' },
         'portfolio': { label: 'Portafolio de Proyectos Web & Móvil', icon: 'ti-layout-grid2' },
         'service': { label: 'Servicios Empresariales & Soluciones', icon: 'ti-settings' },
         'price': { label: 'Tarifas / Precios de Servicios', icon: 'ti-receipt' },
@@ -1857,6 +1954,162 @@
                 btn.addEventListener('click', () => fileInput.click());
             }
         };
+
+        // ---------------------------------------------------------------------
+        // LISTENERS CRUD: MÉTRICAS Y TIEMPOS TRABAJADOS
+        // ---------------------------------------------------------------------
+        const btnNewStat = document.getElementById('admin-btn-new-stat');
+        if (btnNewStat) btnNewStat.addEventListener('click', () => showStatForm(null));
+
+        const btnCancelStat = document.getElementById('admin-btn-cancel-stat');
+        if (btnCancelStat) btnCancelStat.addEventListener('click', hideStatForm);
+
+        // Icon picker buttons
+        document.querySelectorAll('.btn-stat-icon-pick').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const icon = this.getAttribute('data-icon');
+                const inp = document.getElementById('admin-stat-icon');
+                const prev = document.getElementById('admin-stat-icon-preview');
+                if (inp) inp.value = icon;
+                if (prev) prev.innerHTML = `<i class="${icon}"></i>`;
+            });
+        });
+
+        const inpStatIcon = document.getElementById('admin-stat-icon');
+        if (inpStatIcon) {
+            inpStatIcon.addEventListener('input', function () {
+                const prev = document.getElementById('admin-stat-icon-preview');
+                if (prev) prev.innerHTML = `<i class="${this.value.trim() || 'ti-stats-up'}"></i>`;
+            });
+        }
+
+        const formStat = document.getElementById('form-admin-stat-item');
+        if (formStat) {
+            formStat.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const statId = document.getElementById('admin-stat-id').value.trim();
+                const value = document.getElementById('admin-stat-value').value.trim();
+                const labelEs = document.getElementById('admin-stat-label-es').value.trim();
+                const labelEn = document.getElementById('admin-stat-label-en').value.trim();
+                const icon = document.getElementById('admin-stat-icon').value.trim() || 'ti-alarm-clock';
+                const isModalSurvey = document.getElementById('admin-stat-is-survey')?.checked === true;
+
+                if (!value || !labelEs) {
+                    showToast('Por favor completa la cifra y la etiqueta en español (*)', 'danger');
+                    return;
+                }
+
+                if (!activeCvData) activeCvData = getCvData();
+                if (!Array.isArray(activeCvData.stats)) activeCvData.stats = [];
+
+                const statItem = {
+                    id: statId || generateId('stat_'),
+                    value,
+                    label_es: labelEs,
+                    label_en: labelEn || labelEs,
+                    icon,
+                    isModalSurvey
+                };
+
+                if (statId) {
+                    const idx = activeCvData.stats.findIndex(s => s.id === statId);
+                    if (idx >= 0) {
+                        activeCvData.stats[idx] = statItem;
+                    } else {
+                        activeCvData.stats.push(statItem);
+                    }
+                } else {
+                    activeCvData.stats.push(statItem);
+                }
+
+                saveCvData(activeCvData);
+                hideStatForm();
+                renderAdminStatsList();
+                applyCvDataToDOM(activeCvData);
+                showToast('Métrica guardada y sincronizada correctamente.', 'success');
+            });
+        }
+
+        // ---------------------------------------------------------------------
+        // LISTENERS CRUD: GIFS Y MEMES DE VIBECODING
+        // ---------------------------------------------------------------------
+        const btnNewGif = document.getElementById('admin-btn-new-gif');
+        if (btnNewGif) btnNewGif.addEventListener('click', () => showGifForm(null));
+
+        const btnCancelGif = document.getElementById('admin-btn-cancel-gif');
+        if (btnCancelGif) btnCancelGif.addEventListener('click', hideGifForm);
+
+        const gifUrlInput = document.getElementById('admin-gif-url');
+        if (gifUrlInput) {
+            gifUrlInput.addEventListener('input', function () {
+                const prev = document.getElementById('admin-gif-preview');
+                if (prev) prev.src = this.value.trim() || 'https://media.tenor.com/z0jV_dYd38QAAAAC/keyboard-fast-typing.gif';
+            });
+        }
+
+        const btnUploadGif = document.getElementById('admin-btn-upload-gif');
+        const fileGifInput = document.getElementById('admin-file-gif');
+        if (btnUploadGif && fileGifInput) {
+            btnUploadGif.addEventListener('click', () => fileGifInput.click());
+            fileGifInput.addEventListener('change', function () {
+                if (!this.files || !this.files[0]) return;
+                const file = this.files[0];
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    const dataUrl = ev.target.result;
+                    if (gifUrlInput) gifUrlInput.value = dataUrl;
+                    const prev = document.getElementById('admin-gif-preview');
+                    if (prev) prev.src = dataUrl;
+                    showToast(`GIF cargado (${Math.round(file.size / 1024)} KB)`, 'success');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        const formGif = document.getElementById('form-admin-gif-item');
+        if (formGif) {
+            formGif.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const gifId = document.getElementById('admin-gif-id').value.trim();
+                const url = document.getElementById('admin-gif-url').value.trim();
+                const embedPostId = document.getElementById('admin-gif-tenor-id').value.trim();
+                const captionEs = document.getElementById('admin-gif-caption-es').value.trim();
+                const captionEn = document.getElementById('admin-gif-caption-en').value.trim();
+
+                if (!url && !embedPostId) {
+                    showToast('Por favor ingresa una URL de GIF o un PostID de Tenor (*)', 'danger');
+                    return;
+                }
+
+                if (!activeCvData) activeCvData = getCvData();
+                if (!Array.isArray(activeCvData.vibeGifs)) activeCvData.vibeGifs = [];
+
+                const gifItem = {
+                    id: gifId || generateId('gif_'),
+                    url: url || 'https://media.tenor.com/z0jV_dYd38QAAAAC/keyboard-fast-typing.gif',
+                    embedPostId,
+                    caption_es: captionEs,
+                    caption_en: captionEn || captionEs
+                };
+
+                if (gifId) {
+                    const idx = activeCvData.vibeGifs.findIndex(g => g.id === gifId);
+                    if (idx >= 0) {
+                        activeCvData.vibeGifs[idx] = gifItem;
+                    } else {
+                        activeCvData.vibeGifs.push(gifItem);
+                    }
+                } else {
+                    activeCvData.vibeGifs.push(gifItem);
+                }
+
+                saveCvData(activeCvData);
+                hideGifForm();
+                renderAdminGifList();
+                applyCvDataToDOM(activeCvData);
+                showToast('GIF guardado y sincronizado con éxito.', 'success');
+            });
+        }
 
         // 1. Portada / Banner (Muro) - Max 1400x700 a 80% calidad (~80-110KB)
         setupImagePreview(
@@ -2697,8 +2950,9 @@
                 `🔗 CV Interactivo y Acreditado (Modo Empresa):\n${resumeUrl}\n\n` +
                 `🌐 Portafolio Profesional Completo:\n${portfolioUrl}\n\n` +
                 `🏆 Certificaciones Oficiales Claris FileMaker (Apple Company):\n` +
-                `1. App Developer for Claris FileMaker Pro Specialist (★★ Specialist - Octubre 2026):\nhttps://www.credly.com/badges/7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31/public_url\n\n` +
-                `2. App Developer for Claris FileMaker Pro Associate (★ Associate - Octubre 2026):\nhttps://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url\n\n` +
+                `1. App Developer for Claris FileMaker Pro Expert (★★★ Expert - Octubre 2026):\nhttps://www.credly.com/badges/f9ec4108-6fe7-4280-83b5-5cfbdfe68df5/public_url\n\n` +
+                `2. App Developer for Claris FileMaker Pro Specialist (★★ Specialist - Octubre 2026):\nhttps://www.credly.com/badges/7bbcb5fd-fc4c-42ef-a6ca-1d1541941f31/public_url\n\n` +
+                `3. App Developer for Claris FileMaker Pro Associate (★ Associate - Octubre 2026):\nhttps://www.credly.com/badges/d8c70883-218b-46e7-a89b-5b459d53a20a/public_url\n\n` +
                 (note ? `📝 Mensaje del Reclutador:\n"${note}"\n\n` : '') +
                 `Contacto directo: christianjoroce@gmail.com | Tel: 3183517802\nMedellín, Antioquia, Colombia`;
 
@@ -2804,11 +3058,13 @@
         }
 
         const updateResumeButtons = (authorized) => {
+            const topExpert = document.getElementById('resume-top-claris-expert-btn');
             const topSpecialist = document.getElementById('resume-top-claris-specialist-btn');
             const topAssociate = document.getElementById('resume-top-claris-associate-btn');
             const topEmailBtn = document.getElementById('btn-top-email-cv');
             const topLock = document.getElementById('resume-top-claris-lock');
 
+            if (topExpert) topExpert.style.display = authorized ? 'inline-flex' : 'none';
             if (topSpecialist) topSpecialist.style.display = authorized ? 'inline-flex' : 'none';
             if (topAssociate) topAssociate.style.display = authorized ? 'inline-flex' : 'none';
             if (topEmailBtn) topEmailBtn.style.display = authorized ? 'inline-flex' : 'none';

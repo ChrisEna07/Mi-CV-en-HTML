@@ -1223,3 +1223,61 @@ body.mode-public .portfolio-col-apps {
 }
 
 
+
+
+/* Elementos CRUD de Estadísticas y GIFs en el Panel */
+.admin-stat-item,
+.admin-gif-item {
+    background: #111418;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+.admin-stat-item:hover,
+.admin-gif-item:hover {
+    border-color: rgba(248, 92, 112, 0.5);
+    background: #151a22;
+    transform: translateY(-1px);
+}
+
+.admin-stat-icon-box {
+    width: 48px;
+    height: 48px;
+    background: #0f172a;
+    border: 1px solid rgba(248, 92, 112, 0.4);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F85C70;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.admin-gif-thumb {
+    width: 90px;
+    height: 60px;
+    object-fit: cover;
+    background: #0f172a;
+    border: 1px solid rgba(248, 92, 112, 0.4);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.btn-stat-icon-pick {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+    font-size: 0.72rem;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.btn-stat-icon-pick:hover {
+    background: #F85C70;
+    color: #ffffff;
+    border-color: #F85C70;
+}
